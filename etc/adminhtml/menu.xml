@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="SuttonSilver::top_level" module="SuttonSilver_CustomCheckout" resource="Magento_Backend::content" sortOrder="9999" title="SuttonSilver"/>
+		<add action="suttonsilver_customcheckout/question/index" id="SuttonSilver::suttonsilver_question" module="SuttonSilver_CustomCheckout" parent="SuttonSilver::top_level" resource="Magento_Backend::content" sortOrder="9999" title="Question"/>
+	</menu>
+</config>
