@@ -9,11 +9,11 @@ use SuttonSilver\CustomCheckout\Model\ResourceModel\Question\CollectionFactory;
 class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {
 
-    protected $collection;
-
+    protected $loadedData;
     protected $dataPersistor;
 
-    protected $loadedData;
+    protected $collection;
+
 
     /**
      * Constructor

@@ -6,12 +6,10 @@ namespace SuttonSilver\CustomCheckout\Api\Data;
 interface QuestionInterface
 {
 
-    const QUESTION_ID = 'question_id';
-    const QUESTION_ANSWER = 'question_answer';
-    const QUESTION = 'question';
     const PRODUCT_IDS = 'product_ids';
+    const QUESTION_ID = 'question_id';
+    const QUESTION = 'question';
     const QUESTION_TYPE = 'question_type';
-    const QUTIONS_ID = 'qutions_id';
 
 
     /**
@@ -28,21 +26,6 @@ interface QuestionInterface
      */
     
     public function setQuestionId($questionId);
-
-    /**
-     * Get qutions_id
-     * @return string|null
-     */
-    
-    public function getQutionsId();
-
-    /**
-     * Set qutions_id
-     * @param string $qutions_id
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
-     */
-    
-    public function setQutionsId($qutions_id);
 
     /**
      * Get question
@@ -73,21 +56,6 @@ interface QuestionInterface
      */
     
     public function setQuestionType($question_type);
-
-    /**
-     * Get question_answer
-     * @return string|null
-     */
-    
-    public function getQuestionAnswer();
-
-    /**
-     * Set question_answer
-     * @param string $question_answer
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
-     */
-    
-    public function setQuestionAnswer($question_answer);
 
     /**
      * Get product_ids

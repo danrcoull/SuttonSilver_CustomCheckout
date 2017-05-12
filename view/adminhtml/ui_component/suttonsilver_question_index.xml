@@ -87,11 +87,11 @@
 				</item>
 			</argument>
 		</column>
-		<column name="qutions_id">
+		<column name="question">
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="filter" xsi:type="string">text</item>
-					<item name="label" translate="true" xsi:type="string">qutions_id</item>
+					<item name="label" translate="true" xsi:type="string">question</item>
 					<item name="editor" xsi:type="array">
 						<item name="editorType" xsi:type="string">text</item>
 						<item name="validation" xsi:type="array">
@@ -108,47 +108,11 @@
 				</item>
 			</argument>
 		</actionsColumn>
-		<column name="question">
-			<argument name="data" xsi:type="array">
-				<item name="config" xsi:type="array">
-					<item name="filter" xsi:type="string">text</item>
-					<item name="label" translate="true" xsi:type="string">question</item>
-					<item name="editor" xsi:type="array">
-						<item name="editorType" xsi:type="string">text</item>
-						<item name="validation" xsi:type="array">
-							<item name="required-entry" xsi:type="boolean">false</item>
-						</item>
-					</item>
-				</item>
-			</argument>
-		</column>
 		<column name="question_type">
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
-					<item name="editor" xsi:type="array">
-						<item name="editorType" xsi:type="string">text</item>
-						<item name="validation" xsi:type="array">
-							<item name="required-entry" xsi:type="boolean">false</item>
-						</item>
-					</item>
-				</item>
-			</argument>
-		</column>
-		<column name="question_answer">
-			<argument name="data" xsi:type="array">
-				<item name="config" xsi:type="array">
-					<item name="editor" xsi:type="array">
-						<item name="editorType" xsi:type="string">text</item>
-						<item name="validation" xsi:type="array">
-							<item name="required-entry" xsi:type="boolean">false</item>
-						</item>
-					</item>
-				</item>
-			</argument>
-		</column>
-		<column name="product_ids">
-			<argument name="data" xsi:type="array">
-				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="label" translate="true" xsi:type="string">question_type</item>
 					<item name="editor" xsi:type="array">
 						<item name="editorType" xsi:type="string">text</item>
 						<item name="validation" xsi:type="array">

@@ -36,25 +36,6 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
     }
 
     /**
-     * Get qutions_id
-     * @return string
-     */
-    public function getQutionsId()
-    {
-        return $this->getData(self::QUTIONS_ID);
-    }
-
-    /**
-     * Set qutions_id
-     * @param string $qutions_id
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
-     */
-    public function setQutionsId($qutions_id)
-    {
-        return $this->setData(self::QUTIONS_ID, $qutions_id);
-    }
-
-    /**
      * Get question
      * @return string
      */
@@ -90,25 +71,6 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
     public function setQuestionType($question_type)
     {
         return $this->setData(self::QUESTION_TYPE, $question_type);
-    }
-
-    /**
-     * Get question_answer
-     * @return string
-     */
-    public function getQuestionAnswer()
-    {
-        return $this->getData(self::QUESTION_ANSWER);
-    }
-
-    /**
-     * Set question_answer
-     * @param string $question_answer
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
-     */
-    public function setQuestionAnswer($question_answer)
-    {
-        return $this->setData(self::QUESTION_ANSWER, $question_answer);
     }
 
     /**

@@ -3,8 +3,8 @@
 
 namespace SuttonSilver\CustomCheckout\Setup;
 
-use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\InstallSchemaInterface;
 
 class InstallSchema implements InstallSchemaInterface
@@ -21,8 +21,6 @@ class InstallSchema implements InstallSchemaInterface
         $installer->startSetup();
 
         $table_suttonsilver_question = $setup->getConnection()->newTable($setup->getTable('suttonsilver_question'));
-
-        
         $table_suttonsilver_question->addColumn(
             'question_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -30,19 +28,6 @@ class InstallSchema implements InstallSchemaInterface
             array('identity' => true,'nullable' => false,'primary' => true,'unsigned' => true,),
             'Entity ID'
         );
-        
-
-        
-        $table_suttonsilver_question->addColumn(
-            'qutions_id',
-            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-            null,
-            ['auto_increment' => true,'unsigned' => true],
-            'qutions_id'
-        );
-        
-
-        
         $table_suttonsilver_question->addColumn(
             'question',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -50,9 +35,6 @@ class InstallSchema implements InstallSchemaInterface
             [],
             'question'
         );
-        
-
-        
         $table_suttonsilver_question->addColumn(
             'question_type',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -60,28 +42,89 @@ class InstallSchema implements InstallSchemaInterface
             [],
             'question_type'
         );
-        
-
-        
         $table_suttonsilver_question->addColumn(
-            'question_answer',
+            'product_skus',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             null,
             [],
-            'question_answer'
+            'product_skus'
+        );
+        $table_suttonsilver_question->addForeignKey(
+            $installer->getFkName(
+                'suttonsilver_questionanswers',
+                'question_id',
+                'suttonsilver_question',
+                'question_id'
+            ),
+            'question_id',
+            $installer->getTable('suttonsilver_question'),
+            'question_id',
+            \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+        );
+        $table_suttonsilver_question->addForeignKey(
+            $installer->getFkName(
+                'suttonsilver_questionvalues',
+                'question_id',
+                'suttonsilver_question',
+                'question_id'
+            ),
+            'question_id',
+            $installer->getTable('suttonsilver_question'),
+            'question_id',
+            \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+        );
+
+
+        $table_suttonsilver_questionanswers = $setup->getConnection()->newTable($setup->getTable('suttonsilver_questionanswers'));
+        $table_suttonsilver_questionanswers->addColumn(
+            'questionanswers_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            null,
+            array('identity' => true,'nullable' => false,'primary' => true,'unsigned' => true,),
+            'Entity ID'
+        );
+        $table_suttonsilver_questionanswers->addColumn(
+            'customer_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            null,
+            ['unsigned' => true],
+            'customer_id'
+        );
+        $table_suttonsilver_questionanswers->addColumn(
+            'question_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            null,
+            ['nullable' => False,'unsigned' => true],
+            'question_id'
         );
         
 
-        
-        $table_suttonsilver_question->addColumn(
-            'product_ids',
+        $table_suttonsilver_questionvalues = $setup->getConnection()->newTable($setup->getTable('suttonsilver_questionvalues'));
+        $table_suttonsilver_questionvalues->addColumn(
+            'questionvalues_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            null,
+            array('identity' => true,'nullable' => false,'primary' => true,'unsigned' => true,),
+            'Entity ID'
+        );
+        $table_suttonsilver_questionvalues->addColumn(
+            'question_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            null,
+            ['nullable' => False],
+            'question_id'
+        );
+        $table_suttonsilver_questionvalues->addColumn(
+            'Value',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             null,
             [],
-            'product_ids'
+            'Value'
         );
         
 
+        $setup->getConnection()->createTable($table_suttonsilver_questionvalues);
+        $setup->getConnection()->createTable($table_suttonsilver_questionanswers);
         $setup->getConnection()->createTable($table_suttonsilver_question);
 
         $setup->endSetup();

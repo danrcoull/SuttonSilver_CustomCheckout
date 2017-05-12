@@ -5,27 +5,5 @@
 		<referenceContainer name="content">
 			<uiComponent name="suttonsilver_question_form"/>
 		</referenceContainer>
-		<referenceContainer name="left">
-			<block class="SuttonSilver\CustomCheckout\Block\Adminhtml\Contact\Edit\Tabs" name="sscustomcheckout_contact_edit_tabs">
-				<block class="SuttonSilver\CustomCheckout\Block\Adminhtml\Contact\Edit\Tab\Main" name="sscustomcheckout_contact_edit_tab_main"/>
-				<action method="addTab">
-					<argument name="name" xsi:type="string">main_section</argument>
-					<argument name="block" xsi:type="string">sscustomcheckout_contact_edit_tab_main</argument>
-				</action>
-
-				<!-- This code is added for products grid -->
-				<action method="addTab">
-					<argument name="name" xsi:type="string">attachment_products</argument>
-					<argument name="block" xsi:type="array">
-						<item name="label" xsi:type="string">Select Products</item>
-						<item name="title" xsi:type="string">Select Products</item>
-						<item name="url" xsi:type="helper" helper="SuttonSilver\CustomCheckout\Helper\Data::getProductsGridUrl"></item>
-						<item name="class" xsi:type="string">ajax</item>
-					</argument>
-				</action>
-				<!-- This code is added for products grid -->
-
-			</block>
-		</referenceContainer>
 	</body>
 </page>

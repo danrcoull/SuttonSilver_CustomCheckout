@@ -15,7 +15,7 @@ interface QuestionSearchResultsInterface extends \Magento\Framework\Api\SearchRe
     public function getItems();
 
     /**
-     * Set qutions_id list.
+     * Set question list.
      * @param \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface[] $items
      * @return $this
      */
