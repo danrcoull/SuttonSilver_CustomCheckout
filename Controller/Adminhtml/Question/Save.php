@@ -33,6 +33,7 @@ class Save extends \Magento\Backend\App\Action
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         $data = $this->getRequest()->getPostValue();
+
         if ($data) {
             $id = $this->getRequest()->getParam('question_id');
         
@@ -41,9 +42,29 @@ class Save extends \Magento\Backend\App\Action
                 $this->messageManager->addError(__('This Question no longer exists.'));
                 return $resultRedirect->setPath('*/*/');
             }
-        
+
+            if(isset($data['question_options_select'])) {
+                $data['values'] = array();
+                foreach ($data['question_options_select']['question_options_select'] as $key => $option) {
+
+                    $data['values'][] = array('value' => $data['question_options_select']['answer']['option_' . $key]);
+                }
+            }
+
+            if(isset($data['question_products'])) {
+                $ids = array();
+                foreach (json_decode($data['question_products']) as $key => $val) {
+                    if ($key != '_empty_') {
+                        $ids[] = $key;
+                    }
+                }
+
+                $data['product_ids'] = $ids;
+            }
+
             $model->setData($data);
-        
+
+            //die(var_dump($model->getData()));
             try {
                 $model->save();
                 $this->messageManager->addSuccess(__('You saved the Question.'));

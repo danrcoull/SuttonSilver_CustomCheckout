@@ -49,30 +49,6 @@ class InstallSchema implements InstallSchemaInterface
             [],
             'product_skus'
         );
-        $table_suttonsilver_question->addForeignKey(
-            $installer->getFkName(
-                'suttonsilver_questionanswers',
-                'question_id',
-                'suttonsilver_question',
-                'question_id'
-            ),
-            'question_id',
-            $installer->getTable('suttonsilver_question'),
-            'question_id',
-            \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-        );
-        $table_suttonsilver_question->addForeignKey(
-            $installer->getFkName(
-                'suttonsilver_questionvalues',
-                'question_id',
-                'suttonsilver_question',
-                'question_id'
-            ),
-            'question_id',
-            $installer->getTable('suttonsilver_question'),
-            'question_id',
-            \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-        );
 
 
         $table_suttonsilver_questionanswers = $setup->getConnection()->newTable($setup->getTable('suttonsilver_questionanswers'));
@@ -111,11 +87,11 @@ class InstallSchema implements InstallSchemaInterface
             'question_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
-            ['nullable' => False],
+            ['unsigned' => true,'nullable' => False],
             'question_id'
         );
         $table_suttonsilver_questionvalues->addColumn(
-            'Value',
+            'question_value',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             null,
             [],

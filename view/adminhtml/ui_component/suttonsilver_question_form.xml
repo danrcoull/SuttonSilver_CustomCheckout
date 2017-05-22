@@ -5,18 +5,19 @@
 			<item name="provider" xsi:type="string">suttonsilver_question_form.question_form_data_source</item>
 			<item name="deps" xsi:type="string">suttonsilver_question_form.question_form_data_source</item>
 		</item>
-		<item name="label" translate="true" xsi:type="string">General Information</item>
-		<item name="config" xsi:type="array">
-			<item name="dataScope" xsi:type="string">data</item>
-			<item name="namespace" xsi:type="string">suttonsilver_question_form</item>
-		</item>
-		<item name="template" xsi:type="string">templates/form/collapsible</item>
 		<item name="buttons" xsi:type="array">
 			<item name="back" xsi:type="string">SuttonSilver\CustomCheckout\Block\Adminhtml\Question\Edit\BackButton</item>
 			<item name="delete" xsi:type="string">SuttonSilver\CustomCheckout\Block\Adminhtml\Question\Edit\DeleteButton</item>
 			<item name="save" xsi:type="string">SuttonSilver\CustomCheckout\Block\Adminhtml\Question\Edit\SaveButton</item>
 			<item name="save_and_continue" xsi:type="string">SuttonSilver\CustomCheckout\Block\Adminhtml\Question\Edit\SaveAndContinueButton</item>
 		</item>
+		<item name="label" translate="true" xsi:type="string">General Information</item>
+		<item name="template" xsi:type="string">templates/form/collapsible</item>
+		<item name="config" xsi:type="array">
+			<item name="dataScope" xsi:type="string">data</item>
+			<item name="namespace" xsi:type="string">suttonsilver_question_form</item>
+		</item>
+		<item name="childrenFromMeta" xsi:type="boolean">false</item>
 	</argument>
 	<dataSource name="question_form_data_source">
 		<argument name="dataProvider" xsi:type="configurableObject">
@@ -36,98 +37,168 @@
 			</item>
 		</argument>
 	</dataSource>
-	<fieldset name="General">
+	<fieldset name="general">
 		<argument name="data" xsi:type="array">
 			<item name="config" xsi:type="array">
-				<item name="label" xsi:type="string"/>
+				<item name="label" xsi:type="string" translate="true">Main</item>
+				<item name="collapsible" xsi:type="boolean">false</item>
+				<item name="sortOrder" xsi:type="number">10</item>
 			</item>
 		</argument>
 		<field name="question">
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="dataType" xsi:type="string">text</item>
-					<item name="label" translate="true" xsi:type="string">question</item>
+					<item name="label" translate="true" xsi:type="string">Question</item>
 					<item name="formElement" xsi:type="string">input</item>
 					<item name="source" xsi:type="string">Question</item>
 					<item name="sortOrder" xsi:type="number">10</item>
 					<item name="dataScope" xsi:type="string">question</item>
 					<item name="validation" xsi:type="array">
-						<item name="required-entry" xsi:type="boolean">false</item>
+						<item name="required-entry" xsi:type="boolean">true</item>
 					</item>
 				</item>
 			</argument>
 		</field>
+
 		<field name="question_type">
 			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">SuttonSilver\CustomCheckout\Model\Config\Source\Type</item>
 				<item name="config" xsi:type="array">
-					<item name="dataType" xsi:type="string">text</item>
-					<item name="label" translate="true" xsi:type="string">question_type</item>
-					<item name="formElement" xsi:type="string">input</item>
+					<item name="sortOrder" xsi:type="number">30</item>
+					<item name="dataType" xsi:type="string">string</item>
+					<item name="formElement" xsi:type="string">select</item>
 					<item name="source" xsi:type="string">Question</item>
-					<item name="sortOrder" xsi:type="number">20</item>
 					<item name="dataScope" xsi:type="string">question_type</item>
+					<item name="label" translate="true" xsi:type="string">Question Type</item>
 					<item name="validation" xsi:type="array">
-						<item name="required-entry" xsi:type="boolean">false</item>
+						<item name="required-entry" xsi:type="boolean">true</item>
 					</item>
 				</item>
 			</argument>
 		</field>
-		<dynamicRows name="question_values">
+	</fieldset>
+	<fieldset name="question_options_select_container">
+		<argument name="data" xsi:type="array">
+			<item name="config" xsi:type="array">
+				<item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/components/visible-on-option/fieldset</item>
+				<item name="label" xsi:type="string" translate="true">Values</item>
+				<item name="collapsible" xsi:type="boolean">true</item>
+				<item name="collapsed" xsi:type="boolean">false</item>
+				<item name="sortOrder" xsi:type="number">15</item>
+				<item name="valuesForOptions" xsi:type="array">
+					<item name="select" xsi:type="string">select</item>
+					<item name="radio" xsi:type="string">radio</item>
+					<item name="checkbox" xsi:type="string">checkbox</item>
+				</item>
+			</item>
+		</argument>
+	<dynamicRows name="question_options_select">
+		<argument name="data" xsi:type="array">
+			<item name="config" xsi:type="array">
+				<item name="componentType" xsi:type="string">dynamicRows</item>
+				<item name="dataScope" xsi:type="string">question_options_select</item>
+				<item name="addButtonLabel" xsi:type="string" translate="true">Add Answer</item>
+				<item name="additionalClasses" xsi:type="array">
+					<item name="admin__field-wide" xsi:type="boolean">true</item>
+				</item>
+			</item>
+		</argument>
+		<container name="record">
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
-					<item name="componentType" xsi:type="string">dynamicRows</item>
-					<item name="addButtonLabel" xsi:type="string" translate="true">Add Value</item>
-					<item name="additionalClasses" xsi:type="array">
-						<item name="admin__field-wide" xsi:type="boolean">true</item>
-					</item>
+					<item name="isTemplate" xsi:type="boolean">true</item>
+					<item name="is_collection" xsi:type="boolean">true</item>
+					<item name="component" xsi:type="string">Magento_Ui/js/dynamic-rows/record</item>
+					<item name="componentType" xsi:type="string">container</item>
+					<item name="positionProvider" xsi:type="string">question_options_select.position</item>
+					<item name="dataScope" xsi:type="string"/>
 				</item>
 			</argument>
-			<container name="value">
+			<field name="default">
 				<argument name="data" xsi:type="array">
 					<item name="config" xsi:type="array">
-						<item name="isTemplate" xsi:type="boolean">true</item>
-						<item name="is_collection" xsi:type="boolean">true</item>
-						<item name="component" xsi:type="string">Magento_Ui/js/dynamic-rows/record</item>
-						<item name="componentType" xsi:type="string">container</item>
-						<item name="positionProvider" xsi:type="string">question_values.position</item>
+						<item name="dataType" xsi:type="string">boolean</item>
+						<item name="formElement" xsi:type="string">checkbox</item>
+						<item name="component" xsi:type="string">Magento_Catalog/js/form/element/checkbox</item>
+						<item name="prefixElementName" xsi:type="string">option_</item>
+						<item name="inputCheckBoxName" xsi:type="string">question_options_select.default</item>
+						<item name="label" xsi:type="string" translate="true">Is Default</item>
+						<item name="prefer" xsi:type="string">radio</item>
+						<item name="sortOrder" xsi:type="string">0</item>
+						<item name="columnsHeaderClasses" xsi:type="string">control-table-options-th</item>
+						<item name="additionalClasses" xsi:type="string">control-table-options-cell</item>
 					</item>
 				</argument>
-				<field name="is_default">
-					<argument name="data" xsi:type="array">
-						<item name="config" xsi:type="array">
-							<item name="dataType" xsi:type="string">boolean</item>
-							<item name="formElement" xsi:type="string">checkbox</item>
-							<item name="component" xsi:type="string">Magento_Catalog/js/form/element/checkbox</item>
-							<item name="prefixElementName" xsi:type="string">option_</item>
-							<item name="inputCheckBoxName" xsi:type="string">default.</item>
-							<item name="label" xsi:type="string" translate="true">Is Default</item>
-							<item name="prefer" xsi:type="string">radio</item>
-							<item name="sortOrder" xsi:type="string">0</item>
-							<item name="columnsHeaderClasses" xsi:type="string">control-table-options-th</item>
-							<item name="additionalClasses" xsi:type="string">control-table-options-cell</item>
-							<item name="modules" xsi:type="array">
-								<item name="rows" xsi:type="string">ns = ${ $.ns }, index = question_values</item>
-							</item>
+			</field>
+			<field name="answer">
+				<argument name="data" xsi:type="array">
+					<item name="config" xsi:type="array">
+						<item name="dataType" xsi:type="string">text</item>
+						<item name="formElement" xsi:type="string">input</item>
+						<item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/input</item>
+						<item name="template" xsi:type="string">Magento_Catalog/form/element/input</item>
+						<item name="prefixName" xsi:type="string">question_options_select.answer</item>
+						<item name="prefixElementName" xsi:type="string">option_</item>
+						<item name="suffixName" xsi:type="string" />
+						<item name="label" xsi:type="string" translate="true">Answer</item>
+						<item name="additionalClasses" xsi:type="array">
+							<item name="admin__field-wide" xsi:type="boolean">true</item>
 						</item>
-					</argument>
-				</field>
-				<field name="position">
-					<argument name="data" xsi:type="array">
-						<item name="config" xsi:type="array">
-							<item name="dataType" xsi:type="string">text</item>
-							<item name="formElement" xsi:type="string">input</item>
-							<item name="dataScope" xsi:type="string">position</item>
-							<item name="component" xsi:type="string">Magento_Catalog/js/form/element/input</item>
-							<item name="prefixName" xsi:type="string">option.order</item>
-							<item name="prefixElementName" xsi:type="string">option_</item>
-							<item name="visible" xsi:type="boolean">false</item>
-							<item name="additionalClasses" xsi:type="array">
-								<item name="_hidden" xsi:type="boolean">true</item>
-							</item>
+					</item>
+				</argument>
+			</field>
+			<field name="position">
+				<argument name="data" xsi:type="array">
+					<item name="config" xsi:type="array">
+						<item name="dataType" xsi:type="string">text</item>
+						<item name="formElement" xsi:type="string">input</item>
+						<item name="dataScope" xsi:type="string">position</item>
+						<item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/input</item>
+						<item name="prefixName" xsi:type="string">question_options_select.position</item>
+						<item name="prefixElementName" xsi:type="string">option_</item>
+						<item name="visible" xsi:type="boolean">false</item>
+						<item name="suffixName" xsi:type="string" />
+						<item name="additionalClasses" xsi:type="array">
+							<item name="_hidden" xsi:type="boolean">true</item>
 						</item>
-					</argument>
-				</field>
-			</container>
-		</dynamicRows>
+					</item>
+				</argument>
+			</field>
+			<actionDelete name="delete">
+				<argument name="data" xsi:type="array">
+					<item name="config" xsi:type="array">
+						<item name="componentType" xsi:type="string">actionDelete</item>
+						<item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/action-delete</item>
+						<item name="elementTmpl" xsi:type="string">Magento_Catalog/form/element/action-delete</item>
+						<item name="template" xsi:type="string">Magento_Catalog/form/element/action-delete</item>
+						<item name="prefixName" xsi:type="string">question_options_select.delete</item>
+						<item name="prefixElementName" xsi:type="string">option_</item>
+						<item name="dataType" xsi:type="string">text</item>
+						<item name="fit" xsi:type="boolean">true</item>
+					</item>
+				</argument>
+			</actionDelete>
+		</container>
+	</dynamicRows>
+</fieldset>
+	<fieldset name="assign_products">
+		<argument name="data" xsi:type="array">
+			<item name="config" xsi:type="array">
+				<item name="label" xsi:type="string" translate="true">Products Associated</item>
+				<item name="collapsible" xsi:type="boolean">false</item>
+				<item name="sortOrder" xsi:type="number">20</item>
+			</item>
+		</argument>
+		<container name="assign_products_container" >
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="sortOrder" xsi:type="number">160</item>
+				</item>
+			</argument>
+			<htmlContent name="html_content">
+				<argument name="block" xsi:type="object">SuttonSilver\CustomCheckout\Block\Adminhtml\Question\Edit\AssignProducts</argument>
+			</htmlContent>
+		</container>
 	</fieldset>
 </form>

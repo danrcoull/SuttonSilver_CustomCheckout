@@ -5,15 +5,33 @@ namespace SuttonSilver\CustomCheckout\Model\Question;
 
 use Magento\Framework\App\Request\DataPersistorInterface;
 use SuttonSilver\CustomCheckout\Model\ResourceModel\Question\CollectionFactory;
+use Magento\Framework\Stdlib\ArrayManager;
+use Magento\Store\Api\StoreRepositoryInterface;
+
+use Magento\Ui\Component\Form;
+use Magento\Ui\Component\Form\Element\Input;
+use Magento\Ui\Component\Form\Field;
+use Magento\Ui\Component\Form\Element\DataType\Text;
 
 class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {
 
     protected $loadedData;
-    protected $dataPersistor;
 
+    /**
+     * @var CollectionFactory
+     */
     protected $collection;
 
+    /**
+     * @var StoreRepositoryInterface
+     */
+    private $storeRepository;
+
+    /**
+     * @var ArrayManager
+     */
+    private $arrayManager;
 
     /**
      * Constructor
@@ -32,12 +50,17 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $requestFieldName,
         CollectionFactory $collectionFactory,
         DataPersistorInterface $dataPersistor,
+        StoreRepositoryInterface $storeRepository,
+        ArrayManager $arrayManager,
         array $meta = [],
         array $data = []
     ) {
+        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
         $this->collection = $collectionFactory->create();
         $this->dataPersistor = $dataPersistor;
-        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+        $this->arrayManager = $arrayManager;
+        $this->storeRepository = $storeRepository;
+
     }
 
     /**
@@ -65,4 +88,11 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         
         return $this->loadedData;
     }
+
+
+
+
+
+
+
 }
