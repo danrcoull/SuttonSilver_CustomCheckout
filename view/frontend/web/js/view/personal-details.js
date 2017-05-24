@@ -20,7 +20,7 @@ define(
          */
         return Component.extend({
             defaults: {
-                template: 'SuttonSilver_CustomCheckout/delivery-details'
+                template: 'SuttonSilver_CustomCheckout/personal-details'
             },
 
             //add here your logic to display step,
@@ -35,11 +35,11 @@ define(
                 // register your step
                 stepNavigator.registerStep(
                     //step code will be used as step content id in the component template
-                    'delivery_details',
+                    'personal_details',
                     //step alias
                     null,
                     //step title value
-                    'Delivery Details',
+                    'Personal Details',
                     //observable property with logic when display step or hide step
                     this.isVisible,
 
@@ -51,7 +51,7 @@ define(
                      * 10 < 'sort order value' < 20 : step displays between shipping and payment step
                      * 'sort order value' > 20 : step displays after payment step
                      */
-                    15
+                    1
                 );
 
                 return this;
