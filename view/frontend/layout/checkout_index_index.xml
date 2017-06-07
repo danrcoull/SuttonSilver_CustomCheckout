@@ -12,6 +12,11 @@
                                     <item name="children" xsi:type="array">
                                         <!-- The new step you add -->
                                         <item name="my-new-step" xsi:type="array">
+                                            <item name="config" xsi:type="array">
+                                                <item name="deps" xsi:type="array">
+                                                    <item name="0" xsi:type="string">checkoutProvider</item>
+                                                </item>
+                                            </item>
                                             <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/view/my-step-view</item>
                                             <item name="sortOrder" xsi:type="string">0</item>
                                             <item name="provider" xsi:type="string">checkoutProvider</item>
@@ -27,7 +32,7 @@
                                                             <item name="content" xsi:type="string">For the best service we need a few details about you:</item>
                                                             <item name="sortOrder" xsi:type="string">0</item>
                                                         </item>
-                                                        <item name="forename" xsi:type="array">
+                                                        <item name="firstname" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">
                                                                 <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
@@ -36,7 +41,7 @@
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
                                                             </item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">personalDetails.forename</item>
+                                                            <item name="dataScope" xsi:type="string">personalDetails.firstname</item>
                                                             <item name="label" xsi:type="string">Forename(s)</item>
                                                             <item name="sortOrder" xsi:type="string">1</item>
                                                             <item name="placeholder" xsi:type="string">First Name</item>
@@ -44,7 +49,7 @@
                                                                 <item name="required-entry" xsi:type="string">true</item>
                                                             </item>
                                                         </item>
-                                                        <item name="surname" xsi:type="array">
+                                                        <item name="lastname" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">
                                                                 <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
@@ -54,7 +59,7 @@
                                                             </item>
                                                             <item name="placeholder" xsi:type="string">Surname</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">personalDetails.surname</item>
+                                                            <item name="dataScope" xsi:type="string">personalDetails.lastname</item>
                                                             <item name="label" xsi:type="string">Surname</item>
                                                             <item name="sortOrder" xsi:type="string">2</item>
                                                             <item name="validation" xsi:type="array">
@@ -337,21 +342,28 @@
                                                             <item name="children" xsi:type="array">
                                                                 <item name="select-address" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Magento_Ui/js/form/element/checkbox-set</item>
-                                                                    <item name="options" xsi:type="array">
-                                                                        <item name="work-address" xsi:type="string">My Work Address</item>
-                                                                        <item name="home-address" xsi:type="string">My Home Address</item>
-                                                                    </item>
                                                                     <item name="config" xsi:type="array">
                                                                         <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
                                                                         <item name="customScope" xsi:type="string">shippingAddress</item>
                                                                         <item name="template" xsi:type="string">ui/form/element/checkbox-set</item>
                                                                         <item name="multiple" xsi:type="boolean">false</item>
                                                                         <item name="elementTmpl" xsi:type="string"/>
+
                                                                     </item>
                                                                     <item name="provider" xsi:type="string">checkoutProvider</item>
                                                                     <item name="dataScope" xsi:type="string">shippingAddress.select-address</item>
                                                                     <item name="label" xsi:type="string">Deliver To:</item>
                                                                     <item name="sortOrder" xsi:type="string">1</item>
+                                                                    <item name="options" xsi:type="array">
+                                                                        <item name="option1" xsi:type="array">
+                                                                            <item name="label" xsi:type="string">test</item>
+                                                                            <item name="value" xsi:type="string">test</item>
+                                                                        </item>
+                                                                        <item name="option2" xsi:type="array">
+                                                                            <item name="label" xsi:type="string">test2</item>
+                                                                            <item name="value" xsi:type="string">test2</item>
+                                                                        </item>
+                                                                    </item>
                                                                 </item>
                                                             </item>
                                                         </item>
