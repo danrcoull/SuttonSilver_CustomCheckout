@@ -1,14 +1,16 @@
 define(
     [
-        'ko',
-        'uiComponent',
+        'jquery',
         'underscore',
+        'Magento_Ui/js/form/form',
+        'ko',
         'Magento_Checkout/js/model/step-navigator'
     ],
     function (
-        ko,
-        Component,
+        $,
         _,
+        Component,
+        ko,
         stepNavigator
     ) {
         'use strict';
@@ -20,7 +22,7 @@ define(
          */
         return Component.extend({
             defaults: {
-                template: 'SuttonSilver_CustomCheckout/personal-details'
+                template: 'SuttonSilver_CustomCheckout/mystep'
             },
 
             //add here your logic to display step,
@@ -34,24 +36,12 @@ define(
                 this._super();
                 // register your step
                 stepNavigator.registerStep(
-                    //step code will be used as step content id in the component template
-                    'personal_details',
-                    //step alias
+                    'personal-details',
                     null,
-                    //step title value
                     'Personal Details',
-                    //observable property with logic when display step or hide step
                     this.isVisible,
-
                     _.bind(this.navigate, this),
-
-                    /**
-                     * sort order value
-                     * 'sort order value' < 10: step displays before shipping step;
-                     * 10 < 'sort order value' < 20 : step displays between shipping and payment step
-                     * 'sort order value' > 20 : step displays after payment step
-                     */
-                    1
+                    0
                 );
 
                 return this;
@@ -70,7 +60,20 @@ define(
              * @returns void
              */
             navigateToNextStep: function () {
-                stepNavigator.next();
+                    stepNavigator.next();
+            },
+            validatePersonalDetails: function() {
+               // trigger form validation
+                this.source.set('params.invalid', false);
+                this.source.trigger('personalDetails.data.validate');
+
+                console.log(this);
+                // verify that form data is valid
+                if (!this.source.get('params.invalid')) {
+                    // data is retrieved from data provider by value of the customScope property
+                    var formData = this.source.get('personalDetails');
+                    this.navigateToNextStep();
+                }
             }
         });
     }

@@ -5,67 +5,65 @@ namespace SuttonSilver\CustomCheckout\Plugin\Magento\Checkout\Block\Checkout;
 
 class LayoutProcessor
 {
+    /**
+     * @var \Magento\Checkout\Block\Checkout\AttributeMerger
+     */
+    protected $merger;
+
+    /**
+     * @var \Magento\Directory\Model\ResourceModel\Country\Collection
+     */
+    protected $countryCollection;
+
+    /**
+     * @var \Magento\Directory\Model\ResourceModel\Region\Collection
+     */
+    protected $regionCollection;
+
+
+    public function __construct(
+        \Magento\Checkout\Block\Checkout\AttributeMerger $merger,
+        \Magento\Directory\Model\ResourceModel\Country\Collection $countryCollection,
+        \Magento\Directory\Model\ResourceModel\Region\Collection $regionCollection
+    ) {
+        $this->merger = $merger;
+        $this->countryCollection = $countryCollection;
+        $this->regionCollection = $regionCollection;
+    }
 
     public function afterProcess(
         \Magento\Checkout\Block\Checkout\LayoutProcessor $subject,
         array  $jsLayout
     ) {
-        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['shipping-address-fieldset']['children']['cilex_membership_details'] = [
-            'component' => 'Magento_Ui/js/form/element/abstract',
-            'config' => [
-                'customScope' => 'shippingAddress',
-                'template' => 'ui/form/field',
-                'elementTmpl' => 'ui/form/element/input',
-                'options' => [],
-                'id' => 'cilex-membership-details'
+
+
+        $elements = [
+            'country_id' => [
+                'visible' => true,
+                'formElement' => 'select',
+                'label' => __('Country'),
+                'options' => $this->countryCollection->loadByStore()->toOptionArray(),
+                'value' => null,
             ],
-            'dataScope' => 'shippingAddress.cilex_membership_details',
-            'label' => 'Membership Details',
-            'provider' => 'checkoutProvider',
-            'visible' => true,
-            'validation' => [],
-            'sortOrder' => 50,
-            'id' => 'cilex-membership-details'
+            'region_id' => [
+                'visible' => true,
+                'formElement' => 'select',
+                'label' => __('State/Province'),
+                'options' => $this->regionCollection->load()->toOptionArray(),
+                'value' => null,
+            ]
         ];
 
-        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['shipping-address-fieldset']['children']['previous_surname'] = [
-            'component' => 'Magento_Ui/js/form/element/abstract',
-            'config' => [
-                'customScope' => 'shippingAddress',
-                'template' => 'ui/form/field',
-                'elementTmpl' => 'ui/form/element/input',
-                'options' => [],
-                'id' => 'previous-surname'
-            ],
-            'dataScope' => 'shippingAddress.previous_surname',
-            'label' => 'Previous Surname',
-            'provider' => 'checkoutProvider',
-            'visible' => true,
-            'validation' => [],
-            'sortOrder' => 60,
-            'id' => 'previous-surname'
-        ];
+        if (isset($jsLayout['components']['checkout']['children']['steps']['children']
+            ['my-new-step']['children']['custom-checkout-form-home-address'])
+        ) {
 
-        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['shipping-address-fieldset']['children']['previous_postcode'] = [
-            'component' => 'Magento_Ui/js/form/element/abstract',
-            'config' => [
-                'customScope' => 'shippingAddress',
-                'template' => 'ui/form/field',
-                'elementTmpl' => 'ui/form/element/input',
-                'options' => [],
-                'id' => 'previous-postcode'
-            ],
-            'dataScope' => 'shippingAddress.previous_postcode',
-            'label' => 'Previous Postcode',
-            'provider' => 'checkoutProvider',
-            'visible' => true,
-            'validation' => [],
-            'sortOrder' => 70,
-            'id' => 'previous-postcode'
-        ];
+            $fieldSetPointer = &$jsLayout['components']['checkout']['children']['steps']['children']
+            ['my-new-step']['children']['custom-checkout-form-home-address']['children'];
+            $fieldSetPointer = $this->merger->merge($elements, 'checkoutProvider', 'personalDetails', $fieldSetPointer);
+            $fieldSetPointer['region_id']['config']['skipValidation'] = true;
+        }
+
 
         unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['company']);

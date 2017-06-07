@@ -1,0 +1,35 @@
+<!--The 'step_code' value from the .js file should be used-->
+<li id="personal-details" data-bind="fadeVisible: isVisible">
+    <div id="checkout-step-title" class="step-content" data-role="content">
+
+        <form id="custom-checkout-form" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
+            <fieldset class="fieldset" id="personal">
+                <legend data-bind="i18n: 'Personal Details'"></legend>
+                <!-- ko foreach: getRegion('custom-checkout-form-fields') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!--/ko-->
+            </fieldset>
+            <fieldset class="fieldset" id="home-address">
+                <legend data-bind="i18n: 'Home Address'"></legend>
+                <!-- ko foreach: getRegion('home-address') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!--/ko-->
+            </fieldset>
+
+            <fieldset class="fieldset" id="contact-details">
+                <legend data-bind="i18n: 'Contact Details'"></legend>
+                <!-- ko foreach: getRegion('contact-details') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!--/ko-->
+            </fieldset>
+
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button data-role="opc-continue" data-bind="click: validatePersonalDetails" type="submit" class="button action continue primary">
+                        <span><!-- ko i18n: 'Next'--><!-- /ko --></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</li>
