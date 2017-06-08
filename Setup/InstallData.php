@@ -130,7 +130,7 @@ class InstallData implements InstallDataInterface
                 'position' => 100
             ]
         );
-        $sampleAttribute = $this->eavConfig->getAttribute(\Magento\Customer\Model\Customer::ENTITY, 'dx_number');
+        $sampleAttribute = $eavSetup->getEavConfig()->getAttribute(\Magento\Customer\Model\Customer::ENTITY, 'dx_number');
         $sampleAttribute->setData(
             'used_in_forms',
             ['adminhtml_customer_address', 'customer_address_edit', 'customer_register_address']
