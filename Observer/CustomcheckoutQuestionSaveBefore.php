@@ -15,7 +15,7 @@ class CustomcheckoutQuestionSaveBefore implements \Magento\Framework\Event\Obser
     public function execute(
         \Magento\Framework\Event\Observer $observer
     ) {
-        die('hello');
+
         die(var_dump($observer->getObject()->getData()));
     }
 }

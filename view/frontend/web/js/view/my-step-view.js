@@ -66,6 +66,7 @@ define(
                // trigger form validation
                 this.source.set('params.invalid', false);
                 this.source.trigger('personalDetails.data.validate');
+                this.source.trigger('homeAddress.data.validate');
 
                 console.log(this);
                 // verify that form data is valid

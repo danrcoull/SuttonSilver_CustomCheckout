@@ -20,15 +20,19 @@ class LayoutProcessor
      */
     protected $regionCollection;
 
+    protected $delivery;
+
 
     public function __construct(
         \Magento\Checkout\Block\Checkout\AttributeMerger $merger,
         \Magento\Directory\Model\ResourceModel\Country\Collection $countryCollection,
-        \Magento\Directory\Model\ResourceModel\Region\Collection $regionCollection
+        \Magento\Directory\Model\ResourceModel\Region\Collection $regionCollection,
+        \SuttonSilver\CustomCheckout\Model\Attribute\Source\Delivery $delivery
     ) {
         $this->merger = $merger;
         $this->countryCollection = $countryCollection;
         $this->regionCollection = $regionCollection;
+        $this->delivery = $delivery;
     }
 
     public function afterProcess(
@@ -60,13 +64,48 @@ class LayoutProcessor
 
             $fieldSetPointer = &$jsLayout['components']['checkout']['children']['steps']['children']
             ['my-new-step']['children']['custom-checkout-form-home-address']['children'];
-            $fieldSetPointer = $this->merger->merge($elements, 'checkoutProvider', 'personalDetails', $fieldSetPointer);
+            $fieldSetPointer = $this->merger->merge($elements, 'checkoutProvider', 'homeAddress', $fieldSetPointer);
             $fieldSetPointer['region_id']['config']['skipValidation'] = true;
         }
 
+        unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+            ['shippingAddress']['children']['shipping-address-fieldset']['children']['firstname']);
 
         unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['shipping-address-fieldset']['children']['company']);
+            ['shippingAddress']['children']['shipping-address-fieldset']['children']['prefix']);
+
+        unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+            ['shippingAddress']['children']['shipping-address-fieldset']['children']['lastname']);
+
+        unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+            ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']);
+
+        unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+            ['shippingAddress']['children']['shipping-address-fieldset']['children']['telephone']);
+
+        unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+            ['shippingAddress']['children']['customer-email']);
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['select-address'] = [
+            'component' => 'Magento_Ui/js/form/element/checkbox-set',
+            'config' => [
+                'customScope' => 'shippingAddress',
+                'template' => 'ui/form/element/checkbox-set',
+                'options' => $this->delivery->toOptionArray(),
+                'id'=>'select-address',
+                'multiple'=>'false',
+            ],
+            'dataScope' => 'shippingAddress.select-address',
+            'label' => 'Deliver To',
+            'provider' => 'checkoutProvider',
+            'visible' => true,
+            'validation' => false, //['required-entry' => $this->_helper->getConfigIsFieldRequired()],
+            'sortOrder' => 1,
+        ];
+
+
+
         return $jsLayout;
     }
 }

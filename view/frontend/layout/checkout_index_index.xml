@@ -21,6 +21,55 @@
                                             <item name="sortOrder" xsi:type="string">0</item>
                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                             <item name="children" xsi:type="array">
+                                                <item name="custom-checkout-form-before" xsi:type="array">
+                                                    <item name="component" xsi:type="string">uiComponent</item>
+                                                    <!-- the following display area is used in template (see below) -->
+                                                    <item name="displayArea" xsi:type="string">custom-checkout-form-before</item>
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="customer-email" xsi:type="array">
+                                                            <item name="component" xsi:type="string">Magento_Checkout/js/view/form/element/email</item>
+                                                            <item name="displayArea" xsi:type="string">customer-email</item>
+                                                            <item name="tooltip" xsi:type="array">
+                                                                <item name="description" xsi:type="string" translate="true">We'll send your order confirmation here.</item>
+                                                            </item>
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="before-login-form" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">uiComponent</item>
+                                                                    <item name="displayArea" xsi:type="string">before-login-form</item>
+                                                                    <item name="children" xsi:type="array">
+                                                                        <!-- before login form fields -->
+                                                                    </item>
+                                                                </item>
+                                                                <item name="additional-login-form-fields" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">uiComponent</item>
+                                                                    <item name="displayArea" xsi:type="string">additional-login-form-fields</item>
+                                                                    <item name="children" xsi:type="array">
+                                                                        <item name="confirm-email-address" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                                            <item name="config" xsi:type="array">
+                                                                                <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
+                                                                                <item name="customScope" xsi:type="string">personalDetails</item>
+                                                                                <item name="template" xsi:type="string">ui/form/field</item>
+                                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/email</item>
+                                                                                <item name="id" xsi:type="string">confirm-email-address</item>
+                                                                            </item>
+                                                                            <item name="placeholder" xsi:type="string">eg. customer@email.com</item>
+                                                                            <item name="additionalClasses" xsi:type="string">confirm-email-address</item>
+                                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                                            <item name="dataScope" xsi:type="string">personalDetails.confirm-email-address</item>
+                                                                            <item name="label" xsi:type="string">Confirm Email Address</item>
+                                                                            <item name="sortOrder" xsi:type="string">2</item>
+                                                                            <item name="validation" xsi:type="array">
+                                                                                <item name="required-entry" xsi:type="string">true</item>
+                                                                                <item name="validate-email" xsi:type="string">true</item>
+                                                                            </item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
                                                 <item name="custom-checkout-form-personal" xsi:type="array">
                                                     <!-- uiComponent is used as a wrapper for form fields (its template will render all children as a list) -->
                                                     <item name="component" xsi:type="string">uiComponent</item>
@@ -155,7 +204,6 @@
                                                         </item>
                                                     </item>
                                                 </item>
-
                                                 <item name="custom-checkout-form-home-address" xsi:type="array">
                                                     <!-- uiComponent is used as a wrapper for form fields (its template will render all children as a list) -->
                                                     <item name="component" xsi:type="string">uiComponent</item>
@@ -166,12 +214,12 @@
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">
                                                                 <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
-                                                                <item name="customScope" xsi:type="string">personalDetails</item>
+                                                                <item name="customScope" xsi:type="string">homeAddress</item>
                                                                 <item name="template" xsi:type="string">ui/form/field</item>
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
                                                             </item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">personalDetails.address</item>
+                                                            <item name="dataScope" xsi:type="string">homeAddress.address</item>
                                                             <item name="label" xsi:type="string">Address</item>
                                                             <item name="placeholder" xsi:type="string">First Line of Address</item>
                                                             <item name="sortOrder" xsi:type="string">1</item>
@@ -183,14 +231,14 @@
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">
                                                                 <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
-                                                                <item name="customScope" xsi:type="string">personalDetails</item>
+                                                                <item name="customScope" xsi:type="string">homeAddress</item>
                                                                 <item name="template" xsi:type="string">ui/form/field</item>
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
                                                             </item>
                                                             <item name="placeholder" xsi:type="string">Enter City</item>
                                                             <item name="additionalClasses" xsi:type="string">col-xs-6 no-padding-left</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">personalDetails.city</item>
+                                                            <item name="dataScope" xsi:type="string">homeAddress.city</item>
                                                             <item name="label" xsi:type="string">City - Optional</item>
                                                             <item name="sortOrder" xsi:type="string">2</item>
                                                             <item name="validation" xsi:type="array">
@@ -201,14 +249,14 @@
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">
                                                                 <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
-                                                                <item name="customScope" xsi:type="string">personalDetails</item>
+                                                                <item name="customScope" xsi:type="string">homeAddress</item>
                                                                 <item name="template" xsi:type="string">ui/form/field</item>
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
                                                             </item>
                                                             <item name="placeholder" xsi:type="string">eg. MK42 7AB</item>
                                                             <item name="additionalClasses" xsi:type="string">col-xs-6 no-padding-right</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">personalDetails.postcode</item>
+                                                            <item name="dataScope" xsi:type="string">homeAddress.postcode</item>
                                                             <item name="label" xsi:type="string">Postcode</item>
                                                             <item name="sortOrder" xsi:type="string">3</item>
                                                             <item name="validation" xsi:type="array">
@@ -246,64 +294,26 @@
                                                         </item>
                                                     </item>
                                                 </item>
-
                                                 <item name="custom-checkout-form-contact-details" xsi:type="array">
                                                     <!-- uiComponent is used as a wrapper for form fields (its template will render all children as a list) -->
                                                     <item name="component" xsi:type="string">uiComponent</item>
                                                     <!-- the following display area is used in template (see below) -->
                                                     <item name="displayArea" xsi:type="string">contact-details</item>
                                                     <item name="children" xsi:type="array">
-                                                        <item name="email-address" xsi:type="array">
-                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
-                                                            <item name="config" xsi:type="array">
-                                                                <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
-                                                                <item name="customScope" xsi:type="string">personalDetails</item>
-                                                                <item name="template" xsi:type="string">ui/form/field</item>
-                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/email</item>
-                                                            </item>
-                                                            <item name="placeholder" xsi:type="string">eg. customer@email.com</item>
-                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">personalDetails.email-address</item>
-                                                            <item name="label" xsi:type="string">Email Address</item>
-                                                            <item name="sortOrder" xsi:type="string">1</item>
-                                                            <item name="additionalClasses" xsi:type="string">email-address</item>
-                                                            <item name="validation" xsi:type="array">
-                                                                <item name="required-entry" xsi:type="string">true</item>
-                                                                <item name="validate-email" xsi:type="string">true</item>
-                                                            </item>
-                                                        </item>
-                                                        <item name="confirm-email-address" xsi:type="array">
-                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
-                                                            <item name="config" xsi:type="array">
-                                                                <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
-                                                                <item name="customScope" xsi:type="string">personalDetails</item>
-                                                                <item name="template" xsi:type="string">ui/form/field</item>
-                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/email</item>
-                                                            </item>
-                                                            <item name="placeholder" xsi:type="string">eg. customer@email.com</item>
-                                                            <item name="additionalClasses" xsi:type="string">confirm-email-address</item>
-                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">personalDetails.confirm-email-address</item>
-                                                            <item name="label" xsi:type="string">Confirm Email Address</item>
-                                                            <item name="sortOrder" xsi:type="string">2</item>
-                                                            <item name="validation" xsi:type="array">
-                                                                <item name="required-entry" xsi:type="string">true</item>
-                                                                <item name="validate-email" xsi:type="string">true</item>
-                                                            </item>
-                                                        </item>
 
-                                                        <item name="daytime-number" xsi:type="array">
+                                                        <item name="telephone" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">
                                                                 <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
                                                                 <item name="customScope" xsi:type="string">personalDetails</item>
                                                                 <item name="template" xsi:type="string">ui/form/field</item>
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
+                                                                <item name="id" xsi:type="string">daytime-number</item>
                                                             </item>
                                                             <item name="placeholder" xsi:type="string">eg. 01234 567 891</item>
                                                             <item name="additionalClasses" xsi:type="string">col-xs-6 no-padding-left</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">personalDetails.daytime-number</item>
+                                                            <item name="dataScope" xsi:type="string">personalDetails.telephone</item>
                                                             <item name="label" xsi:type="string">Daytime Landline Phone Number</item>
                                                             <item name="sortOrder" xsi:type="string">3</item>
                                                             <item name="validation" xsi:type="array">
@@ -317,6 +327,7 @@
                                                                 <item name="customScope" xsi:type="string">personalDetails</item>
                                                                 <item name="template" xsi:type="string">ui/form/field</item>
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
+                                                                <item name="id" xsi:type="string">mobile-number</item>
                                                             </item>
                                                             <item name="placeholder" xsi:type="string">eg. 07734 567 891</item>
                                                             <item name="additionalClasses" xsi:type="string">col-xs-6 no-padding-right</item>
@@ -354,16 +365,7 @@
                                                                     <item name="dataScope" xsi:type="string">shippingAddress.select-address</item>
                                                                     <item name="label" xsi:type="string">Deliver To:</item>
                                                                     <item name="sortOrder" xsi:type="string">1</item>
-                                                                    <item name="options" xsi:type="array">
-                                                                        <item name="option1" xsi:type="array">
-                                                                            <item name="label" xsi:type="string">test</item>
-                                                                            <item name="value" xsi:type="string">test</item>
-                                                                        </item>
-                                                                        <item name="option2" xsi:type="array">
-                                                                            <item name="label" xsi:type="string">test2</item>
-                                                                            <item name="value" xsi:type="string">test2</item>
-                                                                        </item>
-                                                                    </item>
+
                                                                 </item>
                                                             </item>
                                                         </item>
