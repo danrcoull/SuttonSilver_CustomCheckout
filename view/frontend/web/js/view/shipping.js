@@ -251,10 +251,10 @@ define(
                     return false;
                 }
 
-                if (!customer.isLoggedIn()) {
+                /**if (!customer.isLoggedIn()) {
                     $(loginFormSelector).validation();
                     emailValidationResult = Boolean($(loginFormSelector + ' input[name=username]').valid());
-                }
+                }**/
 
                 if (this.isFormInline) {
                     this.source.set('params.invalid', false);
@@ -266,8 +266,8 @@ define(
 
                     if (this.source.get('params.invalid') ||
                         !quote.shippingMethod().method_code ||
-                        !quote.shippingMethod().carrier_code ||
-                        !emailValidationResult
+                        !quote.shippingMethod().carrier_code
+                        //!emailValidationResult
                     ) {
                         return false;
                     }
@@ -299,11 +299,11 @@ define(
                     selectShippingAddress(shippingAddress);
                 }
 
-                if (!emailValidationResult) {
+                /**if (!emailValidationResult) {
                     $(loginFormSelector + ' input[name=username]').focus();
 
                     return false;
-                }
+                }**/
 
                 return true;
             }

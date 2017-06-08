@@ -1,13 +1,12 @@
 <!--The 'step_code' value from the .js file should be used-->
 <li id="personal-details" data-bind="fadeVisible: isVisible">
     <div id="checkout-step-title" class="step-content" data-role="content">
-
+        <h1  data-bind="i18n: 'Personal Details'"></h1>
         <!-- ko foreach: getRegion('custom-checkout-form-before') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
         <form id="custom-checkout-form" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
             <fieldset class="fieldset" id="personal">
-                <legend data-bind="i18n: 'Personal Details'"></legend>
                 <!-- ko foreach: getRegion('custom-checkout-form-fields') -->
                 <!-- ko template: getTemplate() --><!-- /ko -->
                 <!--/ko-->

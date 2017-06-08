@@ -4,14 +4,20 @@ define(
         'underscore',
         'Magento_Ui/js/form/form',
         'ko',
-        'Magento_Checkout/js/model/step-navigator'
+        'Magento_Checkout/js/model/step-navigator',
+        'SuttonSilver_CustomCheckout/js/checkout-data',
+        'uiRegistry',
+        'mage/translate'
     ],
     function (
         $,
         _,
         Component,
         ko,
-        stepNavigator
+        stepNavigator,
+        checkoutData,
+        registry,
+        $t
     ) {
         'use strict';
         /**
@@ -43,6 +49,33 @@ define(
                     _.bind(this.navigate, this),
                     0
                 );
+
+                registry.async('checkoutProvider')(function (checkoutProvider) {
+                    var homeAddressData = checkoutData.getHomeAddressData();
+
+                    if (homeAddressData) {
+                        checkoutProvider.set(
+                            'homeAddress',
+                            $.extend({}, checkoutProvider.get('homeAddress'), homeAddressData)
+                        );
+                    }
+                    checkoutProvider.on('homeAddress', function (homeAddressData) {
+                        checkoutData.setHomeAddressData(homeAddressData);
+                    });
+
+                    var personalDetailsData = checkoutData.getPersonalDetailsData();
+
+                    if (personalDetailsData) {
+                        checkoutProvider.set(
+                            'personalDetails',
+                            $.extend({}, checkoutProvider.get('personalDetails'), personalDetailsData)
+                        );
+                    }
+                    checkoutProvider.on('personalDetails', function (personalDetailsData) {
+                        checkoutData.setPersonalDetailsData(personalDetailsData);
+                    });
+                });
+
 
                 return this;
             },
