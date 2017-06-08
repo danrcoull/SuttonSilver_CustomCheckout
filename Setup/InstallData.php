@@ -15,14 +15,17 @@ class InstallData implements InstallDataInterface
     private $eavSetupFactory;
     private $eavConfig;
 
-    public function __construct(EavSetupFactory $eavSetupFactory)
+    public function __construct(\Magento\Customer\Setup\CustomerSetupFactory $customerSetupFactor)
     {
-        $this->eavSetupFactory = $eavSetupFactory;
+        $this->eavSetupFactory = $customerSetupFactor;
     }
 
     public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        
+         $setup->startSetup();
+        
         $eavSetup->addAttribute(
             \Magento\Customer\Model\Customer::ENTITY,
             'membership_number',
@@ -134,6 +137,7 @@ class InstallData implements InstallDataInterface
         );
         $sampleAttribute->save();
         
+         $setup->endSetup();
 
     }
 }
