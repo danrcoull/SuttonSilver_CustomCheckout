@@ -15,10 +15,9 @@ class InstallData implements InstallDataInterface
     private $eavSetupFactory;
     private $eavConfig;
 
-    public function __construct(EavSetupFactory $eavSetupFactory, Config $eavConfig)
+    public function __construct(EavSetupFactory $eavSetupFactory)
     {
         $this->eavSetupFactory = $eavSetupFactory;
-        $this->eavConfig = $eavConfig;
     }
 
     public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
@@ -106,7 +105,7 @@ class InstallData implements InstallDataInterface
         );
 
         foreach(['membership_number','studied_with_us_before','previous_surname','previous_postcode','daytime_phone_number','mobile_number'] as $key) {
-            $sampleAttribute = $this->eavConfig->getAttribute(\Magento\Customer\Model\Customer::ENTITY, $key);
+            $sampleAttribute = $eavSetup->getEavConfig()->getAttribute(\Magento\Customer\Model\Customer::ENTITY, $key);
             $sampleAttribute->setData(
                 'used_in_forms',
                 ['adminhtml_customer', 'customer_account_create', 'customer_account_edit', 'checkout_register']
