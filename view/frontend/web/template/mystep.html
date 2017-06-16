@@ -25,6 +25,13 @@
                 <!--/ko-->
             </fieldset>
 
+            <fieldset class="fieldset" id="additional">
+                <legend data-bind="i18n: 'Additional Details'"></legend>
+                <!-- ko foreach: getRegion('additional') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!--/ko-->
+            </fieldset>
+
             <div class="actions-toolbar">
                 <div class="primary">
                     <button data-role="opc-continue" data-bind="click: validatePersonalDetails" type="submit" class="button action continue primary">

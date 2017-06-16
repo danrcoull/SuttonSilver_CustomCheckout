@@ -27,6 +27,7 @@ define([
         var checkoutData = {
             'homeAddressData': null,
             'personalDetailsData' : null,
+            'additionalDetailsData' : null,
         };
         saveData(checkoutData);
     }
@@ -47,6 +48,14 @@ define([
         },
         getPersonalDetailsData: function () {
             return getData().personalDetailsData;
+        },
+        setAdditonalDetailsData: function (data) {
+            var obj = getData();
+            obj.additionalDetailsData = data;
+            saveData(obj);
+        },
+        getAdditonalDetailsData: function () {
+            return getData().additionalDetailsData;
         }
     }
 });

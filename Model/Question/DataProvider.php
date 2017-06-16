@@ -73,19 +73,25 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         if (isset($this->loadedData)) {
             return $this->loadedData;
         }
+
         $items = $this->collection->getItems();
+
         foreach ($items as $model) {
             $this->loadedData[$model->getId()] = $model->getData();
+            $values = $model->getValues();
+            $this->loadedData[$model->getId()] = array_merge($this->loadedData[$model->getId()], $values);
         }
         $data = $this->dataPersistor->get('suttonsilver_customcheckout_question');
-        
+
         if (!empty($data)) {
             $model = $this->collection->getNewEmptyItem();
             $model->setData($data);
+
             $this->loadedData[$model->getId()] = $model->getData();
             $this->dataPersistor->clear('suttonsilver_customcheckout_question');
         }
-        
+
+        //print_r($this->loadedData);
         return $this->loadedData;
     }
 

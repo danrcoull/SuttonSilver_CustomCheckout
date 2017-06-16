@@ -39,17 +39,10 @@ class Save extends \Magento\Backend\App\Action
         
             $model = $this->_objectManager->create('SuttonSilver\CustomCheckout\Model\Question')->load($id);
             if (!$model->getId() && $id) {
-                $this->messageManager->addError(__('This Question no longer exists.'));
+                $this->messageManager->addErrorMessage(__('This Question no longer exists.'));
                 return $resultRedirect->setPath('*/*/');
             }
 
-            if(isset($data['question_options_select'])) {
-                $data['values'] = array();
-                foreach ($data['question_options_select']['question_options_select'] as $key => $option) {
-
-                    $data['values'][] = array('value' => $data['question_options_select']['answer']['option_' . $key]);
-                }
-            }
 
             if(isset($data['question_products'])) {
                 $ids = array();
@@ -59,15 +52,19 @@ class Save extends \Magento\Backend\App\Action
                     }
                 }
 
-                $data['product_ids'] = $ids;
+                $data['product_skus'] = $ids;
             }
 
             $model->setData($data);
+            if(isset($data['question_options_select'])) :
+                $model->setValues($data['question_options_select']);
+            endif;
+            $model->setProductSkus($data['product_skus']);
 
-            //die(var_dump($model->getData()));
+          // die(var_dump($model->getData()));
             try {
                 $model->save();
-                $this->messageManager->addSuccess(__('You saved the Question.'));
+                $this->messageManager->addSuccessMessage(__('You saved the Question.'));
                 $this->dataPersistor->clear('suttonsilver_customcheckout_question');
         
                 if ($this->getRequest()->getParam('back')) {
@@ -75,9 +72,9 @@ class Save extends \Magento\Backend\App\Action
                 }
                 return $resultRedirect->setPath('*/*/');
             } catch (LocalizedException $e) {
-                $this->messageManager->addError($e->getMessage());
+                $this->messageManager->addErrorMessage($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e, __('Something went wrong while saving the Question.'));
+                $this->messageManager->addExceptionMessage($e, __('Something went wrong while saving the Question.'));
             }
         
             $this->dataPersistor->set('suttonsilver_customcheckout_question', $data);

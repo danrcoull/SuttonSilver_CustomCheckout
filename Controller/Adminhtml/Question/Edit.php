@@ -37,7 +37,7 @@ class Edit extends \SuttonSilver\CustomCheckout\Controller\Adminhtml\Question
         if ($id) {
             $model->load($id);
             if (!$model->getId()) {
-                $this->messageManager->addError(__('This Question no longer exists.'));
+                $this->messageManager->addErrorMessage(__('This Question no longer exists.'));
                 /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
                 $resultRedirect = $this->resultRedirectFactory->create();
                 return $resultRedirect->setPath('*/*/');

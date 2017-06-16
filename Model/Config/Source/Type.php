@@ -12,9 +12,11 @@ class Type implements OptionSourceInterface
     {
         $options = array(
             ['label' => 'Text Field',  'value' => 'text'],
+            ['label' => 'Text Area',  'value' => 'textarea'],
             ['label' => 'Selectbox', 'value' => 'select'],
             ['label' => 'Checkbox', 'value' => 'checkbox' ],
             ['label' => 'Radio Buttons', 'value' => 'radio'],
+            ['label' => 'Yes/No', 'value' => 'yes-no'],
         );
 
         return $options;

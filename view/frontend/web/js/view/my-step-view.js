@@ -74,6 +74,18 @@ define(
                     checkoutProvider.on('personalDetails', function (personalDetailsData) {
                         checkoutData.setPersonalDetailsData(personalDetailsData);
                     });
+
+                    var additonalDetailsData = checkoutData.getAdditionalDetailsData();
+
+                    if (additonalDetailsData) {
+                        checkoutProvider.set(
+                            'additionalDetails',
+                            $.extend({}, checkoutProvider.get('additionalDetails'), additonalDetailsData)
+                        );
+                    }
+                    checkoutProvider.on('additionalDetails', function (additonalDetailsData) {
+                        checkoutData.setPersonalDetailsData(additonalDetailsData);
+                    });
                 });
 
 
@@ -100,6 +112,7 @@ define(
                 this.source.set('params.invalid', false);
                 this.source.trigger('personalDetails.data.validate');
                 this.source.trigger('homeAddress.data.validate');
+                this.source.trigger('additionalDetails.data.validate');
 
                 console.log(this);
                 // verify that form data is valid

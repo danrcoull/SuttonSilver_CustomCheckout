@@ -71,7 +71,7 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
             ['nullable' => False,'unsigned' => true],
-            'question_id'
+            'Question Id'
         );
         
 
@@ -88,7 +88,7 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
             ['unsigned' => true,'nullable' => False],
-            'question_id'
+            'Question Id'
         );
         $table_suttonsilver_questionvalues->addColumn(
             'question_value',

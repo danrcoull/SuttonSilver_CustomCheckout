@@ -8,7 +8,7 @@ interface QuestionValuesInterface
 
     const QUESTION_ID = 'question_id';
     const QUESTIONVALUES_ID = 'questionvalues_id';
-    const VALUE = 'Value';
+    const VALUE = 'question_value';
 
 
     /**

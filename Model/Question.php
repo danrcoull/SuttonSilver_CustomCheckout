@@ -4,11 +4,13 @@
 namespace SuttonSilver\CustomCheckout\Model;
 
 use SuttonSilver\CustomCheckout\Api\Data\QuestionInterface;
+use SuttonSilver\CustomCheckout\Api\Data\SuttonSilver;
 
 class Question extends \Magento\Framework\Model\AbstractModel implements QuestionInterface
 {
 
     protected $_productsReadOnly = false;
+    protected $_objectManager = false;
     protected $_questionValues = false;
     protected $_questionValuesRepository = false;
 
@@ -19,9 +21,9 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
     protected function _construct()
     {
         $this->_init('SuttonSilver\CustomCheckout\Model\ResourceModel\Question');
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $this->_questionValues = $objectManager->get('SuttonSilver\CustomCheckout\Model\QuestionValues');
-        $this->_questionValuesRepository = $objectManager->get('SuttonSilver\CustomCheckout\Model\QuestionValuesRepository');
+        $this->_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $this->_questionValues = $this->_objectManager->create('SuttonSilver\CustomCheckout\Model\QuestionValues');
+        $this->_questionValuesRepository = $this->_objectManager->create('SuttonSilver\CustomCheckout\Model\QuestionValuesRepository');
     }
 
     public function setProductsReadonly($readOnly)
@@ -94,7 +96,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
      * Get product_ids
      * @return string
      */
-    public function getProductIds()
+    public function getProductSkus()
     {
         if(!is_array($this->getData(self::PRODUCT_IDS))) {
             return explode(',', $this->getData(self::PRODUCT_IDS));
@@ -109,7 +111,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
      * @param string $product_ids
      * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
-    public function setProductIds($product_ids)
+    public function setProductSkus($product_ids)
     {
         if(is_array($product_ids))
         {
@@ -120,8 +122,9 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
     }
 
 
-    /**public function setValues($array)
+    public function setValues($array)
     {
+        //die(var_dump($array));
         //remove the original values.
         $collection = $this->_questionValues->getCollection()->addFieldToFilter('question_id',$this->getId());
         foreach($collection as $original)
@@ -134,19 +137,65 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
         //loop and recreate
         foreach($array as $value)
         {
-            $this->_questionValues->clearInstance();
-            $this->_questionValues->setData('question_value',$value['value']);
+            $this->_questionValues = $this->_objectManager->create('SuttonSilver\CustomCheckout\Model\QuestionValues');
+            $this->_questionValues->setData('question_value',$value['question_answer_value']);
             $this->_questionValues->setData('question_id',$this->getId());
             $this->_questionValuesRepository->save($this->_questionValues);
+            //var_dump($this->_questionValues->getData());
         }
+        //die;
     }
 
     public function getValues()
     {
-        $collection = $this->_questionValues->getCollection()->addFieldToFilter('question_id',$this->getId());
-        return $collection;
+        $collections = $this->_questionValues->getCollection()->addFieldToFilter('question_id', $this->getId());
+        $array = [];
+        foreach($collections as $collection)
+        {
+            $array['question_options_select'][]['question_answer_value'] = $collection->getData('question_value');
+        }
+        return $array;
     }
-    **/
+
+    public function getQuestionName()
+    {
+        return $this->getData(self::QUESTION_NAME);
+    }
+
+    public function setQuestionName($question_name)
+    {
+        return $this->setData(self::QUESTION_NAME, $question_name);
+    }
+
+    public function getQuestionIsRequired()
+    {
+        return $this->getData(self::QUESTION_IS_REQUIRED);
+    }
+
+    public function setQuestionIsRequired($question_is_required)
+    {
+        return $this->setData(self::QUESTION_IS_REQUIRED, filter_var($question_is_required, FILTER_VALIDATE_BOOLEAN));
+    }
+
+    public function getQuestionPlaceholder()
+    {
+        return $this->getData(self::QUESTION_PLACEHOLDER);
+    }
+
+    public function setQuestionPlaceholder($question_placeholder)
+    {
+        return $this->setData(self::QUESTION_PLACEHOLDER, $question_placeholder);
+    }
+
+    public function getQuestionIsActive()
+    {
+        return $this->getData(self::QUESTION_ACTIVE);
+    }
+
+    public function setQuestionIsActive($question_is_active)
+    {
+        return $this->setData(self::QUESTION_ACTIVE, $question_is_active);
+    }
 
 
 }
