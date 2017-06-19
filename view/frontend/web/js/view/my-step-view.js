@@ -75,7 +75,7 @@ define(
                         checkoutData.setPersonalDetailsData(personalDetailsData);
                     });
 
-                    var additonalDetailsData = checkoutData.getAdditionalDetailsData();
+                    var additonalDetailsData = checkoutData.getAdditonalDetailsData();
 
                     if (additonalDetailsData) {
                         checkoutProvider.set(

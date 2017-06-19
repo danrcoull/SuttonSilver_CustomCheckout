@@ -98,14 +98,14 @@ class LayoutProcessor
             ['shippingAddress']['children']['customer-email']);
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['shipping-address-fieldset']['children']['select-address'] = [
-            'component' => 'Magento_Ui/js/form/element/checkbox-set',
+        ['shippingAddress']['children']['before-fields']['children']['select-address'] = [
+            'component' => 'SuttonSilver_CustomCheckout/js/form/element/checkbox-set-shipping',
             'config' => [
                 'customScope' => 'shippingAddress',
                 'template' => 'ui/form/element/checkbox-set',
                 'options' => $this->delivery->toOptionArray(),
                 'id'=>'select_address',
-                'multiple'=>'false',
+                'multiple'=> false,
             ],
             'dataScope' => 'shippingAddress.select_address',
             'label' => 'Deliver To',
@@ -113,6 +113,20 @@ class LayoutProcessor
             'visible' => true,
             'validation' => ['required-entry' => true],
             'sortOrder' => 1,
+        ];
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['select-address-error'] = [
+            'component' => 'Magento_Ui/js/form/components/html',
+            'config' => [
+                'customScope' => 'shippingAddress',
+            ],
+            'dataScope' => 'shippingAddress.select_address',
+            'content' => 'As someone must be available to accept delivery, we strongly recommend that your course is sent to your employers address.',
+            'provider' => 'checkoutProvider',
+            'visible' => true,
+            'sortOrder' => 2,
+            'additionalClasses' => 'warning shiping-address-warning',
         ];
 
         $questions = $this->questionsCollection->create()->addFieldToFilter('question_is_active',1);
@@ -223,11 +237,19 @@ class LayoutProcessor
 
         }
 
-        if(isset($jsLayout['components']['checkout']['children']['steps']['children']['my-new-step'])) {
-            $jsLayout['components']['checkout']['children']['steps']['children']
-            ['my-new-step']['children']['custom-checkout-form-home-address']['children']['custom-checkout-form-additional']['children'];
-            array_merge($fieldSetPointer, $options);
+      if(isset($jsLayout['components']['checkout']['children']['steps']['children']['my-new-step'])) {
+          $jsLayout['components']['checkout']['children']['steps']['children']
+          ['my-new-step']['children']['custom-checkout-form-additional'] =[
+              'component' => 'uiComponent',
+              'displayArea' => 'additional',
+              'children' => $options
+          ];
+
         }
+
+        //  var_dump($jsLayout['components']['checkout']['children']['steps']['children']
+       // ['my-new-step']['children']['custom-checkout-form-home-address']['children']);
+       // die;
 
         return $jsLayout;
     }
