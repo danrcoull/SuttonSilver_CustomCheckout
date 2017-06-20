@@ -22,8 +22,8 @@ define([
         onUpdate: function (value) {
             console.log(this.countryId);
             var country = registry.get(this.parentName + '.' + 'country_id'),
-                validateUrl = 'http://ws.postcoder.com/pcw/[api-key]/codepoint/validatepostcode/[postcode]?format=json',
-                autoUrl ='http://ws.postcoder.com/pcw/[api-key]/address/uk/[postcode]?format=json',
+                validateUrl = 'https://ws.postcoder.com/pcw/[api-key]/codepoint/validatepostcode/[postcode]?format=json',
+                autoUrl ='https://ws.postcoder.com/pcw/[api-key]/address/uk/[postcode]?format=json',
                 apikey = 'PCWZS-FLZX8-Z9QS9-K2HX6';
 
             if(this.countryId == 'GB')
@@ -31,6 +31,7 @@ define([
                 validateUrl = validateUrl.replace('[api-key]',apikey).replace('[postcode]',value);
                 autoUrl = validateUrl.replace('[api-key]',apikey).replace('[postcode]',value);
                 console.log(validateUrl);
+
                 $.getJSON(validateUrl,function (response) {
 
                     if(response)

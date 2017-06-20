@@ -33,6 +33,7 @@ class AssignProducts extends \Magento\Backend\Block\Template
 
 
     protected $_productCollectionFactory;
+    protected $questionFactory;
 
     /**
      * AssignProducts constructor.
@@ -47,12 +48,14 @@ class AssignProducts extends \Magento\Backend\Block\Template
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory, //your custom collection
+        \SuttonSilver\CustomCheckout\Model\QuestionFactory $questionFactory,
         array $data = []
     )
     {
         $this->registry = $registry;
         $this->jsonEncoder = $jsonEncoder;
         $this->_productCollectionFactory = $productCollectionFactory;
+        $this->questionFactory = $questionFactory;
         parent::__construct($context, $data);
     }
 
@@ -89,9 +92,14 @@ class AssignProducts extends \Magento\Backend\Block\Template
      */
     public function getProductsJson()
     {
-
+        $productIds = $this->getQuestion()->getProductSkus();
+        if (empty($productIds)) {
+            $productIds = 0;
+        }
         $vProducts = $this->_productCollectionFactory->create()
-            ->addFieldToSelect('product_id');
+            ->addFieldToSelect('product_id')
+            ->addFieldToFilter('entity_id',  ['in' => $productIds]);
+
         $products = array();
         foreach ($vProducts as $pdct) {
             $products[$pdct->getProductId()] = '';
@@ -103,8 +111,16 @@ class AssignProducts extends \Magento\Backend\Block\Template
         return '{}';
     }
 
-    public function getQuestion()
-    {
+    public function getQuestion() {
+        $question = $this->questionFactory->create();
+        $id = (int)$this->getRequest()->getParam('question_id', false);
+        if ($id) {
+            $question->load($id);
+        }
+        if($this->registry->registry('my_question') == null)
+        {
+            return $question;
+        }
         return $this->registry->registry('my_question');
     }
 }

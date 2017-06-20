@@ -13,7 +13,8 @@ abstract class Product extends \Magento\Backend\App\Action
 
     protected function _initItem($getRootInstead = false)
     {
-        $id = (int)$this->getRequest()->getParam('id', false);
+
+        $id = (int)$this->getRequest()->getParam('question_id', false);
         $myModel = $this->_objectManager->create('SuttonSilver\CustomCheckout\Model\Question');
 
         if ($id) {

@@ -78,7 +78,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @param Column $column
-     * @return $this
+     * @return $this**/
 
     protected function _addColumnFilterToCollection($column)
     {
@@ -98,7 +98,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
             parent::_addColumnFilterToCollection($column);
         }
         return $this;
-    } */
+    }
 
     /**
      * @return Grid
@@ -123,13 +123,14 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $this->setCollection($collection);
 
-
-        /**productIds = $this->_getSelectedProducts();
-        if (empty($productIds)) {
-            $productIds = 0;
+        if ($this->getQuestion()->getProductsReadonly()) {
+            $productIds = $this->_getSelectedProducts();
+            if (empty($productIds)) {
+                $productIds = 0;
+            }
+            $this->getCollection()->addFieldToFilter('entity_id', ['in' => $productIds]);
         }
-        $this->getCollection()->addFieldToFilter('entity_id', ['in' => $productIds]);
-        **/
+
 
         return parent::_prepareCollection();
     }
@@ -193,6 +194,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
+
         return $this->getUrl('suttonsilver_customcheckout/products/grid', ['_current' => true]);
     }
 
@@ -203,10 +205,18 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $products = $this->getRequest()->getPost('selected_products');
         if ($products === null) {
-            $vProducts = $this->getQuestion()->getProductSkus();
+            $productIds = $this->getQuestion()->getProductSkus();
+            if (empty($productIds)) {
+                $productIds = 0;
+            }
+            $vProducts = $this->_productCollectionFactory->create()
+                ->addFieldToSelect('product_id')
+                ->addFieldToFilter('entity_id',  ['in' => $productIds]);
+
+
             $products = array();
-            foreach ($vProducts as $pdct) {
-                $products[] = $pdct;
+            foreach($vProducts as $pdct){
+                $products[]  = $pdct->getProductId();
             }
         }
         //die(var_dump( $this->getQuestion()->getData() ));

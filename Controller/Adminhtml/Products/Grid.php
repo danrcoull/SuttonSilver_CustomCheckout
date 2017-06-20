@@ -38,6 +38,7 @@ class Grid extends \SuttonSilver\CustomCheckout\Controller\Adminhtml\Products\Pr
     public function execute()
     {
         $item = $this->_initItem(true);
+
         if (!$item) {
             /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
             $resultRedirect = $this->resultRedirectFactory->create();
