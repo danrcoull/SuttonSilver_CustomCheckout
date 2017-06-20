@@ -97,12 +97,11 @@ class AssignProducts extends \Magento\Backend\Block\Template
             $productIds = 0;
         }
         $vProducts = $this->_productCollectionFactory->create()
-            ->addFieldToSelect('product_id')
             ->addFieldToFilter('entity_id',  ['in' => $productIds]);
 
         $products = array();
         foreach ($vProducts as $pdct) {
-            $products[$pdct->getProductId()] = '';
+            $products[$pdct->getId()] = '';
         }
 
         if (!empty($products)) {

@@ -206,17 +206,17 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
         $products = $this->getRequest()->getPost('selected_products');
         if ($products === null) {
             $productIds = $this->getQuestion()->getProductSkus();
+
             if (empty($productIds)) {
                 $productIds = 0;
             }
             $vProducts = $this->_productCollectionFactory->create()
-                ->addFieldToSelect('product_id')
                 ->addFieldToFilter('entity_id',  ['in' => $productIds]);
 
 
             $products = array();
             foreach($vProducts as $pdct){
-                $products[]  = $pdct->getProductId();
+                $products[]  = $pdct->getId();
             }
         }
         //die(var_dump( $this->getQuestion()->getData() ));

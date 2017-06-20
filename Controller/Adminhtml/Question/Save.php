@@ -46,6 +46,7 @@ class Save extends \Magento\Backend\App\Action
 
             if(isset($data['question_products'])) {
                 $ids = array();
+                //die(var_dump($data['question_products']));
                 foreach (json_decode($data['question_products']) as $key => $val) {
                     if ($key != '_empty_') {
                         $ids[] = $key;
