@@ -12,64 +12,30 @@ define([
     'use strict';
 
     return Abstract.extend({
-        defaults: {
-            imports: {
-                update: '${ $.parentName }.country_id:value'
-            },
-            countryId : ''
-        },
 
         onUpdate: function (value) {
-            console.log(this.countryId);
+
             var country = registry.get(this.parentName + '.' + 'country_id'),
+                choose_address = registry.get(this.parentName + '.' + 'address_choose'),
                 validateUrl = 'https://ws.postcoder.com/pcw/[api-key]/codepoint/validatepostcode/[postcode]?format=json',
                 autoUrl ='https://ws.postcoder.com/pcw/[api-key]/address/uk/[postcode]?format=json',
                 apikey = 'PCWZS-FLZX8-Z9QS9-K2HX6';
 
-            if(this.countryId == 'GB')
+            if(country.value() == 'GB')
             {
                 validateUrl = validateUrl.replace('[api-key]',apikey).replace('[postcode]',value);
-                autoUrl = validateUrl.replace('[api-key]',apikey).replace('[postcode]',value);
-                console.log(validateUrl);
-
-                $.getJSON(validateUrl,function (response) {
-
-                    if(response)
-                    {
-                        console.log(response);
-                        $.getJSON(autoUrl,function (response2) {
-                            console.log(response2);
-                        });
-                    }
-                });
+                autoUrl = autoUrl.replace('[api-key]',apikey).replace('[postcode]',value);
+                setTimeout(function() {
+                    $.getJSON(validateUrl, function (response) {
+                        if (response) {
+                            $.getJSON(autoUrl, function (response2) {
+                                choose_address.setAddresses(response2);
+                            });
+                        }
+                    });
+                } ,200);
             }
 
         },
-
-        /**
-         * @param {String} value
-         */
-        update: function (value) {
-            this.countryId = value;
-
-            var country = registry.get(this.parentName + '.' + 'country_id'),
-                options = country.indexedOptions,
-                option;
-
-            if (!value) {
-                return;
-            }
-
-            option = options[value];
-
-            if (option['is_zipcode_optional']) {
-                this.error(false);
-                this.validation = _.omit(this.validation, 'required-entry');
-            } else {
-                this.validation['required-entry'] = true;
-            }
-
-            this.required(!option['is_zipcode_optional']);
-        }
     });
 });

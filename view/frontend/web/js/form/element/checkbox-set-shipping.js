@@ -4,37 +4,46 @@
  */
 
 define([
+    'ko',
     'underscore',
     'jquery',
     'mageUtils',
     'Magento_Ui/js/form/element/checkbox-set',
     'uiRegistry'
-], function (_,$, utils, Abstract,uiRegistry) {
+], function (ko,_,$, utils, Abstract,uiRegistry) {
 
     return Abstract.extend({
         defaults: {
             field: 'checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset'
         },
 
+        initialize: function () {
+            this._super();
 
+            return this;
+        },
         /**
          * @inheritdoc
          */
-        hasChanged: function () {
-            var value = this.value(),
-                initial = this.initialValue;
+        onUpdate: function () {
+            var value = this.value();
             var element = uiRegistry.get(this.field);
-            $.each(element._elems, function(e,uiRegistry){
-                console.log(uiRegistry);
-                if(value == 0) {
-                    uiRegistry.get(uiRegistry).visible(false).disable(false);
-                }else{
-                    uiRegistry.get(uiRegistry).visible(true).disable(true);
+            ko.utils.arrayForEach(element._elems, function (feature) {
+
+                if (typeof feature === 'string')
+                {
+                    feature = uiRegistry.get(feature);
+                }
+
+                if (typeof feature !== "undefined" && typeof feature !== "string") {
+                    if (value === 1) {
+                        feature.hide;
+                    } else {
+                        feature.show;
+                    }
                 }
             });
-            return this.multiple ?
-                !utils.equalArrays(value, initial) :
-                this._super();
+
         }
     });
 });

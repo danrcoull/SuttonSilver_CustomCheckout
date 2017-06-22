@@ -79,6 +79,7 @@ class LayoutProcessor
             $fieldSetPointer['region_id']['config']['skipValidation'] = true;
         }
 
+
         unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
             ['shippingAddress']['children']['shipping-address-fieldset']['children']['firstname']);
 
