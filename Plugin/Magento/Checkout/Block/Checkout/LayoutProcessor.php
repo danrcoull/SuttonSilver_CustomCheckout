@@ -89,8 +89,6 @@ class LayoutProcessor
         unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
             ['shippingAddress']['children']['shipping-address-fieldset']['children']['lastname']);
 
-        unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-            ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']);
 
         unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
             ['shippingAddress']['children']['shipping-address-fieldset']['children']['telephone']);
@@ -99,7 +97,13 @@ class LayoutProcessor
             ['shippingAddress']['children']['customer-email']);
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['before-fields']['children']['select-address'] = [
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = "County";
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['region']['label'] = "County";
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        ['shippingAddress']['children']['before-fields']['children']['select-shipping-address'] = [
             'component' => 'SuttonSilver_CustomCheckout/js/form/element/checkbox-set-shipping',
             'config' => [
                 'customScope' => 'shippingAddress',
@@ -109,6 +113,7 @@ class LayoutProcessor
                 'multiple'=> false,
             ],
             'dataScope' => 'shippingAddress.select_address',
+            'default' => 0,
             'label' => 'Deliver To',
             'provider' => 'checkoutProvider',
             'visible' => true,
@@ -117,15 +122,14 @@ class LayoutProcessor
         ];
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['shipping-address-fieldset']['children']['select-address-error'] = [
+        ['shippingAddress']['children']['before-fields']['children']['select-address-error'] = [
             'component' => 'Magento_Ui/js/form/components/html',
             'config' => [
                 'customScope' => 'shippingAddress',
             ],
             'dataScope' => 'shippingAddress.select_address',
-            'content' => 'As someone must be available to accept delivery, we strongly recommend that your course is sent to your employers address.',
+            'content' => '',
             'provider' => 'checkoutProvider',
-            'visible' => true,
             'sortOrder' => 2,
             'additionalClasses' => 'warning shiping-address-warning',
         ];

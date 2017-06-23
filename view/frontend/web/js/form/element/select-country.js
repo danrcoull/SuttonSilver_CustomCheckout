@@ -39,7 +39,6 @@ define([
             setTimeout(function() {
 
                 var fieldset = registry.get(parent);
-                console.log(fieldset);
                 ko.utils.arrayForEach(fieldset._elems, function (feature) {
 
                     if (typeof feature === 'string')
@@ -50,21 +49,21 @@ define([
 
                     if (typeof feature !== "undefined" && typeof feature !== "string") {
 
-                        if (feature.inputName !== 'country_id' && feature.inputName !== 'postcode' && feature.inputName !== 'address_choose') {
+                        if (feature.inputName !== 'country_id' && feature.inputName !== 'postcode') {
                             if (hide) {
-                                if(typeof feature.hide == 'function')
-                            {
-                                feature.hide();
+                                if (typeof feature.hide == 'function') {
+                                    feature.hide();
+                                }
+                            } else {
+                                if (typeof feature.show == 'function') {
+                                    feature.show();
+                                    feature.value('');
+                                }
                             }
-                        } else {
-                                if(typeof feature.show == 'function')
-                            {
-                                feature.show();
-                            }
-                        }
                         }
                     }
                 });
+
             },400);
         }
     });

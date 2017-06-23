@@ -198,8 +198,9 @@
                                                             <item name="dataScope" xsi:type="string">homeAddress.address_choose</item>
                                                             <item name="label" xsi:type="string">Choose Address</item>
                                                             <item name="sortOrder" xsi:type="string">9</item>
+                                                            <item name="visible" xsi:type="string">false</item>
                                                         </item>
-                                                        <item name="address" xsi:type="array">
+                                                        <item name="street" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">
                                                                 <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
@@ -208,7 +209,7 @@
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
                                                             </item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">homeAddress.address</item>
+                                                            <item name="dataScope" xsi:type="string">homeAddress.street</item>
                                                             <item name="label" xsi:type="string">Address</item>
                                                             <item name="placeholder" xsi:type="string">First Line of Address</item>
                                                             <item name="sortOrder" xsi:type="string">3</item>
@@ -386,12 +387,7 @@
                                                                     <item name="dataScope" xsi:type="string">shippingAddress.address_choose</item>
                                                                     <item name="label" xsi:type="string">Choose Address</item>
                                                                     <item name="sortOrder" xsi:type="string">5</item>
-                                                                </item>
-                                                                <item name="region_id" xsi:type="array">
-                                                                    <item name="label" xsi:type="string">County</item>
-                                                                </item>
-                                                                <item name="region" xsi:type="array">
-                                                                    <item name="label" xsi:type="string">County</item>
+                                                                    <item name="visible" xsi:type="string">false</item>
                                                                 </item>
                                                             </item>
                                                         </item>

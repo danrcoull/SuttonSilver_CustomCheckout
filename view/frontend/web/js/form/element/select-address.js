@@ -25,7 +25,8 @@ define([
             var addresses = this.addresses,
                 address =registry.get(this.parentName + '.' + 'address'),
                 city = registry.get(this.parentName + '.' + 'city'),
-                region = registry.get(this.parentName + '.' + 'region_id')
+                region = registry.get(this.parentName + '.' + 'region_id');
+
             if(typeof addresses[value] !== 'undefined') {
                 address.value(addresses[value].number + " " + this.addresses[value].street);
                 city.value(addresses[value].posttown);
