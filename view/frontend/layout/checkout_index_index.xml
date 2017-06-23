@@ -209,7 +209,7 @@
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
                                                             </item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">homeAddress.street</item>
+                                                            <item name="dataScope" xsi:type="string">homeAddress.street.0</item>
                                                             <item name="label" xsi:type="string">Address</item>
                                                             <item name="placeholder" xsi:type="string">First Line of Address</item>
                                                             <item name="sortOrder" xsi:type="string">3</item>
