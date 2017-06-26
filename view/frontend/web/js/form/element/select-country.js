@@ -57,7 +57,9 @@ define([
                             } else {
                                 if (typeof feature.show == 'function') {
                                     feature.show();
-                                    feature.value('');
+                                    if (typeof feature.value == 'function') {
+                                        feature.value('');
+                                    }
                                 }
                             }
                         }

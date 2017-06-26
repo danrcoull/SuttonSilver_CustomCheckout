@@ -30,46 +30,42 @@ define([
 
             if(country.value() === 'GB' && value !== '') {
 
-              setTimeout(function() {
-                    var validation = self.postcodeValidation();
 
-                    self.validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
-                    self.autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
-                    console.log('Step 1 - Validate: '+ validation);
-                    if(validation) {
+                var validation = self.postcodeValidation();
 
-                        $.getJSON(self.validateUrl, function (response) {
-                            console.log('Step 3 - Postcode Exists Exists: '+ response);
-                            if (response == true) {
 
-                                $.getJSON(self.autoUrl, function (response2) {
-                                    console.log('Step 3 - Validated - Get Addresses: '+ response2);
-                                    choose_address.setAddresses(response2);
-                                })
+                self.validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
+                self.autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
 
-                            } else {
+                console.log('Step 1 - Validate: ' + self.validateUrl);
+                console.log('Step 1 - Validate: ' + self.autoUrl);
+                if (validation) {
+
+                    $.getJSON(self.validateUrl, function (response) {
+                        console.log('Step 3 - Postcode Exists Exists: ' + response);
+                        if (response) {
+
+                            $.getJSON(self.autoUrl, function (response2) {
+                                console.log('Step 3 - Validated - Get Addresses: ' + response2);
+                                choose_address.setAddresses(response2);
+                            }).error(function () {
                                 console.log('Step 3 - Validated - Failed: ');
                                 choose_address.setAddresses([]);
-                            }
+                            });
 
                             console.log('Step 4 - Show: ');
                             choose_address.show();
-                        });
-                    }
-                },400);
+                        }
+
+
+                    });
+                }
 
             }else {
-                self.hideChoose(choose_address);
-                setTimeout(function() {
-                    var validation = self.postcodeValidation();
-                },400);
+                choose_address.hide();
+                var validation = self.postcodeValidation();
             }
 
-        },
-        hideChoose:function(element)
-        {
-            element.hide();
-            element.setAddresses([]);
         },
         postcodeValidation: function () {
             var countryId = $('select[name="country_id"]').val(),

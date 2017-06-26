@@ -15,6 +15,7 @@ define([
 
     return Abstract.extend({
         defaults: {
+            timeout: '',
             field: 'checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset'
         },
 
@@ -27,38 +28,42 @@ define([
          * @inheritdoc
          */
         onUpdate: function (value) {
-            console.log(this.parentName);
-            setTimeout(function () {
-                var element = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset');
-                var countryId = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.country_id');
 
+            var element = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset');
+            var countryId = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.country_id');
+            if(typeof element !== 'undefined') {
                 error = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.before-fields.select-address-error');
                 error.content('As someone must be available to accept delivery, we strongly recommend that your course is sent to your employers address.');
+                setTimeout(function() {
+                    ko.utils.arrayForEach(element._elems, function (feature) {
 
-                ko.utils.arrayForEach(element._elems, function (feature) {
-
-                    if (typeof feature === 'string') {
-                        feature = uiRegistry.get(feature);
-                    }
+                        if (typeof feature === 'string') {
+                            feature = uiRegistry.get(feature);
+                        }
 
 
-                    if (typeof feature !== "undefined" && typeof feature !== "string") {
+                        if (typeof feature !== "undefined" && typeof feature !== "string") {
 
-                        if (value == 1) {
-                            feature.hide();
+                            if (value == 1) {
+                                feature.hide();
 
-                        } else {
-                            feature.value('');
-                            if (countryId.value() === 'GB') {
-                                if (feature.inputName === 'country_id' || feature.inputName === 'postcode' || feature.inputName === 'address_choose') {
+                            } else {
+
+                                if (countryId.value() === 'GB') {
+                                    if (feature.inputName === 'country_id' || feature.inputName === 'postcode' || feature.inputName === 'address_choose') {
+                                        feature.show();
+                                    }
+                                } else {
                                     feature.show();
                                 }
-                            }else{
-                                feature.show();
+
+                                if (typeof feature.value == 'function') {
+                                    feature.value('');
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                },400);
 
                 if (value == 0) {
 
@@ -72,15 +77,12 @@ define([
                     console.log(address);
                     Object.keys(address).forEach(function (key) {
                         console.log(key);
-                        uiRegistry.get(shippinhFieldset+'.'+key).value(address[key]);
+                        uiRegistry.get(shippinhFieldset + '.' + key).value(address[key]);
                     });
 
                 }
+            }
 
-
-
-
-            }, 400);
         }
     })
 });

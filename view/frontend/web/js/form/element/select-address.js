@@ -17,11 +17,6 @@ define([
             timeout:'',
             addresses:''
         },
-        initialize: function () {
-            this._super();
-            return this;
-        },
-
         onUpdate: function (value) {
             var addresses = this.addresses,
                 address =registry.get(this.parentName + '.' + 'address'),
@@ -45,23 +40,22 @@ define([
                 this.notAvailable(false);
             }
         },
-        notAvailable: function(hide){
-            var parent = this.parentName;
-            var self = this;
+        notAvailable: function(hide) {
             setTimeout(function() {
+                var parent = this.parentName;
+                var self = this;
 
                 var fieldset = registry.get(parent);
                 ko.utils.arrayForEach(fieldset._elems, function (feature) {
 
-                    if (typeof feature === 'string')
-                    {
+                    if (typeof feature === 'string') {
                         feature = registry.get(feature);
                     }
 
 
                     if (typeof feature !== "undefined" && typeof feature !== "string") {
 
-                        if (feature.inputName !== 'country_id' && feature.inputName !== 'postcode') {
+                        if (feature.inputName !== 'country_id' && feature.inputName !== 'postcode' && feature.inputName !== 'address_choose') {
                             if (hide) {
                                 if (typeof feature.hide == 'function') {
                                     feature.hide();
@@ -69,7 +63,9 @@ define([
                             } else {
                                 if (typeof feature.show == 'function') {
                                     feature.show();
-                                    feature.value('');
+                                    if (typeof feature.value == 'function') {
+                                        feature.value('');
+                                    }
 
                                 }
                             }
@@ -77,7 +73,6 @@ define([
                         }
                     }
                 });
-
             },400);
         },
         setAddresses: function(addresses)
