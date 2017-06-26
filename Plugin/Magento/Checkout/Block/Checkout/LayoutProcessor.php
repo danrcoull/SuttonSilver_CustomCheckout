@@ -63,7 +63,7 @@ class LayoutProcessor
             'region_id' => [
                 'visible' => true,
                 'formElement' => 'select',
-                'label' => __('State/Province'),
+                'label' => __('County'),
                 'options' => $this->regionCollection->load()->toOptionArray(),
                 'value' => null,
             ]
@@ -100,9 +100,6 @@ class LayoutProcessor
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = "County";
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['shipping-address-fieldset']['children']['region']['label'] = "County";
-
-        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['before-fields']['children']['select-shipping-address'] = [
             'component' => 'SuttonSilver_CustomCheckout/js/form/element/checkbox-set-shipping',
             'config' => [
@@ -134,7 +131,9 @@ class LayoutProcessor
             'additionalClasses' => 'warning shiping-address-warning',
         ];
 
-        $questions = $this->questionsCollection->create()->addFieldToFilter('question_is_active',1);
+        $questions = $this->questionsCollection->create()
+            ->addFieldToFilter('question_is_active',1)
+            ->addFieldToFilter('product_skus', $this->getAllCartItems());
 
         $options = [];
         foreach($questions as $question)
@@ -144,7 +143,9 @@ class LayoutProcessor
             $placeholder = trim($question->getQuestionPlaceholder());
             $required = ($question->getQuestionIsRequired()) ? true : false;
 
-            $values = $this->questionsValuesCollection->create()->addFieldToFilter('question_id',$question->getId());
+            $values = $this->questionsValuesCollection->create()
+                ->addFieldToFilter('question_id',$question->getId());
+
             $valueArray = [];
             foreach($values as $value)
             {
@@ -217,25 +218,27 @@ class LayoutProcessor
                     break;
 
                 case 'yes-no':
-                    $options[$name] = [
-                        'component' => 'Magento_Ui/js/form/element/single-checkbox',
-                        'config' => [
-                            'customScope' => 'additionalDetails',
-                            'template' => 'ui/form/field',
-                            'elementTmpl' => 'ui/form/components/single/switcher',
-                            'id'=>$name,
-                        ],
-                        'dataScope' => 'additionalDetails.'.$name,
-                        'additionalClasses' => '',
-                        'label' => $label,
-                        'prefer' => 'toggle',
-                        'valueMap' => ['true' => 1, 'false'=>0],
-                        'placeholder' => $placeholder,
-                        'provider' => 'checkoutProvider',
-                        'visible' => true,
-                        'validation' => ['required-entry' => $required],
-                        'sortOrder' => 1,
-                    ];
+
+                        $options[$name] = [
+                            'component' => 'Magento_Ui/js/form/element/single-checkbox',
+                            'config' => [
+                                'customScope' => 'additionalDetails',
+                                'template' => 'ui/form/field',
+                                'elementTmpl' => 'ui/form/components/single/switcher',
+                                'id' => $name,
+                            ],
+                            'dataScope' => 'additionalDetails.' . $name,
+                            'additionalClasses' => '',
+                            'label' => $label,
+                            'prefer' => 'toggle',
+                            'valueMap' => ['true' => 1, 'false' => 0],
+                            'placeholder' => $placeholder,
+                            'provider' => 'checkoutProvider',
+                            'visible' => true,
+                            'validation' => ['required-entry' => $required],
+                            'sortOrder' => 1,
+                        ];
+
                     break;
 
             }
@@ -270,7 +273,7 @@ class LayoutProcessor
         $ids = [];
         foreach ($items as $item)
         {
-            $ids[] = $item->getEtntityId();
+            $ids[] =  array('finset'=> array($item->getProduct()->getId()));
         }
         return $ids;
     }

@@ -35,22 +35,6 @@ define([
                 error = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.before-fields.select-address-error');
                 error.content('As someone must be available to accept delivery, we strongly recommend that your course is sent to your employers address.');
 
-                if (value == 0) {
-
-                    error.visible(false);
-                } else {
-                    error.visible(true);
-
-                    var shippinhFieldset = 'checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset';
-
-                    address = checkoutData.getHomeAddressData();
-                    Object.keys(address).forEach(function (key) {
-                        console.log(key);
-                        uiRegistry.get(shippinhFieldset+'.'+key).value(address[key]);
-                    });
-
-                }
-
                 ko.utils.arrayForEach(element._elems, function (feature) {
 
                     if (typeof feature === 'string') {
@@ -61,7 +45,7 @@ define([
                     if (typeof feature !== "undefined" && typeof feature !== "string") {
 
                         if (value == 1) {
-                            //feature.hide();
+                            feature.hide();
 
                         } else {
                             feature.value('');
@@ -75,6 +59,25 @@ define([
                         }
                     }
                 });
+
+                if (value == 0) {
+
+                    error.visible(false);
+                } else {
+                    error.visible(true);
+
+                    var shippinhFieldset = 'checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset';
+
+                    address = checkoutData.getHomeAddressData();
+                    console.log(address);
+                    Object.keys(address).forEach(function (key) {
+                        console.log(key);
+                        uiRegistry.get(shippinhFieldset+'.'+key).value(address[key]);
+                    });
+
+                }
+
+
 
 
             }, 400);

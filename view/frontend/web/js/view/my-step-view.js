@@ -84,7 +84,7 @@ define(
                         );
                     }
                     checkoutProvider.on('additionalDetails', function (additonalDetailsData) {
-                        checkoutData.setPersonalDetailsData(additonalDetailsData);
+                        checkoutData.setAdditonalDetailsData(additonalDetailsData);
                     });
                 });
 
