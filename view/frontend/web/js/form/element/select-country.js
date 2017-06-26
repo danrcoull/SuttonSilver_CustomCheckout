@@ -35,9 +35,9 @@ define([
 
         },
         toggleAddress: function (hide) {
-            var parent = this.parentName;
+           var self = this;
             setTimeout(function() {
-
+                var parent = self.parentName;
                 var fieldset = registry.get(parent);
                 ko.utils.arrayForEach(fieldset._elems, function (feature) {
 

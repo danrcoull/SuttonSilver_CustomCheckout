@@ -41,9 +41,9 @@ define([
             }
         },
         notAvailable: function(hide) {
+            var self = this;
             setTimeout(function() {
-                var parent = this.parentName;
-                var self = this;
+                var parent = self.parentName;
 
                 var fieldset = registry.get(parent);
                 ko.utils.arrayForEach(fieldset._elems, function (feature) {
