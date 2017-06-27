@@ -58,7 +58,7 @@ class LayoutProcessor
                 'formElement' => 'select',
                 'label' => __('Country'),
                 'options' => $this->countryCollection->loadByStore()->toOptionArray(),
-                'value' => null,
+                'value' => null
             ],
             'region_id' => [
                 'visible' => true,
@@ -77,6 +77,7 @@ class LayoutProcessor
             ['my-new-step']['children']['custom-checkout-form-home-address']['children'];
             $fieldSetPointer = $this->merger->merge($elements, 'checkoutProvider', 'homeAddress', $fieldSetPointer);
             $fieldSetPointer['region_id']['config']['skipValidation'] = true;
+
         }
 
 

@@ -36,6 +36,8 @@ define([
                     });
 
                     checkoutData.setHomeAddressData({'home-address':addresses[value]});
+
+
                 }
             }else{
                 this.notAvailable(false);

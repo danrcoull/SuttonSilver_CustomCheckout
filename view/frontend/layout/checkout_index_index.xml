@@ -159,12 +159,37 @@
                                                     <!-- the following display area is used in template (see below) -->
                                                     <item name="displayArea" xsi:type="string">home-address</item>
                                                     <item name="children" xsi:type="array">
+
+
                                                         <item name="country_id" xsi:type="array">
                                                             <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/select-country</item>
-                                                            <item name="sortOrder" xsi:type="string">115</item>
+                                                            <item name="sortOrder" xsi:type="string">110</item>
                                                             <item name="validation" xsi:type="array">
                                                                 <item name="required-entry" xsi:type="string">true</item>
                                                             </item>
+                                                        </item>
+                                                        <item name="region_id" xsi:type="array">
+                                                            <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/region</item>
+                                                            <item name="sortOrder" xsi:type="string">112</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="customScope" xsi:type="string">homeAddress</item>
+                                                                <item name="template" xsi:type="string">ui/form/field</item>
+                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
+                                                                <item name="customEntry" xsi:type="string">homeAddress.region</item>
+                                                            </item>
+                                                            <!-- Value of region_id field is filtered by the value of county_id attribute -->
+                                                            <item name="filterBy" xsi:type="array">
+                                                                <item name="target" xsi:type="string"><![CDATA[${ $.provider }:${ $.parentScope }.country_id]]></item>
+                                                                <item name="field" xsi:type="string">country_id</item>
+                                                            </item>
+                                                        </item>
+                                                        <!-- The following items override configuration of corresponding address attributes -->
+                                                        <item name="region" xsi:type="array">
+                                                            <!-- Make region attribute invisible on frontend. Corresponding input element is created by region_id field -->
+                                                            <item name="visible" xsi:type="boolean">false</item>
+                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                            <item name="sortOrder" xsi:type="string">111</item>
+                                                            <item name="dataScope" xsi:type="string">homeAddress.region</item>
                                                         </item>
                                                         <item name="postcode" xsi:type="array">
                                                             <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/post-code</item>
@@ -178,7 +203,7 @@
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">homeAddress.postcode</item>
                                                             <item name="label" xsi:type="string">Postcode</item>
-                                                            <item name="sortOrder" xsi:type="string">130</item>
+                                                            <item name="sortOrder" xsi:type="string">120</item>
                                                             <item name="validation" xsi:type="array">
                                                                 <item name="required-entry" xsi:type="string">true</item>
                                                                 <item name="validate-zip-international" xsi:type="string">true</item>
@@ -197,7 +222,7 @@
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">homeAddress.address_choose</item>
                                                             <item name="label" xsi:type="string">Choose Address</item>
-                                                            <item name="sortOrder" xsi:type="string">140</item>
+                                                            <item name="sortOrder" xsi:type="string">130</item>
                                                             <item name="visible" xsi:type="string">false</item>
                                                         </item>
                                                         <item name="street" xsi:type="array">
@@ -235,29 +260,6 @@
                                                             </item>
                                                         </item>
 
-
-                                                        <item name="region" xsi:type="array">
-                                                            <!-- Make region attribute invisible on frontend. Corresponding input element is created by region_id field -->
-                                                            <item name="visible" xsi:type="boolean">false</item>
-                                                            <item name="sortOrder" xsi:type="string">117</item>
-                                                        </item>
-                                                        <item name="region_id" xsi:type="array">
-                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/region</item>
-                                                            <item name="config" xsi:type="array">
-                                                                <item name="template" xsi:type="string">ui/form/field</item>
-                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
-                                                                <item name="customEntry" xsi:type="string">homeAddress.region</item>
-                                                            </item>
-                                                            <item name="label" xsi:type="string">County</item>
-                                                            <item name="validation" xsi:type="array">
-                                                                <item name="required-entry" xsi:type="boolean">true</item>
-                                                            </item>
-                                                            <item name="filterBy" xsi:type="array">
-                                                                <item name="target" xsi:type="string"><![CDATA[${ $.provider }:${ $.parentScope }.country_id]]></item>
-                                                                <item name="field" xsi:type="string">country_id</item>
-                                                            </item>
-                                                            <item name="sortOrder" xsi:type="string">116</item>
-                                                        </item>
 
                                                     </item>
                                                 </item>
@@ -356,16 +358,47 @@
                                                     <item name="children" xsi:type="array">
                                                         <item name="shipping-address-fieldset" xsi:type="array">
                                                             <item name="children" xsi:type="array">
+                                                                <item name="street" xsi:type="array">
+                                                                    <item name="label" xsi:type="string" />
+                                                                    <item name="children" xsi:type="array">
+                                                                        <item name="0" xsi:type="array">
+                                                                            <item name="label" xsi:type="string">First Line of Address</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
                                                                 <item name="country_id" xsi:type="array">
                                                                     <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/select-country</item>
-                                                                    <item name="sortOrder" xsi:type="string">115</item>
-                                                                    <item name="validation" xsi:type="array">
-                                                                        <item name="required-entry" xsi:type="string">true</item>
+                                                                    <item name="sortOrder" xsi:type="string">110</item>
+                                                                    <item name="dataScope" xsi:type="string">shippingAddress.country_id</item>
+                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                                </item>
+                                                                <item name="region_id" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/region</item>
+                                                                    <item name="sortOrder" xsi:type="string">112</item>
+                                                                    <item name="config" xsi:type="array">
+                                                                        <item name="template" xsi:type="string">ui/form/field</item>
+                                                                        <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
+                                                                        <item name="customEntry" xsi:type="string">shippingAddress.region</item>
                                                                     </item>
+                                                                    <!-- Value of region_id field is filtered by the value of county_id attribute -->
+                                                                    <item name="filterBy" xsi:type="array">
+                                                                        <item name="target" xsi:type="string"><![CDATA[${ $.provider }:${ $.parentScope }.country_id]]></item>
+                                                                        <item name="field" xsi:type="string">country_id</item>
+                                                                    </item>
+                                                                </item>
+                                                                <!-- The following items override configuration of corresponding address attributes -->
+                                                                <item name="region" xsi:type="array">
+                                                                    <!-- Make region attribute invisible on frontend. Corresponding input element is created by region_id field -->
+                                                                    <item name="visible" xsi:type="boolean">false</item>
+                                                                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                                    <item name="sortOrder" xsi:type="string">111</item>
+                                                                    <item name="dataScope" xsi:type="string">shippingAddress.region</item>
                                                                 </item>
                                                                 <item name="postcode" xsi:type="array">
                                                                     <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/post-code</item>
                                                                     <item name="sortOrder" xsi:type="string">120</item>
+                                                                    <item name="dataScope" xsi:type="string">shippingAddress.postcode</item>
+                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
                                                                     <item name="placeholder" xsi:type="string">eg. MK42 7AB</item>
                                                                     <item name="label" xsi:type="string">Postcode</item>
                                                                     <item name="validation" xsi:type="array">
@@ -388,20 +421,7 @@
                                                                     <item name="sortOrder" xsi:type="string">130</item>
                                                                     <item name="visible" xsi:type="string">false</item>
                                                                 </item>
-                                                                <item name="street" xsi:type="array">
-                                                                    <item name="label" xsi:type="string" />
-                                                                    <item name="children" xsi:type="array">
-                                                                        <item name="0" xsi:type="array">
-                                                                            <item name="label" xsi:type="string">First Line of Address</item>
-                                                                        </item>
-                                                                    </item>
-                                                                </item>
-                                                                <item name="region_id" xsi:type="array">
-                                                                    <item name="sortOrder" xsi:type="string">118</item>
-                                                                </item>
-                                                                <item name="region" xsi:type="array">
-                                                                    <item name="sortOrder" xsi:type="string">116</item>
-                                                                </item>
+
                                                             </item>
                                                         </item>
                                                     </item>

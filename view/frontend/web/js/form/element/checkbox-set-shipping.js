@@ -34,46 +34,43 @@ define([
                 element = uiRegistry.get(shippinhFieldset),
                 countryId = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.country_id');
 
-            if(typeof element !== 'undefined') {
+            if (typeof element !== 'undefined') {
                 error = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.before-fields.select-address-error');
                 error.content('As someone must be available to accept delivery, we strongly recommend that your course is sent to your employers address.');
-                setTimeout(function() {
-                    ko.utils.arrayForEach(element._elems, function (feature) {
+                ko.utils.arrayForEach(element._elems, function (feature) {
 
-                        if (typeof feature === 'string') {
-                            feature = uiRegistry.get(feature);
+                    if (typeof feature === 'string') {
+                        feature = uiRegistry.get(feature);
+                    }
+
+
+                    if (typeof feature !== "undefined" && typeof feature !== "string") {
+
+                        if (feature.name == self.shippinhFieldset + '.street') {
+                            feature = uiRegistry.get(self.shippinhFieldset + '.street.0');
                         }
 
-
-                        if (typeof feature !== "undefined" && typeof feature !== "string") {
-
-                            if(feature.name == self.shippinhFieldset+'.street')
-                            {
-                                feature = uiRegistry.get(self.shippinhFieldset+'.street.0');
+                        if (value == 1) {
+                            if (typeof feature.hide == 'function') {
+                                feature.hide();
                             }
 
-                            if (value == 1) {
-                                if (typeof feature.hide == 'function') {
-                                    feature.hide();
-                                }
+                        } else {
 
-                            } else {
-
-                                if (countryId.value() === 'GB') {
-                                    if (feature.inputName === 'country_id' || feature.inputName === 'postcode' || feature.inputName === 'address_choose') {
-                                        if (typeof feature.show == 'function') {
-                                            feature.show();
-                                        }
-                                    }
-                                } else {
+                            if (countryId.value() === 'GB') {
+                                if (feature.inputName === 'country_id' || feature.inputName === 'postcode' || feature.inputName === 'address_choose') {
                                     if (typeof feature.show == 'function') {
                                         feature.show();
                                     }
                                 }
+                            } else {
+                                if (typeof feature.show == 'function') {
+                                    feature.show();
+                                }
                             }
                         }
-                    });
-                },400);
+                    }
+                });
 
                 if (value == 0) {
 
@@ -84,8 +81,7 @@ define([
                     address = checkoutData.getHomeAddressData();
                     console.log(address);
                     Object.keys(address).forEach(function (key) {
-                        if(key == 'street')
-                        {
+                        if (key == 'street') {
                             key2 = 'street.0';
                         }
                         uiRegistry.get(shippinhFieldset + '.' + key2).value(address[key]);
@@ -93,7 +89,6 @@ define([
 
                 }
             }
-
         }
     })
 });
