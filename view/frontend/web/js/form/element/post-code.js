@@ -50,13 +50,13 @@ define([
                             $.getJSON(autoUrl, function (response2) {
                                 console.log('Step 3 - Validated - Get Addresses: ' + response2);
                                 choose_address.setAddresses(response2);
+                                choose_address.show();
                             }).error(function () {
                                 console.log('Step 3 - Validated - Failed: ');
                                 choose_address.setAddresses([]);
                             });
 
-                            console.log('Step 4 - Show: ');
-                            choose_address.show();
+
                         }
 
                     }).error(function () {

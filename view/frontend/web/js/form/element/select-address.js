@@ -91,6 +91,8 @@ define([
                 });
             }
             console.log(result);
+            var address = {value: '-1', label: 'Enter Address Manually'};
+            result.push(address);
 
             this.setOptions(result)
         }
