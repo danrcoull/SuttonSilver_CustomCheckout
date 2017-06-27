@@ -97,7 +97,7 @@ class LayoutProcessor
         unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
             ['shippingAddress']['children']['customer-email']);
 
-       /** $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['postcode']['label'] = "Postcode";
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
@@ -106,9 +106,8 @@ class LayoutProcessor
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['children'][0]['label'] = "First Line of Address";
 
-
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = "County"; **/
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = "County";
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['before-fields']['children']['select-shipping-address'] = [

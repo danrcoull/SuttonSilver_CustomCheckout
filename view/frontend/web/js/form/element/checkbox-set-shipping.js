@@ -37,44 +37,46 @@ define([
             if (typeof element !== 'undefined') {
                 error = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.before-fields.select-address-error');
                 error.content('As someone must be available to accept delivery, we strongly recommend that your course is sent to your employers address.');
-                ko.utils.arrayForEach(element._elems, function (feature) {
+                setTimeout(function() {
+                    ko.utils.arrayForEach(element._elems, function (feature) {
 
-                    if (typeof feature === 'string') {
-                        feature = uiRegistry.get(feature);
-                    }
-
-
-                    if (typeof feature !== "undefined" && typeof feature !== "string") {
-
-                        if (feature.name == self.shippinhFieldset + '.street') {
-                            feature = uiRegistry.get(self.shippinhFieldset + '.street.0');
+                        if (typeof feature === 'string') {
+                            feature = uiRegistry.get(feature);
                         }
 
-                        if (value == 1) {
-                            if (typeof feature.hide == 'function') {
-                                feature.hide();
+
+                        if (typeof feature !== "undefined" && typeof feature !== "string") {
+
+                            if (feature.name == self.shippinhFieldset + '.street') {
+                                feature = uiRegistry.get(self.shippinhFieldset + '.street.0');
                             }
 
-                        } else {
+                            if (value == 1) {
+                                if (typeof feature.hide == 'function') {
+                                    feature.hide();
+                                }
 
-                            if (countryId.value() === 'GB') {
-                                if (feature.inputName === 'country_id' || feature.inputName === 'postcode' || feature.inputName === 'address_choose') {
-                                    if(feature.inputName != 'region' ) {
-                                        if (typeof feature.show == 'function') {
+                            } else {
+
+                                if (countryId.value() === 'GB') {
+                                    if (feature.inputName === 'country_id' || feature.inputName === 'postcode' || feature.inputName === 'address_choose') {
+                                        if (feature.inputName != 'region') {
+                                            if (typeof feature.show == 'function') {
+                                                feature.show();
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (typeof feature.show == 'function') {
+                                        if (feature.inputName != 'region') {
                                             feature.show();
                                         }
                                     }
                                 }
-                            } else {
-                                if (typeof feature.show == 'function') {
-                                    if(feature.inputName != 'region' ) {
-                                        feature.show();
-                                    }
-                                }
                             }
                         }
-                    }
-                });
+                    });
+                },400);
 
                 if (value == 0) {
 
@@ -86,7 +88,7 @@ define([
                     console.log(address);
                     Object.keys(address).forEach(function (key) {
                         if (key == 'street') {
-                            key2 = 'street.0';
+                            var key2 = 'street.0';
                         }
                         uiRegistry.get(shippinhFieldset + '.' + key2).value(address[key]);
                     });
