@@ -8,7 +8,7 @@ define([
     'underscore',
     'uiRegistry',
     'jquery',
-    'Magento_Ui/js/form/element/country'
+    'Magento_Ui/js/form/element/select'
 ], function (ko,_, registry, $,Abstract) {
     'use strict';
 

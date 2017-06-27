@@ -32,24 +32,22 @@ define([
 
             if(country.value() === 'GB' && value !== '') {
 
-                clearTimeout(self.timeout);
-                self.timeout = setTimeout(function(){
-                    validated = self.postcodeValidation();
-                },400);
+
+                validated = self.postcodeValidation();
 
                 if (validated) {
+                    console.log(value);
+                    validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
+                    autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
 
-                    self.validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
-                    self.autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
+                    console.log('Step 1 - Validate: ' + validateUrl);
+                    console.log('Step 1 - Validate: ' + autoUrl);
 
-                    console.log('Step 1 - Validate: ' + self.validateUrl);
-                    console.log('Step 1 - Validate: ' + self.autoUrl);
-
-                    $.getJSON(self.validateUrl, function (response) {
+                    $.getJSON(validateUrl, function (response) {
                         console.log('Step 3 - Postcode Exists Exists: ' + response);
                         if (response) {
 
-                            $.getJSON(self.autoUrl, function (response2) {
+                            $.getJSON(autoUrl, function (response2) {
                                 console.log('Step 3 - Validated - Get Addresses: ' + response2);
                                 choose_address.setAddresses(response2);
                             }).error(function () {
@@ -67,10 +65,7 @@ define([
                 }
 
             }else {
-                clearTimeout(self.timeout);
-                self.timeout = setTimeout(function(){
-                    validated = self.postcodeValidation();
-                },400);
+                validated = self.postcodeValidation();
             }
 
         },

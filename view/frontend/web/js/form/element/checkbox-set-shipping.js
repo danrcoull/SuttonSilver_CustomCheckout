@@ -59,13 +59,17 @@ define([
 
                             if (countryId.value() === 'GB') {
                                 if (feature.inputName === 'country_id' || feature.inputName === 'postcode' || feature.inputName === 'address_choose') {
-                                    if (typeof feature.show == 'function') {
-                                        feature.show();
+                                    if(feature.inputName != 'region' ) {
+                                        if (typeof feature.show == 'function') {
+                                            feature.show();
+                                        }
                                     }
                                 }
                             } else {
                                 if (typeof feature.show == 'function') {
-                                    feature.show();
+                                    if(feature.inputName != 'region' ) {
+                                        feature.show();
+                                    }
                                 }
                             }
                         }

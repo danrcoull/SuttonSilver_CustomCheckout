@@ -64,8 +64,10 @@ define([
                                     feature.hide();
                                 }
                             } else {
-                                if (typeof feature.show == 'function') {
-                                    feature.show();
+                                if(feature.inputName != 'region' ) {
+                                    if (typeof feature.show == 'function') {
+                                        feature.show();
+                                    }
                                 }
                             }
 
