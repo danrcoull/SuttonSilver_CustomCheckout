@@ -8,23 +8,15 @@ define([
     'underscore',
     'uiRegistry',
     'jquery',
-    'Magento_Ui/js/form/element/select'
+    'Magento_Ui/js/form/element/country'
 ], function (ko,_, registry, $,Abstract) {
     'use strict';
 
     return Abstract.extend({
 
-        initialize: function () {
-            this._super();
-            if(this.value() === 'GB')
-            {
-                this.toggleAddress(true)
-            }else{
-                this.toggleAddress(false)
-            }
-            return this;
+        defaults: {
+            timeout:'',
         },
-
         onUpdate: function (value) {
             if(value === 'GB')
             {
@@ -35,8 +27,9 @@ define([
 
         },
         toggleAddress: function (hide) {
-           var self = this;
-            setTimeout(function() {
+            var self = this;
+            clearTimeout(self.timeout);
+            self.timeout = setTimeout(function() {
                 var parent = self.parentName;
                 var fieldset = registry.get(parent);
                 ko.utils.arrayForEach(fieldset._elems, function (feature) {
@@ -49,16 +42,15 @@ define([
 
                     if (typeof feature !== "undefined" && typeof feature !== "string") {
 
-                        if (feature.inputName !== 'country_id' && feature.inputName !== 'postcode') {
+                        if (feature.inputName != 'country_id' && feature.inputName != 'postcode') {
                             if (hide) {
                                 if (typeof feature.hide == 'function') {
                                     feature.hide();
                                 }
                             } else {
                                 if (typeof feature.show == 'function') {
-                                    feature.show();
-                                    if (typeof feature.value == 'function') {
-                                        feature.value('');
+                                    if(feature.inputName != 'address_choose' && feature.inputName != 'region' ) {
+                                        feature.show();
                                     }
                                 }
                             }

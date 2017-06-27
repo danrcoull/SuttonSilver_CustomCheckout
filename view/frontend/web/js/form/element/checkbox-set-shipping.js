@@ -28,9 +28,12 @@ define([
          * @inheritdoc
          */
         onUpdate: function (value) {
+            var self = this;
 
-            var element = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset');
-            var countryId = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.country_id');
+            var shippinhFieldset = 'checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset',
+                element = uiRegistry.get(shippinhFieldset),
+                countryId = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.country_id');
+
             if(typeof element !== 'undefined') {
                 error = uiRegistry.get('checkout.steps.shipping-step.shippingAddress.before-fields.select-address-error');
                 error.content('As someone must be available to accept delivery, we strongly recommend that your course is sent to your employers address.');
@@ -44,21 +47,28 @@ define([
 
                         if (typeof feature !== "undefined" && typeof feature !== "string") {
 
+                            if(feature.name == self.shippinhFieldset+'.street')
+                            {
+                                feature = uiRegistry.get(self.shippinhFieldset+'.street.0');
+                            }
+
                             if (value == 1) {
-                                feature.hide();
+                                if (typeof feature.hide == 'function') {
+                                    feature.hide();
+                                }
 
                             } else {
 
                                 if (countryId.value() === 'GB') {
                                     if (feature.inputName === 'country_id' || feature.inputName === 'postcode' || feature.inputName === 'address_choose') {
-                                        feature.show();
+                                        if (typeof feature.show == 'function') {
+                                            feature.show();
+                                        }
                                     }
                                 } else {
-                                    feature.show();
-                                }
-
-                                if (typeof feature.value == 'function') {
-                                    feature.value('');
+                                    if (typeof feature.show == 'function') {
+                                        feature.show();
+                                    }
                                 }
                             }
                         }
@@ -71,13 +81,14 @@ define([
                 } else {
                     error.visible(true);
 
-                    var shippinhFieldset = 'checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset';
-
                     address = checkoutData.getHomeAddressData();
                     console.log(address);
                     Object.keys(address).forEach(function (key) {
-                        console.log(key);
-                        uiRegistry.get(shippinhFieldset + '.' + key).value(address[key]);
+                        if(key == 'street')
+                        {
+                            key2 = 'street.0';
+                        }
+                        uiRegistry.get(shippinhFieldset + '.' + key2).value(address[key]);
                     });
 
                 }

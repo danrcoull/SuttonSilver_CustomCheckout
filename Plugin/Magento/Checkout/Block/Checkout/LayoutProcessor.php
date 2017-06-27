@@ -96,8 +96,18 @@ class LayoutProcessor
         unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
             ['shippingAddress']['children']['customer-email']);
 
+       /** $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['postcode']['label'] = "Postcode";
+
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = "County";
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['label'] = "";
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['children'][0]['label'] = "First Line of Address";
+
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = "County"; **/
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['before-fields']['children']['select-shipping-address'] = [
@@ -166,14 +176,7 @@ class LayoutProcessor
                             'elementTmpl' => 'ui/form/element/input',
                             'id'=>$name,
                         ],
-                        'dataScope' => 'additionalDetails.'.$name,
                         'additionalClasses' => '',
-                        'label' => $label,
-                        'placeholder' => $placeholder,
-                        'provider' => 'checkoutProvider',
-                        'visible' => true,
-                        'validation' => ['required-entry' => $required],
-                        'sortOrder' => 1,
                     ];
                     break;
                 case 'textarea':
@@ -185,17 +188,21 @@ class LayoutProcessor
                             'elementTmpl' => 'ui/form/element/textarea',
                             'id'=>$name,
                         ],
-                        'dataScope' => 'additionalDetails.'.$name,
                         'additionalClasses' => '',
-                        'label' => $label,
-                        'placeholder' => $placeholder,
-                        'provider' => 'checkoutProvider',
-                        'visible' => true,
-                        'validation' => ['required-entry' => $required],
-                        'sortOrder' => 1,
                     ];
                     break;
                 case 'select':
+                    $options[$name] = [
+                        'component' => 'Magento_Ui/js/form/element/select',
+                        'config' => [
+                            'template' => 'ui/form/field',
+                            'customScope' => 'additionalDetails',
+                            'elementTmpl' => 'ui/form/element/select',
+                            'options' => $valueArray,
+                            'id'=>$name
+                        ],
+
+                    ];
                     break;
                 case 'checkbox':
                 case 'radio':
@@ -208,17 +215,11 @@ class LayoutProcessor
                             'id'=>$name,
                             'multiple'=> ($question->getQuestionType()=='radio') ? false : true,
                         ],
-                        'dataScope' => 'additionalDetails.'.$name,
-                        'label' => $label,
-                        'provider' => 'checkoutProvider',
-                        'visible' => true,
-                        'validation' => ['required-entry' => $required],
-                        'sortOrder' => 1,
+
                     ];
                     break;
 
                 case 'yes-no':
-
                         $options[$name] = [
                             'component' => 'Magento_Ui/js/form/element/single-checkbox',
                             'config' => [
@@ -227,20 +228,27 @@ class LayoutProcessor
                                 'elementTmpl' => 'ui/form/components/single/switcher',
                                 'id' => $name,
                             ],
-                            'dataScope' => 'additionalDetails.' . $name,
                             'additionalClasses' => '',
-                            'label' => $label,
                             'prefer' => 'toggle',
                             'valueMap' => ['true' => 1, 'false' => 0],
-                            'placeholder' => $placeholder,
-                            'provider' => 'checkoutProvider',
-                            'visible' => true,
-                            'validation' => ['required-entry' => $required],
-                            'sortOrder' => 1,
                         ];
 
                     break;
 
+            }
+            $options[$name]['placeholder'] = $placeholder;
+            $options[$name]['label'] = $label;
+            $options[$name]['dataScope'] = 'additionalDetails.'.$name;
+            $options[$name]['sortOrder'] = $question->getQuestionPosition() ?: 1;
+            $options[$name]['visible'] = true;
+            $options[$name]['provider'] = 'checkoutProvider';
+            if($description = $question->getQuestionTooltip() != '') {
+                $options[$name]['tooltip']['description'] = $description;
+            }
+
+            if($required)
+            {
+                $options[$name]['validation'] = ['required-entry' => $required];
             }
 
         }

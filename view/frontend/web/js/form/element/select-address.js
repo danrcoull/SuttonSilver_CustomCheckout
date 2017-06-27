@@ -8,8 +8,9 @@ define([
     'underscore',
     'uiRegistry',
     'jquery',
-    'Magento_Ui/js/form/element/select'
-], function (ko,_, registry, $,Abstract) {
+    'Magento_Ui/js/form/element/select',
+    'SuttonSilver_CustomCheckout/js/checkout-data'
+], function (ko,_, registry, $,Abstract,checkoutData) {
     'use strict';
 
     return Abstract.extend({
@@ -34,7 +35,7 @@ define([
                         }
                     });
 
-
+                    checkoutData.setHomeAddressData({'home-address':addresses[value]});
                 }
             }else{
                 this.notAvailable(false);
@@ -63,10 +64,6 @@ define([
                             } else {
                                 if (typeof feature.show == 'function') {
                                     feature.show();
-                                    if (typeof feature.value == 'function') {
-                                        feature.value('');
-                                    }
-
                                 }
                             }
 
@@ -89,9 +86,6 @@ define([
                     result.push(address);
                 });
             }
-            console.log('Step 8 -Loop- Add Manual');
-            var address = {value: '-1', label: 'Enter Address Manually'};
-            result.push(address);
             console.log(result);
 
             this.setOptions(result)

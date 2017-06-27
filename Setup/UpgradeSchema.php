@@ -24,8 +24,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             //be careful, since everything below is true for installation !
         }
 
+        $tableName = $setup->getTable('suttonsilver_question');
+
         if (version_compare($context->getVersion(), '1.0.1') < 0) {
-            $tableName = $setup->getTable('suttonsilver_question');
+
 
             if ($setup->getConnection()->isTableExists($tableName) == true) {
 
@@ -60,8 +62,27 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         }
 
-        if (version_compare($context->getVersion(), '1.0.3') < 0) {
-            //code to upgrade to 1.0.3
+        if (version_compare($context->getVersion(), '1.0.2') < 0) {
+            if ($setup->getConnection()->isTableExists($tableName) == true) {
+
+                $columns = [
+                    'question_tooltip' => [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment' => 'ToolTip',
+                    ],
+                    'question_position' => [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment' => 'Position',
+                    ]
+                ];
+
+                $connection = $setup->getConnection();
+                foreach ($columns as $name => $definition) {
+                    $connection->addColumn($tableName, $name, $definition);
+                }
+            }
         }
 
         $setup->endSetup();

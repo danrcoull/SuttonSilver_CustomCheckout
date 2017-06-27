@@ -9,9 +9,8 @@ define([
     'jquery',
     'Magento_Ui/js/form/element/post-code',
     'Magento_Checkout/js/model/postcode-validator',
-    'mage/translate'
+    'mage/translate',
 ], function (_, registry, $, Abstract, postcodeValidator, $t) {
-    'use strict';
 
     return Abstract.extend({
         defaults: {
@@ -22,24 +21,29 @@ define([
         },
 
         onUpdate: function (value) {
-            var self = this;
-            var parent = self.parentName;
+            var self = this,
+                parent = self.parentName;
 
             var country = registry.get(parent + '.' + 'country_id'),
-                choose_address = registry.get(parent + '.' + 'address_choose');
+                choose_address = registry.get(parent + '.' + 'address_choose'),
+                validated = false;
+
+            choose_address.hide();
 
             if(country.value() === 'GB' && value !== '') {
 
+                clearTimeout(self.timeout);
+                self.timeout = setTimeout(function(){
+                    validated = self.postcodeValidation();
+                },400);
 
-                var validation = self.postcodeValidation();
+                if (validated) {
 
+                    self.validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
+                    self.autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
 
-                self.validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
-                self.autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
-
-                console.log('Step 1 - Validate: ' + self.validateUrl);
-                console.log('Step 1 - Validate: ' + self.autoUrl);
-                if (validation) {
+                    console.log('Step 1 - Validate: ' + self.validateUrl);
+                    console.log('Step 1 - Validate: ' + self.autoUrl);
 
                     $.getJSON(self.validateUrl, function (response) {
                         console.log('Step 3 - Postcode Exists Exists: ' + response);
@@ -57,13 +61,16 @@ define([
                             choose_address.show();
                         }
 
-
+                    }).error(function () {
+                        validated =false;
                     });
                 }
 
             }else {
-                choose_address.hide();
-                var validation = self.postcodeValidation();
+                clearTimeout(self.timeout);
+                self.timeout = setTimeout(function(){
+                    validated = self.postcodeValidation();
+                },400);
             }
 
         },
@@ -72,7 +79,7 @@ define([
                 validationResult,
                 warnMessage;
 
-            if (this == null || this.value() == null) {
+            if (this === null || this.value() == null) {
                 return true;
             }
 
