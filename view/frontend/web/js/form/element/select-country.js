@@ -49,7 +49,7 @@ define([
                                 }
                             } else {
                                 if (typeof feature.show == 'function') {
-                                    if(feature.inputName != 'address_choose' || feature.inputName != 'region' ) {
+                                    if(feature.inputName != 'address_choose' && feature.inputName != 'region' ) {
                                         feature.show();
                                     }
                                 }
