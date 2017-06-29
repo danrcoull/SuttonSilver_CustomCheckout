@@ -16,4 +16,10 @@
 	<type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
 		<plugin disabled="false" name="SuttonSilver_CustomCheckout_Plugin_Magento_Checkout_Block_Checkout_LayoutProcessor" sortOrder="10" type="SuttonSilver\CustomCheckout\Plugin\Magento\Checkout\Block\Checkout\LayoutProcessor"/>
 	</type>
+	<type name="Magento\Checkout\Model\DefaultConfigProvider">
+		<plugin sortOrder="100" name="custom_discount" type="SuttonSilver\CustomCheckout\Plugin\Magento\Checkout\Model\CustomDiscountConfigProvider" />
+	</type>
+
+	<preference for="Magento\Checkout\Block\Cart\LayoutProcessor" type="SuttonSilver\CustomCheckout\Block\Frontend\Checkout\Cart\LayoutProcessor" />
+
 </config>
