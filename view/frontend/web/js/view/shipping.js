@@ -77,7 +77,6 @@ define(
                 var self = this,
                     hasNewAddress,
                     fieldsetName = 'checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset';
-                alert('shipping step start');
                 this._super();
                 shippingRatesValidator.initFields(fieldsetName);
 

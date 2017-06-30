@@ -19,29 +19,45 @@ define([
             addresses:''
         },
         onUpdate: function (value) {
-            var addresses = this.addresses,
-                address =registry.get(this.parentName + '.' + 'address'),
-                city = registry.get(this.parentName + '.' + 'city'),
-                region = registry.get(this.parentName + '.' + 'region_id');
-
-            if(value != '-1') {
-                this.notAvailable(true);
-                if (typeof addresses[value] !== 'undefined') {
-                    address.value(addresses[value].number + " " + this.addresses[value].street);
-                    city.value(addresses[value].posttown);
-                    region.options().map(function (o) {
-                        if (o.title === addresses[value].county) {
-                            region.value(o.value);
-                        }
-                    });
-
-                    checkoutData.setHomeAddressData({'home-address':addresses[value]});
-
-
-                }
-            }else{
-                this.notAvailable(false);
+            var addressData = checkoutData.getHomeAddressData();
+            if(value != addressData.postcode) {
+                this.setAddress();
             }
+        },
+        setAddress: function(){
+            let value = this.value();
+            var self = this;
+            setTimeout(function() {
+                var addresses = self.addresses,
+                    address = registry.get(self.parentName + '.' + 'street'),
+                    city = registry.get(self.parentName + '.' + 'city'),
+                    region = registry.get(self.parentName + '.' + 'region_id');
+
+                console.log(self.parentName);
+                if (value != '-1') {
+                    self.notAvailable(true);
+
+                    if(typeof address == 'undefined')
+                    {
+                        address = registry.get(self.parentName + '.' + 'street.0')
+                    }
+
+                    if (typeof addresses[value] !== 'undefined') {
+                        address.value(addresses[value].number + " " + addresses[value].street);
+                        city.value(addresses[value].posttown);
+                        region.options().map(function (o) {
+                            if (o.title === addresses[value].county) {
+                                region.value(o.value);
+                            }
+                        });
+                        var addressData = checkoutData.getHomeAddressData();
+                        addressData['home-address'] = addresses[value]
+                        checkoutData.setHomeAddressData(addressData);
+                    }
+                } else {
+                    this.notAvailable(false);
+                }
+            },400);
         },
         notAvailable: function(hide) {
             var self = this;

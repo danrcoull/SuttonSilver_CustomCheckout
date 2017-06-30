@@ -17,16 +17,22 @@ define([
         defaults: {
             timeout:'',
         },
+        initialize: function(){
+          this._super();
+          this.toggleAddress(this.value());
+        },
         onUpdate: function (value) {
+            this.toggleAddress(value);
+        },
+        toggleAddress:function (value) {
             if(value === 'GB')
             {
-                this.toggleAddress(true)
+                this.toggleVisibility(true)
             }else{
-                this.toggleAddress(false)
+                this.toggleVisibility(false)
             }
-
         },
-        toggleAddress: function (hide) {
+        toggleVisibility: function (hide) {
             var self = this;
             clearTimeout(self.timeout);
             self.timeout = setTimeout(function() {

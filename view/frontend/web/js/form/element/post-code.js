@@ -19,55 +19,62 @@ define([
             autoUrl:'https://ws.postcoder.com/pcw/[api-key]/address/uk/[postcode]?format=json',
             apikey: 'PCWZS-FLZX8-Z9QS9-K2HX6'
         },
-
+        initialize:function() {
+            this._super();
+            if(this.value() !== '') {
+                this.toggleLookup();
+            }
+        },
         onUpdate: function (value) {
+            this.toggleLookup();
+        },
+        toggleLookup:function(){
             var self = this,
                 parent = self.parentName;
 
-            var country = registry.get(parent + '.' + 'country_id'),
-                choose_address = registry.get(parent + '.' + 'address_choose'),
-                validated = false;
+            setTimeout(function() {
+                var country = registry.get(parent + '.' + 'country_id'),
+                    choose_address = registry.get(parent + '.' + 'address_choose'),
+                    validated = false;
 
-            choose_address.hide();
+                let value = self.value();
 
-            if(country.value() === 'GB' && value !== '') {
+                choose_address.hide();
 
-
-                validated = self.postcodeValidation();
-
-                if (validated) {
-                    console.log(value);
-                    validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
-                    autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
-
-                    console.log('Step 1 - Validate: ' + validateUrl);
-                    console.log('Step 1 - Validate: ' + autoUrl);
-
-                    $.getJSON(validateUrl, function (response) {
-                        console.log('Step 3 - Postcode Exists Exists: ' + response);
-                        if (response) {
-
-                            $.getJSON(autoUrl, function (response2) {
-                                console.log('Step 3 - Validated - Get Addresses: ' + response2);
-                                choose_address.setAddresses(response2);
-                                choose_address.show();
-                            }).error(function () {
-                                console.log('Step 3 - Validated - Failed: ');
-                                choose_address.setAddresses([]);
-                            });
+                if (country.value() === 'GB' && self.value() !== '') {
 
 
-                        }
+                    validated = self.postcodeValidation();
 
-                    }).error(function () {
-                        validated =false;
-                    });
+                    if (validated) {
+                        validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
+                        autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
+
+                        $.getJSON(validateUrl, function (response) {
+                            console.log('Step 3 - Postcode Exists Exists: ' + response);
+                            if (response) {
+
+                                $.getJSON(autoUrl, function (response2) {
+                                    console.log('Step 3 - Validated - Get Addresses: ' + response2);
+                                    choose_address.setAddresses(response2);
+                                    choose_address.show();
+                                }).error(function () {
+                                    console.log('Step 3 - Validated - Failed: ');
+                                    choose_address.setAddresses([]);
+                                });
+
+
+                            }
+
+                        }).error(function () {
+                            validated = false;
+                        });
+                    }
+
+                } else {
+                    validated = self.postcodeValidation();
                 }
-
-            }else {
-                validated = self.postcodeValidation();
-            }
-
+            },400);
         },
         postcodeValidation: function () {
             var countryId = $('select[name="country_id"]').val(),
