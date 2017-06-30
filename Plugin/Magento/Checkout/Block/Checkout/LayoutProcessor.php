@@ -125,7 +125,7 @@ class LayoutProcessor
             'provider' => 'checkoutProvider',
             'visible' => true,
             'validation' => ['required-entry' => true],
-            'sortOrder' => 1,
+            'sortOrder' => 2,
         ];
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
