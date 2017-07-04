@@ -51,15 +51,12 @@ define([
                         autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
 
                         $.getJSON(validateUrl, function (response) {
-                            console.log('Step 3 - Postcode Exists Exists: ' + response);
                             if (response) {
 
                                 $.getJSON(autoUrl, function (response2) {
-                                    console.log('Step 3 - Validated - Get Addresses: ' + response2);
                                     choose_address.setAddresses(response2);
                                     choose_address.show();
                                 }).error(function () {
-                                    console.log('Step 3 - Validated - Failed: ');
                                     choose_address.setAddresses([]);
                                 });
 

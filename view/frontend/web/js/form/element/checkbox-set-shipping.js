@@ -21,7 +21,6 @@ define([
 
         initialize: function () {
             this._super();
-            this.value(0);
             this.initializeError();
             return this;
         },
@@ -71,26 +70,19 @@ define([
                             }
 
 
-                            if (value == 1) {
-                                if (typeof feature.hide == 'function') {
-                                    feature.hide();
-                                }
-
+                            if (value == 1 && typeof feature.hide == 'function') {
+                                feature.hide();
                             } else {
 
                                 if (countryId.value() === 'GB') {
                                     if (feature.inputName === 'country_id' || feature.inputName === 'postcode' || feature.inputName === 'address_choose') {
-                                        if (feature.inputName != 'region') {
-                                            if (typeof feature.show == 'function') {
-                                                feature.show();
-                                            }
+                                        if (feature.inputName != 'region' && typeof feature.show == 'function') {
+                                            feature.show();
                                         }
                                     }
                                 } else {
-                                    if (typeof feature.show == 'function') {
-                                        if (feature.inputName != 'region' &&  feature.inputName === 'address_choose') {
-                                            feature.show();
-                                        }
+                                    if (feature.inputName != 'region' &&  feature.inputName === 'address_choose' && typeof feature.show == 'function') {
+                                        feature.show();
                                     }
                                 }
                             }
@@ -101,7 +93,7 @@ define([
                 if (value != 0) {
 
                     address = checkoutData.getHomeAddressData();
-                    console.log(address);
+
                     Object.keys(address).forEach(function (key) {
                         if (key == 'street') {
                             var key2 = 'street.0';
@@ -109,7 +101,7 @@ define([
                             key2 = key;
                         }
                         var element = uiRegistry.get(shippinhFieldset + '.' + key2);
-                        if (typeof element !== 'undefined') {
+                        if (typeof element != 'undefined') {
                             element.value(address[key]);
                         }
                     });

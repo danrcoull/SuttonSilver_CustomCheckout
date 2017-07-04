@@ -97,6 +97,9 @@ class LayoutProcessor
         unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
             ['shippingAddress']['children']['customer-email']);
 
+        unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+            ['payment']['children']['additional-payment-validators']['children']['email-validator']);
+
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['postcode']['label'] = "Postcode";
 
@@ -118,9 +121,10 @@ class LayoutProcessor
                 'options' => $this->delivery->toOptionArray(),
                 'id'=>'select_address',
                 'multiple'=> false,
+                'value' => 0,
             ],
             'dataScope' => 'shippingAddress.select_address',
-            'default' => 0,
+            'value' => 0,
             'label' => 'Deliver To',
             'provider' => 'checkoutProvider',
             'visible' => true,

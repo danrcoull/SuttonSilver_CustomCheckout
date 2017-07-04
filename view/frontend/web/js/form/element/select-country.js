@@ -8,7 +8,7 @@ define([
     'underscore',
     'uiRegistry',
     'jquery',
-    'Magento_Ui/js/form/element/select'
+    'Magento_Ui/js/form/element/country'
 ], function (ko,_, registry, $,Abstract) {
     'use strict';
 
@@ -18,21 +18,23 @@ define([
             timeout:'',
         },
         initialize: function(){
-          this._super();
-          this.toggleAddress(this.value());
+            this._super();
+            this.toggleAddress(this.value());
         },
         onUpdate: function (value) {
-            this.toggleAddress(value);
+            if (this.value() != value) {
+                this.toggleAddress(value);
+            }
         },
         toggleAddress:function (value) {
             if(value === 'GB')
             {
-                this.toggleVisibility(true)
+                this.toggleVisibility(true,false)
             }else{
-                this.toggleVisibility(false)
+                this.toggleVisibility(false,true)
             }
         },
-        toggleVisibility: function (hide) {
+        toggleVisibility: function (hide,disable) {
             var self = this;
             clearTimeout(self.timeout);
             self.timeout = setTimeout(function() {
@@ -47,6 +49,12 @@ define([
 
 
                     if (typeof feature !== "undefined" && typeof feature !== "string") {
+
+                        if (feature.name == parent + '.street') {
+                            if(typeof feature._elems != 'undefined') {
+                                feature = registry.get(parent + '.street.0');
+                            }
+                        }
 
                         if (feature.inputName != 'country_id' && feature.inputName != 'postcode') {
                             if (hide) {
@@ -63,6 +71,10 @@ define([
                         }
                     }
                 });
+
+                registry.get(parent+'.address_choose').disabled(disable);
+
+
 
             },400);
         }

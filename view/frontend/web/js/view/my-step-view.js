@@ -114,7 +114,6 @@ define(
                 this.source.trigger('homeAddress.data.validate');
                 this.source.trigger('additionalDetails.data.validate');
 
-                console.log(this);
                 // verify that form data is valid
                 if (!this.source.get('params.invalid')) {
                     // data is retrieved from data provider by value of the customScope property

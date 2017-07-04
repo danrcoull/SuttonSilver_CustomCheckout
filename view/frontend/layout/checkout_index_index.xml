@@ -110,6 +110,7 @@
                                                                 <item name="false" xsi:type="number">0</item>
                                                             </item>
                                                         </item>
+
                                                         <item name="previous_html_content" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/components/html</item>
                                                             <item name="content" xsi:type="string">If your name and/or address have changed, please provide us with the following details:</item>
@@ -159,72 +160,6 @@
                                                     <!-- the following display area is used in template (see below) -->
                                                     <item name="displayArea" xsi:type="string">home-address</item>
                                                     <item name="children" xsi:type="array">
-
-
-                                                        <item name="country_id" xsi:type="array">
-                                                            <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/select-country</item>
-                                                            <item name="sortOrder" xsi:type="string">110</item>
-                                                            <item name="validation" xsi:type="array">
-                                                                <item name="required-entry" xsi:type="string">true</item>
-                                                            </item>
-                                                        </item>
-                                                        <item name="region_id" xsi:type="array">
-                                                            <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/region</item>
-                                                            <item name="sortOrder" xsi:type="string">112</item>
-                                                            <item name="config" xsi:type="array">
-                                                                <item name="customScope" xsi:type="string">homeAddress</item>
-                                                                <item name="template" xsi:type="string">ui/form/field</item>
-                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
-                                                                <item name="customEntry" xsi:type="string">homeAddress.region</item>
-                                                            </item>
-                                                            <!-- Value of region_id field is filtered by the value of county_id attribute -->
-                                                            <item name="filterBy" xsi:type="array">
-                                                                <item name="target" xsi:type="string"><![CDATA[${ $.provider }:${ $.parentScope }.country_id]]></item>
-                                                                <item name="field" xsi:type="string">country_id</item>
-                                                            </item>
-                                                        </item>
-                                                        <!-- The following items override configuration of corresponding address attributes -->
-                                                        <item name="region" xsi:type="array">
-                                                            <!-- Make region attribute invisible on frontend. Corresponding input element is created by region_id field -->
-                                                            <item name="visible" xsi:type="boolean">false</item>
-                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
-                                                            <item name="sortOrder" xsi:type="string">111</item>
-                                                            <item name="dataScope" xsi:type="string">homeAddress.region</item>
-                                                        </item>
-                                                        <item name="postcode" xsi:type="array">
-                                                            <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/post-code</item>
-                                                            <item name="config" xsi:type="array">
-                                                                <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
-                                                                <item name="customScope" xsi:type="string">homeAddress</item>
-                                                                <item name="template" xsi:type="string">ui/form/field</item>
-                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
-                                                            </item>
-                                                            <item name="placeholder" xsi:type="string">eg. MK42 7AB</item>
-                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">homeAddress.postcode</item>
-                                                            <item name="label" xsi:type="string">Postcode</item>
-                                                            <item name="sortOrder" xsi:type="string">120</item>
-                                                            <item name="validation" xsi:type="array">
-                                                                <item name="required-entry" xsi:type="string">true</item>
-                                                                <item name="validate-zip-international" xsi:type="string">true</item>
-                                                            </item>
-                                                        </item>
-                                                        <item name="address_choose" xsi:type="array">
-                                                            <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/select-address</item>
-                                                            <item name="config" xsi:type="array">
-                                                                <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
-                                                                <item name="customScope" xsi:type="string">homeAddress</item>
-                                                                <item name="template" xsi:type="string">ui/form/field</item>
-                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
-                                                                <item name="visible" xsi:type="string">false</item>
-                                                            </item>
-                                                            <item name="placeholder" xsi:type="string">--Please Select Address--</item>
-                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">homeAddress.address_choose</item>
-                                                            <item name="label" xsi:type="string">Choose Address</item>
-                                                            <item name="sortOrder" xsi:type="string">130</item>
-                                                            <item name="visible" xsi:type="string">false</item>
-                                                        </item>
                                                         <item name="street" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">
@@ -260,6 +195,83 @@
                                                             </item>
                                                         </item>
 
+                                                        <item name="region_id" xsi:type="array">
+                                                            <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/region</item>
+                                                            <item name="sortOrder" xsi:type="string">112</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="customScope" xsi:type="string">homeAddress</item>
+                                                                <item name="template" xsi:type="string">ui/form/field</item>
+                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
+                                                                <item name="customEntry" xsi:type="string">homeAddress.region</item>
+                                                            </item>
+                                                            <!-- Value of region_id field is filtered by the value of county_id attribute -->
+                                                            <item name="filterBy" xsi:type="array">
+                                                                <item name="target" xsi:type="string"><![CDATA[${ $.provider }:${ $.parentScope }.country_id]]></item>
+                                                                <item name="field" xsi:type="string">country_id</item>
+                                                            </item>
+                                                        </item>
+                                                        <!-- The following items override configuration of corresponding address attributes -->
+                                                        <item name="region" xsi:type="array">
+                                                            <!-- Make region attribute invisible on frontend. Corresponding input element is created by region_id field -->
+                                                            <item name="visible" xsi:type="boolean">false</item>
+                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                            <item name="sortOrder" xsi:type="string">111</item>
+                                                            <item name="dataScope" xsi:type="string">homeAddress.region</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="customScope" xsi:type="string">homeAddress</item>
+                                                                <item name="template" xsi:type="string">ui/form/field</item>
+                                                            </item>
+                                                        </item>
+
+                                                        <item name="country_id" xsi:type="array">
+                                                            <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/select-country</item>
+                                                            <item name="sortOrder" xsi:type="string">115</item>
+                                                            <item name="validation" xsi:type="array">
+                                                                <item name="required-entry" xsi:type="string">true</item>
+                                                            </item>
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="customScope" xsi:type="string">homeAddress</item>
+                                                                <item name="template" xsi:type="string">ui/form/field</item>
+                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
+                                                                <item name="customEntry" xsi:type="string">homeAddress.country_id</item>
+                                                            </item>
+                                                        </item>
+
+                                                        <item name="postcode" xsi:type="array">
+                                                            <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/post-code</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
+                                                                <item name="customScope" xsi:type="string">homeAddress</item>
+                                                                <item name="template" xsi:type="string">ui/form/field</item>
+                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
+                                                            </item>
+                                                            <item name="placeholder" xsi:type="string">eg. MK42 7AB</item>
+                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                            <item name="dataScope" xsi:type="string">homeAddress.postcode</item>
+                                                            <item name="label" xsi:type="string">Postcode</item>
+                                                            <item name="sortOrder" xsi:type="string">120</item>
+                                                            <item name="validation" xsi:type="array">
+                                                                <item name="required-entry" xsi:type="string">true</item>
+                                                                <item name="validate-zip-international" xsi:type="string">true</item>
+                                                            </item>
+                                                        </item>
+
+                                                        <item name="address_choose" xsi:type="array">
+                                                            <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/select-address</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
+                                                                <item name="customScope" xsi:type="string">homeAddress</item>
+                                                                <item name="template" xsi:type="string">ui/form/field</item>
+                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
+                                                                <item name="visible" xsi:type="string">false</item>
+                                                            </item>
+                                                            <item name="placeholder" xsi:type="string">--Please Select Address--</item>
+                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                            <item name="dataScope" xsi:type="string">homeAddress.address_choose</item>
+                                                            <item name="label" xsi:type="string">Choose Address</item>
+                                                            <item name="sortOrder" xsi:type="string">130</item>
+                                                            <item name="visible" xsi:type="string">false</item>
+                                                        </item>
 
                                                     </item>
                                                 </item>
@@ -270,48 +282,12 @@
                                                     <!-- the following display area is used in template (see below) -->
                                                     <item name="displayArea" xsi:type="string">contact-details</item>
                                                     <item name="children" xsi:type="array">
-                                                        <item name="email-address" xsi:type="array">
-                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
-                                                            <item name="config" xsi:type="array">
-                                                                <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
-                                                                <item name="customScope" xsi:type="string">personalDetails</item>
-                                                                <item name="template" xsi:type="string">ui/form/field</item>
-                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/email</item>
-                                                                <item name="uid" xsi:type="string">email</item>
-                                                            </item>
-                                                            <item name="placeholder" xsi:type="string">eg. customer@email.com</item>
-                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">personalDetails.email-address</item>
-                                                            <item name="label" xsi:type="string">Email Address</item>
+                                                        <item name="customer-email" xsi:type="array">
+                                                            <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/email</item>
                                                             <item name="sortOrder" xsi:type="string">1</item>
-                                                            <item name="additionalClasses" xsi:type="string">email-address</item>
-                                                            <item name="validation" xsi:type="array">
-                                                                <item name="required-entry" xsi:type="string">true</item>
-                                                                <item name="validate-email" xsi:type="string">true</item>
-                                                            </item>
-                                                        </item>
-                                                        <item name="confirm-email-address" xsi:type="array">
-                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
-                                                            <item name="config" xsi:type="array">
-                                                                <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
-                                                                <item name="customScope" xsi:type="string">personalDetails</item>
-                                                                <item name="template" xsi:type="string">ui/form/field</item>
-                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/email</item>
-                                                                <item name="uid" xsi:type="string">confirm-email</item>
-                                                            </item>
-                                                            <item name="placeholder" xsi:type="string">eg. customer@email.com</item>
-                                                            <item name="additionalClasses" xsi:type="string">confirm-email-address</item>
-                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">personalDetails.confirm-email-address</item>
-                                                            <item name="label" xsi:type="string">Confirm Email Address</item>
-                                                            <item name="sortOrder" xsi:type="string">2</item>
-                                                            <item name="validation" xsi:type="array">
-                                                                <item name="required-entry" xsi:type="string">true</item>
-                                                                <item name="validate-email" xsi:type="string">true</item>
-                                                            </item>
                                                         </item>
 
-                                                        <item name="daytime-number" xsi:type="array">
+                                                        <item name="daytimeNumber" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">
                                                                 <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
@@ -322,14 +298,14 @@
                                                             <item name="placeholder" xsi:type="string">eg. 01234 567 891</item>
                                                             <item name="additionalClasses" xsi:type="string">col-xs-6 no-padding-left</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">personalDetails.daytime-number</item>
+                                                            <item name="dataScope" xsi:type="string">personalDetails.daytimeNumber</item>
                                                             <item name="label" xsi:type="string">Daytime Landline Phone Number</item>
                                                             <item name="sortOrder" xsi:type="string">3</item>
                                                             <item name="validation" xsi:type="array">
                                                                 <item name="phoneUK" xsi:type="string">true</item>
                                                             </item>
                                                         </item>
-                                                        <item name="mobile-number" xsi:type="array">
+                                                        <item name="mobileNumber" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">
                                                                 <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
@@ -340,7 +316,7 @@
                                                             <item name="placeholder" xsi:type="string">eg. 07734 567 891</item>
                                                             <item name="additionalClasses" xsi:type="string">col-xs-6 no-padding-right</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                            <item name="dataScope" xsi:type="string">personalDetails.mobile-number</item>
+                                                            <item name="dataScope" xsi:type="string">personalDetails.mobileNumber</item>
                                                             <item name="label" xsi:type="string">Mobile Number</item>
                                                             <item name="sortOrder" xsi:type="string">4</item>
                                                             <item name="validation" xsi:type="array">
@@ -367,12 +343,6 @@
                                                                         </item>
                                                                     </item>
                                                                 </item>
-                                                                <item name="country_id" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/select-country</item>
-                                                                    <item name="sortOrder" xsi:type="string">110</item>
-                                                                    <item name="dataScope" xsi:type="string">shippingAddress.country_id</item>
-                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                                </item>
                                                                 <item name="region_id" xsi:type="array">
                                                                     <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/region</item>
                                                                     <item name="sortOrder" xsi:type="string">112</item>
@@ -394,6 +364,12 @@
                                                                     <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                                     <item name="sortOrder" xsi:type="string">111</item>
                                                                     <item name="dataScope" xsi:type="string">shippingAddress.region</item>
+                                                                </item>
+                                                                <item name="country_id" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/select-country</item>
+                                                                    <item name="sortOrder" xsi:type="string">115</item>
+                                                                    <item name="dataScope" xsi:type="string">shippingAddress.country_id</item>
+                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
                                                                 </item>
                                                                 <item name="postcode" xsi:type="array">
                                                                     <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/post-code</item>
@@ -429,6 +405,7 @@
                                                 </item>
                                             </item>
                                         </item>
+
                                     </item>
                                 </item>
                             </item>

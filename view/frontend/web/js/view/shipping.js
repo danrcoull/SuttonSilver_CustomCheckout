@@ -25,6 +25,7 @@ define(
         'Magento_Ui/js/modal/modal',
         'Magento_Checkout/js/model/checkout-data-resolver',
         'Magento_Checkout/js/checkout-data',
+        'SuttonSilver_CustomCheckout/js/checkout-data',
         'uiRegistry',
         'mage/translate',
         'Magento_Checkout/js/model/shipping-rate-service'
@@ -50,6 +51,7 @@ define(
         modal,
         checkoutDataResolver,
         checkoutData,
+        customCheckoutData,
         registry,
         $t
     ) {
@@ -266,7 +268,7 @@ define(
                     if (this.source.get('params.invalid') ||
                         !quote.shippingMethod().method_code ||
                         !quote.shippingMethod().carrier_code
-                        //!emailValidationResult
+                    //!emailValidationResult
                     ) {
                         return false;
                     }
@@ -292,9 +294,19 @@ define(
                         }
                     }
 
+                    var personalDetails = customCheckoutData.getPersonalDetailsData();
+
                     if (customer.isLoggedIn()) {
                         shippingAddress.save_in_address_book = 1;
                     }
+
+
+                    shippingAddress.firstname = personalDetails.firstname;
+                    shippingAddress.lastname = personalDetails.lastname;
+                    shippingAddress.telephone = personalDetails.daytimeNumber;
+                    shippingAddress.email = checkoutData.getValidatedEmailValue();
+
+
                     selectShippingAddress(shippingAddress);
                 }
 

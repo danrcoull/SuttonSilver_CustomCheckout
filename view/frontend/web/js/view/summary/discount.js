@@ -16,10 +16,9 @@ define(
                 template: 'SuttonSilver_CustomCheckout/cart/totals/discount'
             },
             getPureValue: function() {
-                console.log(quote.getTotals()());
+
                 var totals =  window.checkoutConfig.totalsData;
                 if (totals) {
-                    console.log(totals.discount_amount);
                     return totals.discount_amount;
                 }
                 return 0;
@@ -27,8 +26,6 @@ define(
             getValue: function () {
                 if(this.getPureValue() !== 0 ) {
 
-                    console.log(this.getPureValue());
-                    console.log(quote.getPriceFormat());
                     return priceUtils.formatPrice(this.getPureValue(), quote.getPriceFormat());
                 }
 

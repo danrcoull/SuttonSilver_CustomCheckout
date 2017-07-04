@@ -22,39 +22,29 @@ define([
          * @param {String} value
          */
         update: function (value) {
+            var country = registry.get(this.parentName + '.' + 'country_id'),
+                options = country.indexedOptions,
+                option;
 
-            var country = '',
-                self = this;
+            if (!value) {
+                return;
+            }
 
-            setTimeout(function () {
-                country = registry.get(self.parentName + '.' + 'country_id');
+            option = options[value];
 
-
-                if (country) {
-                    var options = country.indexedOptions,
-                        option;
-
-                    if (!value) {
-                        return;
-                    }
-
-                    option = options[value];
-
-                    if (self.skipValidation) {
-                        self.validation['required-entry'] = false;
-                        self.required(false);
-                    } else {
-                        if (!option['is_region_required']) {
-                            self.error(false);
-                            self.validation = _.omit(this.validation, 'required-entry');
-                        } else {
-                            self.validation['required-entry'] = true;
-                        }
-
-                        self.required(!!option['is_region_required']);
-                    }
+            if (this.skipValidation) {
+                this.validation['required-entry'] = false;
+                this.required(false);
+            } else {
+                if (!option['is_region_required']) {
+                    this.error(false);
+                    this.validation = _.omit(this.validation, 'required-entry');
+                } else {
+                    this.validation['required-entry'] = true;
                 }
-            }, 400);
+
+                this.required(!!option['is_region_required']);
+            }
         },
 
         /**
@@ -65,18 +55,15 @@ define([
          * @param {String} field
          */
         filter: function (value, field) {
+            var self = this;
 
             this._super(value, field);
 
-            var self = this,
-                country = ''
-
             setTimeout(function () {
-                country = registry.get(self.parentName + '.' + 'country_id');
+                var country = registry.get(self.parentName + '.' + 'country_id'),
+                    option = country.indexedOptions[value];
 
-
-                if (country) {
-                    var option = country.indexedOptions[value];
+                if(country.value() != 'GB') {
                     if (option && option['is_region_visible'] === false) {
                         // hide select and corresponding text input field if region must not be shown for selected country
                         self.setVisible(false);
@@ -86,8 +73,10 @@ define([
                         }
                     }
                 }
-            }, 400);
+
+            }, 500);
         }
+
     });
 });
 

@@ -33,13 +33,13 @@ define([
                     city = registry.get(self.parentName + '.' + 'city'),
                     region = registry.get(self.parentName + '.' + 'region_id');
 
-                console.log(self.parentName);
                 if (value != '-1') {
                     self.notAvailable(true);
 
-                    if(typeof address == 'undefined')
-                    {
-                        address = registry.get(self.parentName + '.' + 'street.0')
+                    if (address.name == self.parentName  + '.street') {
+                        if(typeof address._elems != 'undefined') {
+                            address = registry.get(self.parentName  + '.street.0');
+                        }
                     }
 
                     if (typeof addresses[value] !== 'undefined') {
@@ -74,6 +74,13 @@ define([
 
                     if (typeof feature !== "undefined" && typeof feature !== "string") {
 
+                        if (feature.name == parent  + '.street') {
+                            if(typeof feature._elems != 'undefined') {
+                                feature = registry.get(self.parentName + '.street.0');
+                            }
+                        }
+
+
                         if (feature.inputName !== 'country_id' && feature.inputName !== 'postcode' && feature.inputName !== 'address_choose') {
                             if (hide) {
                                 if (typeof feature.hide == 'function') {
@@ -94,19 +101,15 @@ define([
         },
         setAddresses: function(addresses)
         {
-            console.log('Step 5 - Set Addresses: '+addresses);
             this.addresses = addresses;
             var result = [];
-            console.log('Step 6 -Check Length: '+this.addresses.length );
             if(this.addresses.length !== 0) {
 
                 this.addresses.forEach(function ($addr, $index) {
-                    console.log('Step 7 -Loop: '+$addr+' '+ $index);
                     var address = {value: $index, label: $addr.summaryline};
                     result.push(address);
                 });
             }
-            console.log(result);
             var address = {value: '-1', label: 'Enter Address Manually'};
             result.push(address);
 
