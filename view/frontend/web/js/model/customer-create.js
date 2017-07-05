@@ -24,6 +24,20 @@ define(
                 };
                 return this.getUrl(urls, params);
             },
+            getUrl: function(urls, urlParams) {
+                var url;
+
+                if (utils.isEmpty(urls)) {
+                    return 'Provided service call does not exist.';
+                }
+
+                if (!utils.isEmpty(urls['default'])) {
+                    url = urls['default'];
+                } else {
+                    url = urls[this.getCheckoutMethod()];
+                }
+                return urlBuilder.createUrl(url, urlParams);
+            },
             getCustomer: function () {
                 payload = {
                     searchCriteria: {
