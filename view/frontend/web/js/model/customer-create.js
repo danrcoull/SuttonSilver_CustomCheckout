@@ -8,7 +8,7 @@ define(
         'mage/storage',
         'Magento_Checkout/js/model/error-processor',
     ],
-    function(ko,quote, customer, urlBuilder, utilsstorage, errorProcessor) {
+    function(ko,quote, customer, urlBuilder, utils, storage, errorProcessor) {
         return {
             getUrlForCustomerCreateUpdate: function (id) {
                 var params = (id != '') ? {me: id} : {};
