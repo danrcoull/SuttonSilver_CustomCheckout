@@ -1,5 +1,5 @@
 <!--The 'step_code' value from the .js file should be used-->
-<li id="personal-details" data-bind="fadeVisible: isVisible">
+<li id="personal-details" data-bind="fadeVisible: isVisible, blockLoader: isLoading ">
     <div id="checkout-step-title" class="step-content" data-role="content">
         <h1  data-bind="i18n: 'Personal Details'"></h1>
         <!-- ko foreach: getRegion('custom-checkout-form-before') -->
@@ -34,7 +34,7 @@
 
             <div class="actions-toolbar">
                 <div class="primary">
-                    <button data-role="opc-continue" data-bind="click: validatePersonalDetails" type="submit" class="button action continue primary">
+                    <button data-role="opc-continue" data-bind="click: validate" type="submit" class="button action continue primary">
                         <span><!-- ko i18n: 'Next'--><!-- /ko --></span>
                     </button>
                 </div>

@@ -6,6 +6,7 @@ define(
         'ko',
         'Magento_Checkout/js/model/step-navigator',
         'SuttonSilver_CustomCheckout/js/checkout-data',
+        'SuttonSilver_CustomCheckout/js/model/customer-create',
         'uiRegistry',
         'mage/translate'
     ],
@@ -16,6 +17,7 @@ define(
         ko,
         stepNavigator,
         checkoutData,
+        customerCreate,
         registry,
         $t
     ) {
@@ -33,7 +35,7 @@ define(
 
             //add here your logic to display step,
             isVisible: ko.observable(true),
-
+            isLoading: ko.observable(false),
             /**
              *
              * @returns {*}
@@ -107,20 +109,23 @@ define(
             navigateToNextStep: function () {
                     stepNavigator.next();
             },
-            validatePersonalDetails: function() {
-               // trigger form validation
-                this.source.set('params.invalid', false);
-                this.source.trigger('personalDetails.data.validate');
-                this.source.trigger('homeAddress.data.validate');
-                this.source.trigger('additionalDetails.data.validate');
+            validate: function() {
+                this._super();
+
+                // trigger form validation
+                //this.source.set('params.invalid', false);
+                //this.source.trigger('personalDetails.data.validate');
+                //this.source.trigger('homeAddress.data.validate');
+                //this.source.trigger('additionalDetails.data.validate');
 
                 // verify that form data is valid
                 if (!this.source.get('params.invalid')) {
-                    // data is retrieved from data provider by value of the customScope property
-                    var formData = this.source.get('personalDetails');
+                    this.createCustomer()
                     this.navigateToNextStep();
                 }
+            },
+            createCustomer:function(){
+                var id = customerCreate.getCustomer();
             }
         });
-    }
-);
+    });
