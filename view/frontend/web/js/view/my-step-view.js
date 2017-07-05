@@ -110,13 +110,11 @@ define(
                     stepNavigator.next();
             },
             validate: function() {
-                this._super();
-
                 // trigger form validation
-                //this.source.set('params.invalid', false);
-                //this.source.trigger('personalDetails.data.validate');
-                //this.source.trigger('homeAddress.data.validate');
-                //this.source.trigger('additionalDetails.data.validate');
+                this.source.set('params.invalid', false);
+                this.source.trigger('personalDetails.data.validate');
+                this.source.trigger('homeAddress.data.validate');
+                this.source.trigger('additionalDetails.data.validate');
 
                 // verify that form data is valid
                 if (!this.source.get('params.invalid')) {
