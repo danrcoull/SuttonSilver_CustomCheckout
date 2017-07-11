@@ -32,8 +32,8 @@ class InstallData implements InstallDataInterface
             [
                 'type' => 'varchar',
                 'label' => 'CILEx Membership Number',
-                'input' => 'input',
-                'required' => true,
+                'input' => 'text',
+                'required' => false,
                 'default' => '0',
                 'sort_order' => 100,
                 'system' => false,
@@ -47,7 +47,7 @@ class InstallData implements InstallDataInterface
                 'label' => 'Studied With Us Before?',
                 'input' => 'select',
                 'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
-                'required' => true,
+                'required' => false,
                 'default' => '0',
                 'sort_order' => 101,
                 'system' => false,
@@ -59,8 +59,8 @@ class InstallData implements InstallDataInterface
             [
                 'type' => 'varchar',
                 'label' => 'CILEx Membership Number',
-                'input' => 'input',
-                'required' => true,
+                'input' => 'text',
+                'required' => false,
                 'default' => '0',
                 'sort_order' => 100,
                 'system' => false,
@@ -72,8 +72,8 @@ class InstallData implements InstallDataInterface
             [
                 'type' => 'varchar',
                 'label' => 'CILEx Membership Number',
-                'input' => 'input',
-                'required' => true,
+                'input' => 'text',
+                'required' => false,
                 'default' => '0',
                 'sort_order' => 100,
                 'system' => false,
@@ -85,8 +85,8 @@ class InstallData implements InstallDataInterface
             [
                 'type' => 'varchar',
                 'label' => 'Daytime Phone Number Number',
-                'input' => 'input',
-                'required' => true,
+                'input' => 'text',
+                'required' => false,
                 'default' => '0',
                 'sort_order' => 100,
                 'system' => false,
@@ -98,8 +98,8 @@ class InstallData implements InstallDataInterface
             [
                 'type' => 'varchar',
                 'label' => 'Mobile Number',
-                'input' => 'input',
-                'required' => true,
+                'input' => 'text',
+                'required' => false,
                 'default' => '0',
                 'sort_order' => 100,
                 'system' => false,
@@ -117,13 +117,13 @@ class InstallData implements InstallDataInterface
         }
 
         $eavSetup->addAttribute(
-            \Magento\Customer\Model\Customer::ENTITY,
+            'customer_address',
             'dx_number',
             [
                 'type' => 'varchar',
                 'label' => 'DX Number',
-                'input' => 'input',
-                'required' => true,
+                'input' => 'text',
+                'required' => false,
                 'default' => '0',
                 'sort_order' => 100,
                 'system' => false,

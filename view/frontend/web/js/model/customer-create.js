@@ -1,72 +1,50 @@
 define(
     [
         'ko',
+        'jquery',
         'Magento_Checkout/js/model/quote',
         'Magento_Customer/js/model/customer',
-        'Magento_Checkout/js/model/url-builder',
+        'SuttonSilver_CustomCheckout/js/checkout-data',
         'mageUtils',
         'mage/storage',
         'Magento_Checkout/js/model/error-processor',
+        'Magento_Checkout/js/model/step-navigator'
     ],
-    function(ko,quote, customer, urlBuilder, utils, storage, errorProcessor) {
+    function(ko,$, quote, customer, checkoutData, utils, storage, errorProcessor,stepNavigator) {
         return {
-            getUrlForCustomerCreateUpdate: function (id) {
-                var params = (id != '') ? {me: id} : {};
-                var urls = {
-                    'default': '/customers/:me'
-                };
-                return this.getUrl(urls, params);
-            },
-            getUrlForCustomerGetId:function () {
+            getUrlForCustomerCreateUpdate: function () {
                 var params = {};
                 var urls = {
-                    'default': '/customers/search'
+                    'default': '/customcheckout/customer/create'
                 };
-                return this.getUrl(urls, params);
+                return urls.default;
             },
-            getUrl: function(urls, urlParams) {
-                var url;
+            createCustomer: function () {
+                var self = this;
+                var payload = $('#custom-checkout-form').serializeArray();
+                var config = {};
+                $.map( payload, function( n, i ) {
+                    config[n.name] = n.value;
+                });
+                console.log(config);
+                $.ajax({
+                    url: self.getUrlForCustomerCreateUpdate(),
+                    type: 'POST',
+                    data: {
+                        'data': JSON.stringify(config)
+                    },
 
-                if (utils.isEmpty(urls)) {
-                    return 'Provided service call does not exist.';
-                }
-
-                if (!utils.isEmpty(urls['default'])) {
-                    url = urls['default'];
-                } else {
-                    url = urls[this.getCheckoutMethod()];
-                }
-                return urlBuilder.createUrl(url, urlParams);
-            },
-            getCustomer: function () {
-                payload = {
-                    searchCriteria: {
-                        filterGroups: {
-                            0: {
-                                filters: {
-                                    0: {
-                                        'field':'email',
-                                        'value':'WSH%31%',
-                                        'condition_type':'eq'
-                                    }
-                                }
-                            }
-                        }
-                    }
-                };
-
-                return storage.get(
-                    this.getUrlForCustomerGetId(),
-                    JSON.stringify(payload)
-                ).done(
+                }).done(
                     function (response) {
-                       console.log(response);
+                        console.log(response);
+                        stepNavigator.next();
                     }
                 ).fail(
                     function (response) {
-                        errorProcessor.process(response);
+                        console.log(response);
                     }
                 );
+
             }
         }
     });

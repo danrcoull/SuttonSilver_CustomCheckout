@@ -51,7 +51,7 @@ class QuestionAnswersRepository implements QuestionAnswersRepositoryInterface
         QuestionAnswersFactory $questionAnswersFactory,
         QuestionAnswersInterfaceFactory $dataQuestionAnswersFactory,
         QuestionAnswersCollectionFactory $questionAnswersCollectionFactory,
-        QuestionAnswersSearchResultsInterfaceFactory $searchResultsFactory,
+        \Magento\Framework\Api\SearchResultsInterfaceFactory $searchResultsFactory,
         DataObjectHelper $dataObjectHelper,
         DataObjectProcessor $dataObjectProcessor,
         StoreManagerInterface $storeManager

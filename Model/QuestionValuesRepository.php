@@ -51,7 +51,7 @@ class QuestionValuesRepository implements QuestionValuesRepositoryInterface
         QuestionValuesFactory $questionValuesFactory,
         QuestionValuesInterfaceFactory $dataQuestionValuesFactory,
         QuestionValuesCollectionFactory $questionValuesCollectionFactory,
-        QuestionValuesSearchResultsInterfaceFactory $searchResultsFactory,
+        \Magento\Framework\Api\SearchResultsInterfaceFactory $searchResultsFactory,
         DataObjectHelper $dataObjectHelper,
         DataObjectProcessor $dataObjectProcessor,
         StoreManagerInterface $storeManager

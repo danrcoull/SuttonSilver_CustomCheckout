@@ -4,6 +4,7 @@
 namespace SuttonSilver\CustomCheckout\Model;
 
 use SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface;
+use SuttonSilver\CustomCheckout\Api\Data\SuttonSilver;
 
 class QuestionAnswers extends \Magento\Framework\Model\AbstractModel implements QuestionAnswersInterface
 {
@@ -72,4 +73,16 @@ class QuestionAnswers extends \Magento\Framework\Model\AbstractModel implements 
     {
         return $this->setData(self::QUESTION_ID, $question_id);
     }
+
+    public function getValue()
+    {
+        return $this->getData(self::QUESTION_VALUE);
+    }
+
+    public function setValue($value)
+    {
+        return $this->setData(self::QUESTION_VALUE, $value);
+    }
+
+
 }

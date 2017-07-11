@@ -25,6 +25,8 @@ class UpgradeSchema implements UpgradeSchemaInterface
         }
 
         $tableName = $setup->getTable('suttonsilver_question');
+        $answersTable = $setup->getTable('suttonsilver_questionanswers');
+        $valuesTable = $setup->getTable('suttonsilver_questionvalues');
 
         if (version_compare($context->getVersion(), '1.0.1') < 0) {
 
@@ -81,6 +83,41 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 $connection = $setup->getConnection();
                 foreach ($columns as $name => $definition) {
                     $connection->addColumn($tableName, $name, $definition);
+                }
+            }
+        }
+
+        if (version_compare($context->getVersion(), '1.0.3') < 0) {
+            if ($setup->getConnection()->isTableExists($answersTable) == true) {
+                $columns = [
+                    'value' => [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment' => 'Question Answer Value',
+                    ]
+                ];
+
+                $connection = $setup->getConnection();
+                foreach ($columns as $name => $definition) {
+                    $connection->addColumn($answersTable, $name, $definition);
+                }
+            }
+        }
+
+
+        if (version_compare($context->getVersion(), '1.0.4') < 0) {
+            if ($setup->getConnection()->isTableExists($valuesTable) == true) {
+                $columns = [
+                    'question_saved_value' => [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment' => 'Question Saved Value',
+                    ]
+                ];
+
+                $connection = $setup->getConnection();
+                foreach ($columns as $name => $definition) {
+                    $connection->addColumn($valuesTable, $name, $definition);
                 }
             }
         }

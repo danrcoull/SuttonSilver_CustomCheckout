@@ -29,6 +29,17 @@ interface QuestionRepositoryInterface
     
     public function getById($questionId);
 
+
+    /**
+     * Retrieve Question
+     * @param string $field
+     * @param string $value
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+
+    public function get($field,$value);
+
     /**
      * Retrieve Question matching the specified criteria.
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria

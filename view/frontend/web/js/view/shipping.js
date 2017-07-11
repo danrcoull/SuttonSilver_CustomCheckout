@@ -61,7 +61,7 @@ define(
 
         return Component.extend({
             defaults: {
-                template: 'Magento_Checkout/shipping'
+                template: 'SuttonSilver_CustomCheckout/shipping'
             },
             visible: ko.observable(!quote.isVirtual() && stepNavigator.isProcessed('personal-details')),
             errorValidationMessage: ko.observable(false),
@@ -86,7 +86,7 @@ define(
                     stepNavigator.registerStep(
                         'shipping',
                         '',
-                        $t('Shipping'),
+                        $t('Delivery Details'),
                         this.visible, _.bind(this.navigate, this),
                         10
                     );

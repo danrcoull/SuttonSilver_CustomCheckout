@@ -121,10 +121,10 @@ class LayoutProcessor
                 'options' => $this->delivery->toOptionArray(),
                 'id'=>'select_address',
                 'multiple'=> false,
-                'value' => 0,
+                'default' => 0,
             ],
             'dataScope' => 'shippingAddress.select_address',
-            'value' => 0,
+            'default' => 0,
             'label' => 'Deliver To',
             'provider' => 'checkoutProvider',
             'visible' => true,
@@ -152,7 +152,7 @@ class LayoutProcessor
         $options = [];
         foreach($questions as $question)
         {
-            $name = trim(str_replace(' ','-',$question->getQuestionName()));
+            $name = strtolower(trim(str_replace(' ','-',$question->getQuestionName())));
             $label = __($question->getQuestion());
             $placeholder = trim($question->getQuestionPlaceholder());
             $required = ($question->getQuestionIsRequired()) ? true : false;

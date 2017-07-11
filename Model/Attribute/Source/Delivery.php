@@ -14,11 +14,11 @@ class Delivery implements \Magento\Framework\Data\CollectionDataSourceInterface
         $array = [
             [
                 'value' => '0',
-                'label' => __('Deliver to my work'),
+                'label' => __('My Work Address'),
             ],
             [
                 'value' => '1',
-                'label' => __('Deliver to my home'),
+                'label' => __('My Home Address'),
             ]
         ];
 

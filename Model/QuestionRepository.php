@@ -51,7 +51,7 @@ class QuestionRepository implements QuestionRepositoryInterface
         QuestionFactory $questionFactory,
         QuestionInterfaceFactory $dataQuestionFactory,
         QuestionCollectionFactory $questionCollectionFactory,
-        QuestionSearchResultsInterfaceFactory $searchResultsFactory,
+        \Magento\Framework\Api\SearchResultsInterfaceFactory $searchResultsFactory,
         DataObjectHelper $dataObjectHelper,
         DataObjectProcessor $dataObjectProcessor,
         StoreManagerInterface $storeManager
@@ -94,6 +94,16 @@ class QuestionRepository implements QuestionRepositoryInterface
     {
         $question = $this->questionFactory->create();
         $question->load($questionId);
+        if (!$question->getId()) {
+            throw new NoSuchEntityException(__('Question with id "%1" does not exist.', $questionId));
+        }
+        return $question;
+    }
+
+    public function get($field,$value)
+    {
+        $question = $this->questionFactory->create();
+        $question->load($value, $field);
         if (!$question->getId()) {
             throw new NoSuchEntityException(__('Question with id "%1" does not exist.', $questionId));
         }

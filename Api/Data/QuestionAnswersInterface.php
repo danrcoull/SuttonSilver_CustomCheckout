@@ -9,6 +9,7 @@ interface QuestionAnswersInterface
     const QUESTION_ID = 'question_id';
     const CUSTOMER_ID = 'customer_id';
     const QUESTIONANSWERS_ID = 'questionanswers_id';
+    const QUESTION_VALUE = 'value';
 
 
     /**
@@ -55,4 +56,19 @@ interface QuestionAnswersInterface
      */
     
     public function setQuestionId($question_id);
+
+    /**
+     * Get value
+     * @return string|null
+     */
+
+    public function getValue();
+
+    /**
+     * Set value
+     * @param string $value
+     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface
+     */
+
+    public function setValue($value);
 }

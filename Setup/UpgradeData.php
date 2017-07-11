@@ -28,8 +28,18 @@ class UpgradeData implements UpgradeDataInterface
         ModuleContextInterface $context
     ) {
         $setup->startSetup();
-        if (version_compare($context->getVersion(), "1.0.2", "<")) {
-        //Your upgrade script
+        if (version_compare($context->getVersion(), '1.0.4') < 0) {
+            $orderTable = 'sales_order';
+
+            $setup->getConnection()
+                ->addColumn(
+                    $setup->getTable($orderTable),
+                    'export_processed',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
+                        'comment' =>'Export Processed'
+                    ]
+                );
         }
         $setup->endSetup();
     }

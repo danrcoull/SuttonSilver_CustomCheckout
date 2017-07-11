@@ -102,28 +102,20 @@ define(
             navigate: function () {
 
             },
-
-            /**
-             * @returns void
-             */
-            navigateToNextStep: function () {
-                    stepNavigator.next();
-            },
             validate: function() {
                 // trigger form validation
-                this.source.set('params.invalid', false);
+                this.source.    set('params.invalid', false);
                 this.source.trigger('personalDetails.data.validate');
                 this.source.trigger('homeAddress.data.validate');
                 this.source.trigger('additionalDetails.data.validate');
 
                 // verify that form data is valid
                 if (!this.source.get('params.invalid')) {
-                    this.createCustomer()
-                    this.navigateToNextStep();
+                    var response = customerCreate.createCustomer();
                 }
             },
-            createCustomer:function(){
-                var id = customerCreate.getCustomer();
+            getFormKey: function() {
+                return window.checkoutConfig.formKey;
             }
         });
     });

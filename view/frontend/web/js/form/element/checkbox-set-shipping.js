@@ -21,6 +21,7 @@ define([
 
         initialize: function () {
             this._super();
+            console.log(this.value());
             this.initializeError();
             return this;
         },
@@ -28,7 +29,8 @@ define([
             var beforeShippinhFieldset = 'checkout.steps.shipping-step.shippingAddress.before-fields'
             error = uiRegistry.get(beforeShippinhFieldset+'.select-address-error');
             error.content('As someone must be available to accept delivery, we strongly recommend that your course is sent to your employers address.');
-            this.toggleErrorVisibility();
+            error.visible(true);
+            //this.toggleErrorVisibility();
 
         },
         toggleErrorVisibility:function(){
@@ -43,7 +45,7 @@ define([
         },
         onUpdate: function (value) {
 
-            this.toggleErrorVisibility();
+            //this.toggleErrorVisibility();
 
             var self = this;
 
@@ -71,17 +73,31 @@ define([
 
 
                             if (value == 1 && typeof feature.hide == 'function') {
+
                                 feature.hide();
+
                             } else {
 
+                                var fieldsIn = [
+                                    'country_id',
+                                    'postcode',
+                                    'company',
+                                    'dx_number'
+                                ]
+                                var fieldsNotIn = [
+                                    'region',
+                                    'county',
+                                    'address_choose'
+                                ]
                                 if (countryId.value() === 'GB') {
-                                    if (feature.inputName === 'country_id' || feature.inputName === 'postcode' || feature.inputName === 'address_choose') {
-                                        if (feature.inputName != 'region' && typeof feature.show == 'function') {
+
+                                    if (fieldsIn.indexOf(feature.inputName) != -1) {
+                                        if (fieldsNotIn.indexOf(feature.inputName) == -1 && typeof feature.show == 'function') {
                                             feature.show();
                                         }
                                     }
                                 } else {
-                                    if (feature.inputName != 'region' &&  feature.inputName === 'address_choose' && typeof feature.show == 'function') {
+                                    if (fieldsNotIn.indexOf(feature.inputName) == -1 && typeof feature.show == 'function') {
                                         feature.show();
                                     }
                                 }

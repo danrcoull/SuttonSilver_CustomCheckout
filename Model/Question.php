@@ -139,6 +139,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
         {
             $this->_questionValues = $this->_objectManager->create('SuttonSilver\CustomCheckout\Model\QuestionValues');
             $this->_questionValues->setData('question_value',$value['question_answer_value']);
+            $this->_questionValues->setData('question_saved_value',$value['question_answer_saved_value']);
             $this->_questionValues->setData('question_id',$this->getId());
             $this->_questionValuesRepository->save($this->_questionValues);
             //var_dump($this->_questionValues->getData());
@@ -152,7 +153,10 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
         $array = [];
         foreach($collections as $collection)
         {
-            $array['question_options_select'][]['question_answer_value'] = $collection->getData('question_value');
+            $array['question_options_select'][] = [
+                'question_answer_value' =>  $collection->getData('question_value'),
+                'question_answer_saved_value' =>$collection->getData('question_saved_value')
+                ];
         }
         return $array;
     }

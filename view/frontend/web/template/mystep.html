@@ -5,7 +5,8 @@
         <!-- ko foreach: getRegion('custom-checkout-form-before') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
-        <form id="custom-checkout-form" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
+        <form id="custom-checkout-form" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}" novalidate="novalidate">
+            <input data-bind='attr: {value: getFormKey()}' type="hidden" name="form_key"/>
             <fieldset class="fieldset" id="personal">
                 <!-- ko foreach: getRegion('custom-checkout-form-fields') -->
                 <!-- ko template: getTemplate() --><!-- /ko -->
@@ -35,7 +36,7 @@
             <div class="actions-toolbar">
                 <div class="primary">
                     <button data-role="opc-continue" data-bind="click: validate" type="submit" class="button action continue primary">
-                        <span><!-- ko i18n: 'Next'--><!-- /ko --></span>
+                        <span><!-- ko i18n: 'Proceed to Delivery'--><i class="fa fa-long-arrow-right"></i><!-- /ko --></span>
                     </button>
                 </div>
             </div>

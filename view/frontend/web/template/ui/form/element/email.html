@@ -15,9 +15,6 @@
                 <input class="input-text"
                        type="email"
                        name="username"
-                       data-bind="
-                            textInput: email,
-                            hasFocus: emailFocused"
                        placeholder="eg. customer@email.com"
                        data-validate="{required:true, 'validate-email':true}"
                        id="customer-email" />
@@ -31,6 +28,9 @@
                 <input class="input-text"
                        type="email"
                        name="confirm-username"
+                       data-bind="
+                            textInput: email,
+                            hasFocus: emailFocused"
                        placeholder="eg. customer@email.com"
                        data-validate="{required:true, 'validate-email':true}"
                        id="confirm-customer-email" />
