@@ -164,8 +164,8 @@ class LayoutProcessor
             foreach($values as $value)
             {
                 $valueArray[] = [
-                    'value' => $value->getQuestionValue(),
-                    'label' => __($value->getQuestionValue()),
+                    'value' => $value->getData('question_saved_value') != '' ? $value->getData('question_saved_value') : $value->getData('question_value'),
+                    'label' => __($value->getData('question_value')),
                 ];
             }
 
