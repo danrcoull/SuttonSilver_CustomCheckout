@@ -24,7 +24,7 @@
                                             <item name="children" xsi:type="array">
                                                 <item name="custom-checkout-form-personal" xsi:type="array">
                                                     <!-- uiComponent is used as a wrapper for form fields (its template will render all children as a list) -->
-                                                    <item name="component" xsi:type="stri   ng">uiComponent</item>
+                                                    <item name="component" xsi:type="string">uiComponent</item>
                                                     <!-- the following display area is used in template (see below) -->
                                                     <item name="displayArea" xsi:type="string">custom-checkout-form-fields</item>
                                                     <item name="children" xsi:type="array">
