@@ -82,10 +82,10 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         /*store shipping in session*/
         $method = $this->_rateMethodFactory->create();
         $method->setCarrier($this->_code);
-        $method->setCarrierTitle('Webkul custom Shipping');
+        $method->setCarrierTitle('Standard Shipping');
         /* Use method name */
         $method->setMethod($this->_code);
-        $method->setMethodTitle('Webkul Custom Shipping');
+        $method->setMethodTitle('Standard Shipping');
         $method->setCost(10);
         $method->setPrice(10);
         $result->append($method);
