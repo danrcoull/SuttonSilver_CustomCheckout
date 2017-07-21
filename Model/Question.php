@@ -47,7 +47,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
     /**
      * Set question_id
      * @param string $questionId
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
     public function setQuestionId($questionId)
     {
@@ -66,7 +66,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
     /**
      * Set question
      * @param string $question
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
     public function setQuestion($question)
     {
@@ -85,7 +85,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
     /**
      * Set question_type
      * @param string $question_type
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
     public function setQuestionType($question_type)
     {
@@ -109,7 +109,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
     /**
      * Set product_ids
      * @param string $product_ids
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
     public function setProductSkus($product_ids)
     {
@@ -137,9 +137,10 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
         //loop and recreate
         foreach($array as $value)
         {
+            $valueSaved = $value['question_answer_saved_value'] != '' ? $value['question_answer_saved_value'] : $value['question_answer_value'];
             $this->_questionValues = $this->_objectManager->create('SuttonSilver\CustomCheckout\Model\QuestionValues');
             $this->_questionValues->setData('question_value',$value['question_answer_value']);
-            $this->_questionValues->setData('question_saved_value',$value['question_answer_saved_value']);
+            $this->_questionValues->setData('question_saved_value',$valueSaved);
             $this->_questionValues->setData('question_id',$this->getId());
             $this->_questionValuesRepository->save($this->_questionValues);
             //var_dump($this->_questionValues->getData());
@@ -199,6 +200,25 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
     public function setQuestionIsActive($question_is_active)
     {
         return $this->setData(self::QUESTION_ACTIVE, $question_is_active);
+    }
+
+    public function getQuestionDependsOn()
+    {
+        if(!is_array($this->getData(self::QUESTION_DEPENDS_ON))) {
+            return explode(',', $this->getData(self::QUESTION_DEPENDS_ON));
+        }
+
+        return $this->getData(self::QUESTION_DEPENDS_ON);
+    }
+
+    public function setQuestionDependsOn($question_depends_on)
+    {
+        if(is_array($question_depends_on))
+        {
+            $question_depends_on = implode(',',$question_depends_on);
+        }
+
+        return $this->setData(self::QUESTION_DEPENDS_ON, $question_depends_on);
     }
 
 

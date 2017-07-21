@@ -4,6 +4,8 @@
 namespace SuttonSilver\CustomCheckout\Plugin\Magento\Checkout\Block\Checkout;
 use SuttonSilver\CustomCheckout\Model\ResourceModel\Question\CollectionFactory as QuestionCollectionFactory;
 use SuttonSilver\CustomCheckout\Model\ResourceModel\QuestionValues\CollectionFactory as QuestionValuesCollectionFactory;
+use SuttonSilver\CustomCheckout\Api\QuestionRepositoryInterfaceFactory;
+
 use Magento\Checkout\Model\Session as Session;
 class LayoutProcessor
 {
@@ -27,6 +29,7 @@ class LayoutProcessor
     protected $questionsCollection;
     protected $questionsValuesCollection;
     protected $session;
+    protected $questionFactory;
 
 
     public function __construct(
@@ -35,6 +38,7 @@ class LayoutProcessor
         \Magento\Directory\Model\ResourceModel\Region\Collection $regionCollection,
         \SuttonSilver\CustomCheckout\Model\Attribute\Source\Delivery $delivery,
         QuestionCollectionFactory $questionsCollection,
+        QuestionRepositoryInterfaceFactory $questionFactory,
         QuestionValuesCollectionFactory $questionsValuesCollection,
         Session $session
     ) {
@@ -45,6 +49,7 @@ class LayoutProcessor
         $this->questionsCollection = $questionsCollection;
         $this->questionsValuesCollection = $questionsValuesCollection;
         $this->session = $session;
+        $this->questionFactory = $questionFactory;
     }
 
     public function afterProcess(
@@ -121,10 +126,10 @@ class LayoutProcessor
                 'options' => $this->delivery->toOptionArray(),
                 'id'=>'select_address',
                 'multiple'=> false,
-                'default' => 0,
+                'checked' => 0,
             ],
             'dataScope' => 'shippingAddress.select_address',
-            'default' => 0,
+            'checked' => 0,
             'label' => 'Deliver To',
             'provider' => 'checkoutProvider',
             'visible' => true,
@@ -232,6 +237,7 @@ class LayoutProcessor
                                 'elementTmpl' => 'ui/form/components/single/switcher',
                                 'id' => $name,
                             ],
+                            'checked' => 0,
                             'additionalClasses' => '',
                             'prefer' => 'toggle',
                             'valueMap' => ['true' => 1, 'false' => 0],
@@ -255,6 +261,23 @@ class LayoutProcessor
                 $options[$name]['validation'] = ['required-entry' => $required];
             }
 
+            $dependsOn = $question->getQuestionDependsOn();
+            if(count($dependsOn) > 0) {
+                foreach ($dependsOn as $depndent)
+                {
+                    try {
+                        $depndent = (int)$depndent;
+                        $dependentQuestion = $this->questionFactory->create()->getById($depndent);
+                        $dependentName = strtolower(trim(str_replace(' ', '-', $dependentQuestion->getQuestionName())));
+                        $options[$name]['config']['imports']['visible'] = '${ $.parentName }.'."$dependentName:checked";
+                        $options[$dependentName]['config']['exports']['value'] = '${ $.provider }:value';
+                    }catch(\Exception $e)
+                    {
+
+                    }
+                }
+            }
+
         }
 
       if(isset($jsLayout['components']['checkout']['children']['steps']['children']['my-new-step'])) {
@@ -267,9 +290,7 @@ class LayoutProcessor
 
         }
 
-        //  var_dump($jsLayout['components']['checkout']['children']['steps']['children']
-       // ['my-new-step']['children']['custom-checkout-form-home-address']['children']);
-       // die;
+
 
         return $jsLayout;
     }

@@ -120,7 +120,6 @@ define([
         validateEmail: function (focused) {
             var loginFormSelector = '#custom-checkout-form',
                 usernameSelector = loginFormSelector + ' input[name=username]',
-                confirmUsernameSelector = loginFormSelector + ' input[name=confirm-username]',
                 loginForm = $(loginFormSelector),
                 validator;
 
@@ -133,20 +132,7 @@ define([
 
             validator = loginForm.validate();
 
-            var equal = false;
-            if(this.email() == $(confirmUsernameSelector).val())
-            {
-                equal = true;
-                validator.showErrors();
-
-            }else{
-                validator.showErrors({
-                    "confirm-username": "Please Confirm Your Email"
-                });
-
-            }
-
-            return validator.check(confirmUsernameSelector) && equal;
+            return validator.check(usernameSelector);
         },
 
         /**

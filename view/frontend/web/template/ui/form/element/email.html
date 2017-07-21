@@ -15,25 +15,12 @@
                 <input class="input-text"
                        type="email"
                        name="username"
-                       placeholder="eg. customer@email.com"
-                       data-validate="{required:true, 'validate-email':true}"
-                       id="customer-email" />
-            </div>
-        </div>
-        <div class="field required">
-            <label class="label" for="confirm-customer-email">
-                <span data-bind="i18n: 'Confirm Email Address'"></span>
-            </label>
-            <div class="control _with-tooltip">
-                <input class="input-text"
-                       type="email"
-                       name="confirm-username"
                        data-bind="
                             textInput: email,
                             hasFocus: emailFocused"
                        placeholder="eg. customer@email.com"
                        data-validate="{required:true, 'validate-email':true}"
-                       id="confirm-customer-email" />
+                       id="customer-email" />
             </div>
         </div>
     </fieldset>

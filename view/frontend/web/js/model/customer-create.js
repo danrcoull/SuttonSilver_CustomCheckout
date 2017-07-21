@@ -26,7 +26,7 @@ define(
                 $.map( payload, function( n, i ) {
                     config[n.name] = n.value;
                 });
-                console.log(config);
+                //console.log(config);
                 $.ajax({
                     url: self.getUrlForCustomerCreateUpdate(),
                     type: 'POST',

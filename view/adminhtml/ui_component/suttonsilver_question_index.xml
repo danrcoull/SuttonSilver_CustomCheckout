@@ -108,6 +108,14 @@
 				</item>
 			</argument>
 		</actionsColumn>
+		<column name="question_name">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="filter" xsi:type="string">text</item>
+					<item name="label" translate="true" xsi:type="string">Question Name</item>
+				</item>
+			</argument>
+		</column>
 		<column name="question_type">
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">

@@ -43,8 +43,9 @@ class CustomDiscountConfigProvider extends \Magento\Framework\Model\AbstractMode
             foreach($item->getChildren() as $child) {
                 $childCost += $child->getProduct()->getPrice();
             }
-            $discount += ($childCost -$itemCost);
-            $array[$key]['discount'] = ($childCost -$itemCost);
+
+            $discount += $childCost > 0 ? ($itemCost-$childCost) : 0;
+            $array[$key]['discount'] = $childCost > 0 ? ($itemCost-$childCost) : 0;
         }
 
         $result['totalsData']['discount_amount'] = number_format($discount, 4);

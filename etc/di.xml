@@ -33,4 +33,8 @@
 
 
 	<preference for="Magento\Checkout\Block\Cart\LayoutProcessor" type="SuttonSilver\CustomCheckout\Block\Frontend\Checkout\Cart\LayoutProcessor" />
+
+
+	<preference for="Magento\Customer\Controller\Adminhtml\Index\Save" type="SuttonSilver\CustomCheckout\Controller\Adminhtml\Customer\Save" />
+	<preference for="Magento\Customer\Model\Data\Customer" type="SuttonSilver\CustomCheckout\Model\Data\Customer" />
 </config>

@@ -122,6 +122,45 @@ class UpgradeSchema implements UpgradeSchemaInterface
             }
         }
 
+        if (version_compare($context->getVersion(), '1.0.5') < 0) {
+            if ($setup->getConnection()->isTableExists($tableName) == true) {
+                $columns = [
+                    'question_depends_on' => [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'nullable' => true,
+                        'comment' => 'Question Depends On',
+                    ]
+                ];
+
+                $connection = $setup->getConnection();
+                foreach ($columns as $name => $definition) {
+                    $connection->addColumn($tableName, $name, $definition);
+                }
+            }
+        }
+
+        if (version_compare($context->getVersion(), '1.0.6') < 0) {
+            $columns = [
+                'home_address' => [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                    'unsigned' => true,
+                    'nullable' => true,
+                    'default' => null,
+                    'comment' => 'Home Address',
+                ]
+            ];
+
+            $connection = $setup->getConnection();
+            foreach ($columns as $name => $definition) {
+                $connection->addColumn($setup->getTable('customer_entity'), $name, $definition);
+            }
+
+        }
+
+
+
         $setup->endSetup();
     }
+
+
 }

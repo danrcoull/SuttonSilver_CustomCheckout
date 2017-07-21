@@ -14,6 +14,7 @@ interface QuestionInterface
     const QUESTION_PLACEHOLDER = 'question_placeholder';
     const QUESTION_IS_REQUIRED = 'question_is_required';
     const QUESTION_ACTIVE = 'question_is_active';
+    const QUESTION_DEPENDS_ON = 'question_depends_on';
 
 
     /**
@@ -26,7 +27,7 @@ interface QuestionInterface
     /**
      * Set question_id
      * @param string $question_id
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
     
     public function setQuestionId($questionId);
@@ -41,7 +42,7 @@ interface QuestionInterface
     /**
      * Set questions_is_active
      * @param string $questions_is_active
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
 
     public function setQuestionIsActive($question_is_active);
@@ -56,7 +57,7 @@ interface QuestionInterface
     /**
      * Set question
      * @param string $question
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
     
     public function setQuestion($question);
@@ -71,22 +72,22 @@ interface QuestionInterface
     /**
      * Set question_type
      * @param string $question_type
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
     
     public function setQuestionType($question_type);
 
     /**
      * Get product_ids
-     * @return string|null
+     * @return array|null
      */
     
     public function getProductSkus();
 
     /**
      * Set product_ids
-     * @param string $product_ids
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @param object $product_ids
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
     
     public function setProductSkus($product_ids);
@@ -101,7 +102,7 @@ interface QuestionInterface
     /**
      * Set question_name
      * @param string $question_name
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
 
     public function setQuestionName($question_name);
@@ -116,7 +117,7 @@ interface QuestionInterface
     /**
      * Set question_is_required
      * @param string $question_is_required
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
 
     public function setQuestionIsRequired($question_is_required);
@@ -131,8 +132,23 @@ interface QuestionInterface
     /**
      * Set question_placeholder
      * @param string $question_is_required
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
      */
 
     public function setQuestionPlaceholder($question_placeholder);
+
+    /**
+     * Get question_depends_on
+     * @return array|null
+     */
+
+    public function getQuestionDependsOn();
+
+    /**
+     * Set question_depends_on
+     * @param object $question_depends_on
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionInterface
+     */
+
+    public function setQuestionDependsOn($question_depends_on);
 }

@@ -27,7 +27,7 @@ class InstallData implements InstallDataInterface
          $setup->startSetup();
         
         $eavSetup->addAttribute(
-            \Magento\Customer\Model\Customer::ENTITY,
+            \Magento\Customer\Model\CustomerA::ENTITY,
             'membership_number',
             [
                 'type' => 'varchar',

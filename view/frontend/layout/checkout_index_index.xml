@@ -101,16 +101,19 @@
                                                                 <item name="customScope" xsi:type="string">personalDetails</item>
                                                                 <item name="template" xsi:type="string">ui/form/field</item>
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/components/single/switcher</item>
+                                                                <item name="exports" xsi:type="array">
+                                                                    <item name="value" xsi:type="string">${ $.provider }:value</item>
+                                                                </item>
                                                             </item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">personalDetails.have_studied</item>
                                                             <item name="label" xsi:type="string">Have you studied with us in the past?</item>
                                                             <item name="sortOrder" xsi:type="string">5</item>
                                                             <item name="prefer" xsi:type="string">toggle</item>
-                                                            <item name="default" xsi:type="boolean">false</item>
+                                                            <item name="checked" xsi:type="boolean">false</item>
                                                             <item name="valueMap" xsi:type="array">
-                                                                <item name="true" xsi:type="boolean">true</item>
                                                                 <item name="false" xsi:type="boolean">false</item>
+                                                                <item name="true" xsi:type="boolean">true</item>
                                                             </item>
                                                         </item>
 
@@ -119,10 +122,11 @@
                                                             <item name="content" xsi:type="string">If your name and/or address have changed, please provide us with the following details:</item>
                                                             <item name="sortOrder" xsi:type="string">6</item>
                                                             <item name="config" xsi:type="array">
-                                                                    <item name="links" xsi:type="array">
-                                                                    <item name="visible" xsi:type="string">${ $.parentName }.have_studied:value</item>
+                                                                <item name="imports" xsi:type="array">
+                                                                    <item name="visible" xsi:type="string">${ $.parentName }.have_studied:checked</item>
                                                                 </item>
                                                             </item>
+                                                            <item name="visible" xsi:type="string">false</item>
                                                         </item>
 
                                                         <item name="previous_surname" xsi:type="array">
@@ -133,11 +137,11 @@
                                                                 <item name="customScope" xsi:type="string">personalDetails</item>
                                                                 <item name="template" xsi:type="string">ui/form/field</item>
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
-                                                                <item name="links" xsi:type="array">
-                                                                    <item name="visible" xsi:type="string">${ $.parentName }.have_studied:value</item>
+                                                                <item name="imports" xsi:type="array">
+                                                                    <item name="visible" xsi:type="string">${ $.parentName }.have_studied:checked</item>
                                                                 </item>
                                                             </item>
-
+                                                            <item name="visible" xsi:type="boolean">false</item>
                                                             <item name="placeholder" xsi:type="string">Surname</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">personalDetails.previous_surname</item>
@@ -146,18 +150,18 @@
                                                         </item>
 
                                                         <item name="previous_postcode" xsi:type="array">
-                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/post-code</item>
                                                             <item name="additionalClasses" xsi:type="string">col-xs-6 no-padding-right</item>
                                                             <item name="config" xsi:type="array">
                                                                 <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
                                                                 <item name="customScope" xsi:type="string">personalDetails</item>
                                                                 <item name="template" xsi:type="string">ui/form/field</item>
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
-                                                                <item name="links" xsi:type="array">
-                                                                    <item name="visible" xsi:type="string">${ $.parentName }.have_studied:value</item>
+                                                                <item name="imports" xsi:type="array">
+                                                                    <item name="visible" xsi:type="string">${ $.parentName }.have_studied:checked</item>
                                                                 </item>
                                                             </item>
-
+                                                            <item name="visible" xsi:type="boolean">false</item>
                                                             <item name="placeholder" xsi:type="string">eg. MK42 7AB</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">personalDetails.previous_postcode</item>
@@ -303,7 +307,25 @@
                                                                 <item name="customScope" xsi:type="string">personalDetails</item>
                                                             </item>
                                                         </item>
-
+                                                        <item name="confirm-username" xsi:type="array">
+                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
+                                                                <item name="customScope" xsi:type="string">personalDetails</item>
+                                                                <item name="template" xsi:type="string">ui/form/field</item>
+                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
+                                                            </item>
+                                                            <item name="placeholder" xsi:type="string">eg. 01234 567 891</item>
+                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                            <item name="dataScope" xsi:type="string">personalDetails.confirm_username</item>
+                                                            <item name="placeholder" xsi:type="string">eg. customer@email.com</item>
+                                                            <item name="label" xsi:type="string">Confirm Email Address</item>
+                                                            <item name="sortOrder" xsi:type="string">2</item>
+                                                            <item name="validation" xsi:type="array">
+                                                                <item name="validate-email" xsi:type="string">true</item>
+                                                                <item name="equalTo" xsi:type="string">#customer-email</item>
+                                                            </item>
+                                                        </item>
                                                         <item name="daytimeNumber" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">
@@ -355,9 +377,11 @@
                                                                 <item name="company" xsi:type="array">
                                                                    <item name="label" xsi:type="string">Employer</item>
                                                                     <item name="placeholder" xsi:type="string">Name of your employing organisation</item>
+                                                                    <item name="sortOrder" xsi:type="string">1</item>
                                                                 </item>
                                                                 <item name="street" xsi:type="array">
                                                                     <item name="label" xsi:type="string" />
+                                                                    <item name="sortOrder" xsi:type="string">5</item>
                                                                     <item name="children" xsi:type="array">
                                                                         <item name="0" xsi:type="array">
                                                                             <item name="label" xsi:type="string">Your Work Address</item>
@@ -368,12 +392,12 @@
                                                                 <item name="city" xsi:type="array">
                                                                     <item name="additionalClasses" xsi:type="string">col-xs-6 no-padding-left</item>
                                                                     <item name="label" xsi:type="string">City - Optional</item>
-                                                                    <item name="sortOrder" xsi:type="string">50</item>
+                                                                    <item name="sortOrder" xsi:type="string">10</item>
                                                                     <item name="placeholder" xsi:type="string">Enter City</item>
                                                                 </item>
                                                                 <item name="postcode" xsi:type="array">
                                                                     <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/post-code</item>
-                                                                    <item name="sortOrder" xsi:type="string">55</item>
+                                                                    <item name="sortOrder" xsi:type="string">120</item>
                                                                     <item name="placeholder" xsi:type="string">eg. MK42 7AB</item>
                                                                     <item name="label" xsi:type="string">Postcode</item>
                                                                     <item name="validation" xsi:type="array">

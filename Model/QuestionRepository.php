@@ -23,7 +23,7 @@ class QuestionRepository implements QuestionRepositoryInterface
 
     protected $dataObjectProcessor;
 
-    protected $QuestionFactory;
+    protected $questionFactory;
 
     protected $dataQuestionFactory;
 

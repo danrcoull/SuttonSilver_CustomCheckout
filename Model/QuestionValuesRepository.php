@@ -33,7 +33,7 @@ class QuestionValuesRepository implements QuestionValuesRepositoryInterface
 
     protected $resource;
 
-    protected $QuestionValuesFactory;
+    protected $questionValuesFactory;
 
 
     /**
