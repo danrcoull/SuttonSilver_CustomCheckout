@@ -21,7 +21,6 @@ define([
 
         initialize: function () {
             this._super();
-            console.log(this.selected());
             this.initializeError();
             return this;
         },
