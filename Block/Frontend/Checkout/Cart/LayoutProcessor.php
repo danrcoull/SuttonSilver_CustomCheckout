@@ -21,7 +21,21 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
                 'options' => $this->countryCollection->loadByStore()->toOptionArray(),
                 'value' => null
             ]**/
-
+	        'region_id' => [
+		        'visible' => true,
+		        'formElement' => 'select',
+		        'label' => __('State/Province'),
+		        'options' => $this->regionCollection->load()->toOptionArray(),
+		        'value' => null,
+		        'sortOrder' => 1
+	        ],
+	        'postcode' => [
+		        'visible' => true,
+		        'formElement' => 'input',
+		        'label' => __('Zip/Postal Code'),
+		        'value' => null,
+		        'sortOrder' => 2
+	        ],
            'country_id' => [
                'options' => [
                    ['value' => 'GB','label' => __('UK Mainland')],
@@ -29,9 +43,11 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
                ],
                'label' => '',
                'formElement' => 'checkbox-set',
-               'visible' => true
+               'visible' => true,
+               'sortOrder' => 3
            ]
         ];
+
 
         if (isset($jsLayout['components']['block-summary']['children']['block-shipping']['children']
             ['address-fieldsets']['children'])

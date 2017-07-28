@@ -26,6 +26,12 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     protected $_errors = [];
     protected $_isFixed = true;
 
+    protected $matrixCollectionFactory;
+    protected $matrixRepoInterfaceFactory;
+
+    protected $_price = 0;
+    protected $_breakdown = [];
+
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
@@ -43,11 +49,17 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
+        \SuttonSilver\CustomCheckout\Model\ResourceModel\Matrix\CollectionFactory $matrixCollectionFactory,
+        \SuttonSilver\CustomCheckout\Api\MatrixRepositoryInterfaceFactory $matrixRepoInterfaceFactory,
         Config $configHelper,
         array $data = []
     ) {
         $this->_localeFormat = $localeFormat;
         $this->configHelper = $configHelper;
+
+        $this->matrixCollectionFactory = $matrixCollectionFactory;
+        $this->matrixRepoInterfaceFactory = $matrixRepoInterfaceFactory;
+
         parent::__construct(
             $scopeConfig,
             $rateErrorFactory,
@@ -73,34 +85,76 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
 
     public function getAllowedMethods()
     {
+
     }
 
     public function collectRates(RateRequest $request)
     {
         $result = $this->_rateFactory->create();
+		$price =$this->getPrice($request);
+
 
         /*store shipping in session*/
         $method = $this->_rateMethodFactory->create();
         $method->setCarrier($this->_code);
-        $method->setCarrierTitle('Standard Shipping');
+        $method->setCarrierTitle($price > 0 ? 'Standard Shipping' : 'Free Shipping');
         /* Use method name */
         $method->setMethod($this->_code);
-        $method->setMethodTitle('Standard Shipping');
-        $method->setCost(10);
-        $method->setPrice(10);
+        $method->setMethodTitle();
+        $method->setCost(0);
+        $method->setPrice($price);
         $result->append($method);
         return $result;
     }
 
 
-    public function getPrice()
+    public function getPrice(RateRequest $request)
     {
 
+    	$destination = $request->getDestCountryId() == 'GB' ? 1 : 0;
+    	$arraySkus = [];
+	    foreach ( $request->getAllItems() as $item ) {
+	    	$product = $item->getProduct();
+		    $matrix = $this->getMatrixCollection($product->getSku(), $destination);
+		    $arraySkus[] = ['sku' =>$product->getSku(), 'item' => $item,'matrix'=>$matrix];
+		}
+
+	    foreach ($arraySkus as $item)
+	    {
+		    $associated = $item['matrix']->getAssociatedSkus();
+			foreach($associated as $associate)
+			{
+				if(isset($arraySkus[$associate]) && $item['sku'] != $associate)
+				{
+					$arraySkus[$associate]['custom_price'] = $item['matrix']->getIncrementPrice();
+				}
+			}
+	    }
+
+		foreach ($arraySkus as $item)
+		{
+			$singlePrice = isset($item['custom_price']) ? $item['custom_price'] : $item['matrix']->getSinglePrice();
+			$incrementPrice = $item['matrix']->getIncrementPrice();
+			$price = $singlePrice + (($item['item']->getQty()-1) * $incrementPrice);
+
+			if($price >= $item['matrix']->getMaxPrice())
+			{
+				$price = $item['matrix']->getMaxPrice();
+			}
+
+			$this->_price += $price;
+			$this->_breakdown[$item['sku']] = $price;
+		}
+
+		return $this->_price;
     }
 
-    public function imortPrices()
+    public function getMatrixCollection($sku,$destination)
     {
-
+	    return $this->matrixCollectionFactory->create()->getCollection()
+		    ->addFieldToFilter('product_sku', $sku)
+		    ->addFieldToFilter('destination', $destination)
+		    ->getFirstItem();
     }
 
     public function proccessAdditionalValidation(\Magento\Framework\DataObject $request) {

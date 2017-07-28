@@ -6,10 +6,17 @@
 			<argument name="resourceModel" xsi:type="string">SuttonSilver\CustomCheckout\Model\ResourceModel\Question\Collection</argument>
 		</arguments>
 	</virtualType>
+	<virtualType name="SuttonSilver\CustomCheckout\Model\ResourceModel\Matrix\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">suttonsilver_cls_matrix</argument>
+			<argument name="resourceModel" xsi:type="string">SuttonSilver\CustomCheckout\Model\ResourceModel\Matrix\Collection</argument>
+		</arguments>
+	</virtualType>
 	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
 		<arguments>
 			<argument name="collections" xsi:type="array">
 				<item name="suttonsilver_question_grid_data_source" xsi:type="string">SuttonSilver\CustomCheckout\Model\ResourceModel\Question\Grid\Collection</item>
+				<item name="suttonsilver_matrix_grid_data_source" xsi:type="string">SuttonSilver\CustomCheckout\Model\ResourceModel\Matrix\Grid\Collection</item>
 			</argument>
 		</arguments>
 	</type>
@@ -31,6 +38,10 @@
 	<preference for="SuttonSilver\CustomCheckout\Api\Data\QuestionSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
 	<preference for="SuttonSilver\CustomCheckout\Api\Data\QuestionValuesSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
 
+
+	<preference for="SuttonSilver\CustomCheckout\Api\MatrixRepositoryInterface" type="SuttonSilver\CustomCheckout\Model\MatrixRepository" />
+	<preference for="SuttonSilver\CustomCheckout\Api\Data\MatrixInterface" type="SuttonSilver\CustomCheckout\Model\Matrix" />
+	<preference for="SuttonSilver\CustomCheckout\Api\Data\MatrixSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
 
 	<preference for="Magento\Checkout\Block\Cart\LayoutProcessor" type="SuttonSilver\CustomCheckout\Block\Frontend\Checkout\Cart\LayoutProcessor" />
 

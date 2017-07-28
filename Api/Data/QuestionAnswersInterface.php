@@ -22,7 +22,7 @@ interface QuestionAnswersInterface
     /**
      * Set questionanswers_id
      * @param string $questionanswers_id
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface
      */
     
     public function setQuestionanswersId($questionanswersId);
@@ -37,7 +37,7 @@ interface QuestionAnswersInterface
     /**
      * Set customer_id
      * @param string $customer_id
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface
      */
     
     public function setCustomerId($customer_id);
@@ -52,7 +52,7 @@ interface QuestionAnswersInterface
     /**
      * Set question_id
      * @param string $question_id
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface
      */
     
     public function setQuestionId($question_id);
@@ -67,7 +67,7 @@ interface QuestionAnswersInterface
     /**
      * Set value
      * @param string $value
-     * @return SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface
+     * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface
      */
 
     public function setValue($value);

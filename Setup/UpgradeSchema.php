@@ -156,8 +156,87 @@ class UpgradeSchema implements UpgradeSchemaInterface
             }
 
         }
+	    if (version_compare($context->getVersion(), '1.0.7') < 0){ }
+	    if (version_compare($context->getVersion(), '1.0.8') < 0){ }
 
 
+	    if (version_compare($context->getVersion(), '1.0.9') < 0){
+
+		    $deliveryMatrix = $setup->getConnection()->newTable($setup->getTable('suttonsilver_cls_matrix'));
+		    $deliveryMatrix->addColumn(
+			    'cls_matrix_id',
+			    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+			    null,
+			    array('identity' => true,'nullable' => false,'primary' => true,'unsigned' => true,),
+			    'Entity ID'
+		    );
+		    $deliveryMatrix->addColumn(
+			    'product_sku',
+			    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+			    64,
+			    array('nullable' => false,'primary' => false),
+			    'Product SKU'
+		    );
+
+		    $deliveryMatrix->addColumn(
+			    'destination',
+			    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+			    null,
+			    array('identity' => false,'nullable' => false,'primary' => false,'unsigned' => true,),
+			    'Destination (UK=1, Overseas=0)'
+		    );
+		    $deliveryMatrix->addColumn(
+			    'single_price',
+			    \Magento\Framework\DB\Ddl\Table::TYPE_FLOAT,
+			    null,
+			    [],
+			    'Single Price'
+		    );
+
+		    $deliveryMatrix->addColumn(
+			    'increment_price',
+			    \Magento\Framework\DB\Ddl\Table::TYPE_FLOAT,
+			    null,
+			    [],
+			    'Quantity increment (additional price)'
+		    );
+
+		    $deliveryMatrix->addColumn(
+			    'max_price',
+			    \Magento\Framework\DB\Ddl\Table::TYPE_FLOAT,
+			    null,
+			    [],
+			    'Max price'
+		    );
+
+		    $deliveryMatrix->addColumn(
+			    'no_overseas',
+			    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+			    null,
+			    array('identity' => false,'nullable' => false,'primary' => false,'unsigned' => true,),
+			    'No overseas shipping available=1'
+		    );
+
+		    $deliveryMatrix->addColumn(
+			    'associated_skus',
+			    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+			    null,
+			    [],
+			    'Associated Skus'
+		    );
+
+		    $deliveryMatrix->addForeignKey(
+			    $setup->getFkName(
+				    'suttonsilver_cls_matrix',
+				    'product_sku',
+				    'catalog_product_entity',
+				    'entity_id'
+			    ),
+			    'product_sku', $setup->getTable('catalog_product_entity'), 'sku',
+			    \Magento\Framework\Db\Ddl\Table::ACTION_NO_ACTION);
+
+		    $setup->getConnection()->createTable($deliveryMatrix);
+	    }
 
         $setup->endSetup();
     }

@@ -42,11 +42,14 @@ class UpgradeData implements UpgradeDataInterface
                 );
         }
 
-
+	    if (version_compare($context->getVersion(), '1.0.5') < 0) {}
+	    if (version_compare($context->getVersion(), '1.0.6') < 0) {}
+	    if (version_compare($context->getVersion(), '1.0.7') < 0) {}
 
         if (version_compare($context->getVersion(), '1.0.8') < 0) {
             $this->homeAddress($setup);
         }
+	    if (version_compare($context->getVersion(), '1.0.9') < 0) { }
 
         $setup->endSetup();
     }

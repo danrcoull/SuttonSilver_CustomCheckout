@@ -4,7 +4,6 @@
 namespace SuttonSilver\CustomCheckout\Model;
 
 use SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface;
-use SuttonSilver\CustomCheckout\Api\Data\SuttonSilver;
 
 class QuestionAnswers extends \Magento\Framework\Model\AbstractModel implements QuestionAnswersInterface
 {
