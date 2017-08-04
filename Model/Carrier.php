@@ -13,7 +13,7 @@ use Magento\Framework\Xml\Security;
 
 class Carrier extends AbstractCarrierOnline implements CarrierInterface
 {
-    const CODE = 'clscustomshipping';
+	    const CODE = 'clscustomshipping';
 
     protected $_code = self::CODE;
     protected $_request;
@@ -85,7 +85,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
 
     public function getAllowedMethods()
     {
-
+	    return [$this->_code => $this->getConfigData('name')];
     }
 
     public function collectRates(RateRequest $request)
@@ -96,20 +96,25 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
 
         /*store shipping in session*/
         $method = $this->_rateMethodFactory->create();
-        $method->setCarrier($this->_code);
-        $method->setCarrierTitle($price > 0 ? 'Standard Shipping' : 'Free Shipping');
+        $method->setCarrier($this->getCarrierCode());
+        $method->setCarrierTitle($this->getConfigData('title'));
+
+	    $method->setMethod($this->getCarrierCode());
+        $method->setMethodTitle($this->getConfigData('name'));
         /* Use method name */
-        $method->setMethod($this->_code);
-        $method->setMethodTitle();
-        $method->setCost(0);
+
+        $method->setCost($price);
         $method->setPrice($price);
+
         $result->append($method);
+
         return $result;
     }
 
 
     public function getPrice(RateRequest $request)
     {
+
 
     	$destination = $request->getDestCountryId() == 'GB' ? 1 : 0;
     	$arraySkus = [];
@@ -118,6 +123,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
 		    $matrix = $this->getMatrixCollection($product->getSku(), $destination);
 		    $arraySkus[] = ['sku' =>$product->getSku(), 'item' => $item,'matrix'=>$matrix];
 		}
+
 
 	    foreach ($arraySkus as $item)
 	    {
@@ -151,7 +157,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
 
     public function getMatrixCollection($sku,$destination)
     {
-	    return $this->matrixCollectionFactory->create()->getCollection()
+	    return $this->matrixCollectionFactory->create()
 		    ->addFieldToFilter('product_sku', $sku)
 		    ->addFieldToFilter('destination', $destination)
 		    ->getFirstItem();

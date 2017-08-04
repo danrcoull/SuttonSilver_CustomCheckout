@@ -10,17 +10,17 @@ use Magento\TestFramework\Event\Magento;
 class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
 {
 
-    public function process($jsLayout)
+   public function process($jsLayout)
     {
         $elements = [
 
-           /** 'country_id' => [
+            'country_id' => [
                 'visible' => true,
                 'formElement' => 'select',
                 'label' => __('Country'),
                 'options' => $this->countryCollection->loadByStore()->toOptionArray(),
                 'value' => null
-            ]**/
+            ],
 	        'region_id' => [
 		        'visible' => true,
 		        'formElement' => 'select',
@@ -36,7 +36,7 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
 		        'value' => null,
 		        'sortOrder' => 2
 	        ],
-           'country_id' => [
+           /**'country_id' => [
                'options' => [
                    ['value' => 'GB','label' => __('UK Mainland')],
                    ['value' => 'null','label' => __('Overseas')]
@@ -45,7 +45,7 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
                'formElement' => 'checkbox-set',
                'visible' => true,
                'sortOrder' => 3
-           ]
+           ]**/
         ];
 
 
