@@ -118,35 +118,52 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
 
     	$destination = $request->getDestCountryId() == 'GB' ? 1 : 0;
     	$arraySkus = [];
+    	$debugArray = [];
 	    foreach ( $request->getAllItems() as $item ) {
-	    	$product = $item->getProduct();
-		    $matrix = $this->getMatrixCollection($product->getSku(), $destination);
-		    $arraySkus[] = ['sku' =>$product->getSku(), 'item' => $item,'matrix'=>$matrix];
+
+		    if (($item->getProduct()->isVirtual() || $item->getProduct()->getTypeId() == 'simple')
+		        &&  !$item->getParentItem()) {
+
+			    $product     = $item->getProduct();
+			    $matrix      = $this->getMatrixCollection( $product->getSku(), $destination );
+			    $arraySkus[] = [ 'sku' => $product->getSku(), 'item' => $item, 'matrix' => $matrix ];
+			    $debugArray[] = $item->getProduct()->getSku();
+		    }
 		}
 
 
-	    foreach ($arraySkus as $item)
-	    {
-		    $associated = $item['matrix']->getAssociatedSkus();
-			foreach($associated as $associate)
-			{
-				if(isset($arraySkus[$associate]) && $item['sku'] != $associate)
-				{
-					$arraySkus[$associate]['custom_price'] = $item['matrix']->getIncrementPrice();
-				}
-			}
-	    }
 
 		foreach ($arraySkus as $item)
 		{
-			$singlePrice = isset($item['custom_price']) ? $item['custom_price'] : $item['matrix']->getSinglePrice();
-			$incrementPrice = $item['matrix']->getIncrementPrice();
-			$price = $singlePrice + (($item['item']->getQty()-1) * $incrementPrice);
 
-			if($price >= $item['matrix']->getMaxPrice())
-			{
-				$price = $item['matrix']->getMaxPrice();
+			if($item['matrix'] !== null) {
+				$associated = $item['matrix']->getAssociatedSkus();
+				unset($associated[$item['sku']]);
+
+				foreach ( $associated as $associate ) {
+					if ( isset( $arraySkus[ $associate ] ) && $item['sku'] != $associate ) {
+						$arraySkus[ $associate ]['custom_price'] = $item['matrix']->getIncrementPrice();
+					}
+				}
+
+				$singlePrice    = isset( $item['custom_price'] ) ? $item['custom_price'] : $item['matrix']->getSinglePrice();
+
+				$incrementPrice = $item['matrix']->getIncrementPrice();
+				if ( $item['item']->getQty() > 1 ) {
+					$price = $singlePrice + ( ( $item['item']->getQty() - 1 ) * $incrementPrice );
+				} else {
+					$price = $singlePrice;
+				}
+
+
+				if ( $price >= $item['matrix']->getMaxPrice() ) {
+					$price = $item['matrix']->getMaxPrice();
+				}
+			}else{
+				$price = 0;
 			}
+
+
 
 			$this->_price += $price;
 			$this->_breakdown[$item['sku']] = $price;
@@ -158,12 +175,19 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     public function getMatrixCollection($sku,$destination)
     {
 	    return $this->matrixCollectionFactory->create()
-		    ->addFieldToFilter('product_sku', $sku)
-		    ->addFieldToFilter('destination', $destination)
+		    ->addFieldToFilter('product_sku', array('eq'=>$sku))
+		    ->addFieldToFilter('destination', array('eq'=>$destination))
 		    ->getFirstItem();
     }
 
     public function proccessAdditionalValidation(\Magento\Framework\DataObject $request) {
         return true;
     }
+
+
+
+	public function isCityRequired()
+	{
+		return false;
+	}
 }

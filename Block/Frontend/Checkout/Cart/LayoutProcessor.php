@@ -14,15 +14,8 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
     {
         $elements = [
 
-            'country_id' => [
-                'visible' => true,
-                'formElement' => 'select',
-                'label' => __('Country'),
-                'options' => $this->countryCollection->loadByStore()->toOptionArray(),
-                'value' => null
-            ],
 	        'region_id' => [
-		        'visible' => true,
+		        'visible' => false,
 		        'formElement' => 'select',
 		        'label' => __('State/Province'),
 		        'options' => $this->regionCollection->load()->toOptionArray(),
@@ -30,13 +23,13 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
 		        'sortOrder' => 1
 	        ],
 	        'postcode' => [
-		        'visible' => true,
+		        'visible' => false,
 		        'formElement' => 'input',
 		        'label' => __('Zip/Postal Code'),
 		        'value' => null,
 		        'sortOrder' => 2
 	        ],
-           /**'country_id' => [
+           'country_id' => [
                'options' => [
                    ['value' => 'GB','label' => __('UK Mainland')],
                    ['value' => 'null','label' => __('Overseas')]
@@ -44,8 +37,8 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
                'label' => '',
                'formElement' => 'checkbox-set',
                'visible' => true,
-               'sortOrder' => 3
-           ]**/
+               'sortOrder' =>1
+           ]
         ];
 
 
@@ -57,6 +50,9 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
             $fieldSetPointer = $this->merger->merge($elements, 'checkoutProvider', 'shippingAddress', $fieldSetPointer);
             $fieldSetPointer['region_id']['config']['skipValidation'] = true;
         }
+
+	    unset($jsLayout['components']['block-summary']['children']['block-shipping']['children']['address-fieldsets']['children']['region']);
+        unset($jsLayout['components']['block-summary']['children']['block-shipping']['children']['address-fieldsets']['children']['region_id']);
         return $jsLayout;
     }
 }

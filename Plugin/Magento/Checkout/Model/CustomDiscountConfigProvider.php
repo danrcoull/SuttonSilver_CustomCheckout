@@ -32,6 +32,7 @@ class CustomDiscountConfigProvider extends \Magento\Framework\Model\AbstractMode
     public function afterGetConfig(DefaultConfigProvider $subject, array $result)
     {
 
+
         $discount = 0;
         $items = $this->session->getQuote()->getAllVisibleItems();
         $array = $result['totalsData']['items'];
@@ -45,10 +46,12 @@ class CustomDiscountConfigProvider extends \Magento\Framework\Model\AbstractMode
             }
 
             $discount += $childCost > 0 ? ($itemCost-$childCost) : 0;
-            $array[$key]['discount'] = $childCost > 0 ? ($itemCost-$childCost) : 0;
+            $array[$key]['discount'] = abs($itemCost > $childCost ? ($itemCost-$childCost) : 0);
         }
 
-        $result['totalsData']['discount_amount'] = number_format($discount, 4);
+        $result['totalsData']['discount_amount'] = number_format(abs($discount), 4);
+        $result['totalsData']['subtotal'] = number_format(abs($result['totalsData']['subtotal']) + $discount, 4);
+        $result['totalsData']['base_subtotal'] = number_format(abs($result['totalsData']['subtotal']) + $discount, 4);
         $result['totalsData']['items'] = $array;
         return $result;
     }

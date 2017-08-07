@@ -44,7 +44,7 @@ class CartTotalRepositoryPlugin
             var_dump($childCost);
             $discount += ($childCost -$itemCost);
         }
-        die;
+
 
         $result['totalsData']['discount_amount'] = number_format($discount, 4);
         return $result;
