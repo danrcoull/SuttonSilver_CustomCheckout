@@ -27,5 +27,27 @@
                 </argument>
             </arguments>
         </referenceBlock>
+
+        <referenceBlock name="checkout.cart.shipping">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="summary-block-config" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="shipping-rates-validation" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="clscustomshiping-validation" xsi:type="array">
+                                            <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/view/clscustomshiping-validation</item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
     </body>
 </page>
+
+
