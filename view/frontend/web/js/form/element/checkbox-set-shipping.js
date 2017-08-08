@@ -66,12 +66,12 @@ define([
 
                         if (typeof feature !== "undefined" && typeof feature !== "string") {
 
-                            if (feature.name == shippinhFieldset + '.street') {
+                            if (feature.name === shippinhFieldset + '.street') {
                                 feature = uiRegistry.get(shippinhFieldset + '.street.0');
                             }
 
 
-                            if (value == 1 && typeof feature.hide == 'function') {
+                            if (value === 1 && typeof feature.hide === 'function') {
 
                                 feature.hide();
 
@@ -82,45 +82,50 @@ define([
                                     'postcode',
                                     'company',
                                     'dx_number'
-                                ]
+                                ];
+
                                 var fieldsNotIn = [
                                     'region',
                                     'county',
                                     'address_choose'
-                                ]
+                                ];
+
                                 if (countryId.value() === 'GB') {
 
-                                    if (fieldsIn.indexOf(feature.inputName) != -1) {
-                                        if (fieldsNotIn.indexOf(feature.inputName) == -1 && typeof feature.show == 'function') {
+                                    if ($.inArray(feature.inputName,fieldsIn) !== -1) {
+                                        if ($.inArray(feature.inputName,fieldsNotIn) === -1 && typeof feature.show === 'function') {
                                             feature.show();
                                         }
                                     }
                                 } else {
-                                    if (fieldsNotIn.indexOf(feature.inputName) == -1 && typeof feature.show == 'function') {
+                                    if ($.inArray(feature.inputName,fieldsNotIn) === -1 && typeof feature.show === 'function') {
                                         feature.show();
                                     }
                                 }
                             }
                         }
                     });
+
+
+                    if (value !== 0) {
+
+                        address = checkoutData.getHomeAddressData();
+
+                        Object.keys(address).forEach(function (key) {
+                            if (key === 'street') {
+                                var key2 = 'street.0';
+                            } else {
+                                key2 = key;
+                            }
+                            var element = uiRegistry.get(shippinhFieldset + '.' + key2);
+                            if (typeof element !== 'undefined') {
+                                element.value(address[key]);
+                            }
+                        });
+                    }
+
                 },400);
 
-                if (value != 0) {
-
-                    address = checkoutData.getHomeAddressData();
-
-                    Object.keys(address).forEach(function (key) {
-                        if (key == 'street') {
-                            var key2 = 'street.0';
-                        } else {
-                            key2 = key;
-                        }
-                        var element = uiRegistry.get(shippinhFieldset + '.' + key2);
-                        if (typeof element != 'undefined') {
-                            element.value(address[key]);
-                        }
-                    });
-                }
             }
         }
     })

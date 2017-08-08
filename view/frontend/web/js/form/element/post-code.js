@@ -43,7 +43,6 @@ define([
 
                 if (country.value() === 'GB' && self.value() !== '') {
 
-
                     validated = self.postcodeValidation();
 
                     if (validated) {

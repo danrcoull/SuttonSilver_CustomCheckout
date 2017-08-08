@@ -11,7 +11,6 @@ define([
     'Magento_Ui/js/form/element/select',
     'SuttonSilver_CustomCheckout/js/checkout-data'
 ], function (ko,_, registry, $,Abstract,checkoutData) {
-    'use strict';
 
     return Abstract.extend({
         defaults: {
@@ -20,7 +19,7 @@ define([
         },
         onUpdate: function (value) {
             var addressData = checkoutData.getHomeAddressData();
-            if(value != addressData.postcode) {
+            if(value !== addressData.postcode) {
                 this.setAddress();
             }
         },
@@ -33,11 +32,11 @@ define([
                     city = registry.get(self.parentName + '.' + 'city'),
                     region = registry.get(self.parentName + '.' + 'region_id');
 
-                if (value != '-1') {
-                    self.notAvailable(true);
+                if (value !== '-1') {
 
-                    if (address.name == self.parentName  + '.street') {
-                        if(typeof address._elems != 'undefined') {
+
+                    if (address.name === self.parentName  + '.street') {
+                        if(typeof address._elems !== 'undefined') {
                             address = registry.get(self.parentName  + '.street.0');
                         }
                     }
@@ -54,6 +53,9 @@ define([
                         addressData['home-address'] = addresses[value]
                         checkoutData.setHomeAddressData(addressData);
                     }
+
+                    self.notAvailable(true);
+
                 } else {
                     this.notAvailable(false);
                 }
@@ -74,8 +76,8 @@ define([
 
                     if (typeof feature !== "undefined" && typeof feature !== "string") {
 
-                        if (feature.name == parent  + '.street') {
-                            if(typeof feature._elems != 'undefined') {
+                        if (feature.name === parent  + '.street') {
+                            if(typeof feature._elems !== 'undefined') {
                                 feature = registry.get(self.parentName + '.street.0');
                             }
                         }
@@ -83,12 +85,18 @@ define([
 
                         if (feature.inputName !== 'country_id' && feature.inputName !== 'postcode' && feature.inputName !== 'address_choose') {
                             if (hide) {
-                                if (typeof feature.hide == 'function') {
+                                if (typeof feature.hide === 'function') {
                                     feature.hide();
                                 }
                             } else {
-                                if(feature.inputName != 'region' ) {
-                                    if (typeof feature.show == 'function') {
+
+                                var fieldsNotIn = [
+                                    'region',
+                                    'county'
+                                ];
+
+                                if($.inArray(feature.inputName,fieldsNotIn) === -1) {
+                                    if (typeof feature.show === 'function') {
                                         feature.show();
                                     }
                                 }
