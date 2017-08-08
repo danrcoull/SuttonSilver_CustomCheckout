@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-    <default>
-        <carriers>
-            <clscustomshipping>
-                <active>1</active>
-                <allowed_methods>delivery</allowed_methods>
-                <methods>delivery</methods>
-                <sallowspecific>0</sallowspecific>
-                <model>SuttonSilver\CustomCheckout\Model\Carrier</model>
-                <name>CLS Custom Shipping</name>
-                <title>CLS Shipping</title>
-                <handling_type>F</handling_type>
-            </clscustomshipping>
-        </carriers>
-    </default>
+<default>
+    <carriers>
+        <clscustomshipping>
+            <active>1</active>
+            <sallowspecific>0</sallowspecific>
+            <model>SuttonSilver\CustomCheckout\Model\Carrier</model>
+            <name>Inchoo Example Shipping</name>
+            <price>0.00</price>
+            <title>Standard Shiping</title>
+            <type>I</type>
+            <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
+        </clscustomshipping>
+    </carriers>
+</default>
 </config>

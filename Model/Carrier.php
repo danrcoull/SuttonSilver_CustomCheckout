@@ -11,9 +11,11 @@ use Magento\Ups\Helper\Config;
 use Magento\Framework\Xml\Security;
 
 
-class Carrier extends AbstractCarrierOnline implements CarrierInterface
+class Carrier extends  \Magento\Shipping\Model\Carrier\AbstractCarrier
+	implements  \Magento\Shipping\Model\Carrier\CarrierInterface
 {
-	    const CODE = 'clscustomshipping';
+
+	const CODE = 'clscustomshipping';
 
     protected $_code = self::CODE;
     protected $_request;
@@ -32,56 +34,25 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     protected $_price = 0;
     protected $_breakdown = [];
 
-    public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Psr\Log\LoggerInterface $logger,
-        Security $xmlSecurity,
-        \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
-        \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
-        \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
-        \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
-        \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
-        \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
-        \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Directory\Helper\Data $directoryData,
-        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-        \Magento\Framework\Locale\FormatInterface $localeFormat,
-        \SuttonSilver\CustomCheckout\Model\ResourceModel\Matrix\CollectionFactory $matrixCollectionFactory,
-        \SuttonSilver\CustomCheckout\Api\MatrixRepositoryInterfaceFactory $matrixRepoInterfaceFactory,
-        Config $configHelper,
-        array $data = []
-    ) {
-        $this->_localeFormat = $localeFormat;
-        $this->configHelper = $configHelper;
+	public function __construct(
+		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+		\Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
+		\Psr\Log\LoggerInterface $logger,
+		\Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
+		\Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
+		\SuttonSilver\CustomCheckout\Model\ResourceModel\Matrix\CollectionFactory $matrixCollectionFactory,
+		\SuttonSilver\CustomCheckout\Api\MatrixRepositoryInterfaceFactory $matrixRepoInterfaceFactory,
+		array $data = []
+	) {
+		$this->_rateResultFactory = $rateResultFactory;
+		$this->_rateMethodFactory = $rateMethodFactory;
 
-        $this->matrixCollectionFactory = $matrixCollectionFactory;
-        $this->matrixRepoInterfaceFactory = $matrixRepoInterfaceFactory;
+		$this->matrixCollectionFactory = $matrixCollectionFactory;
+		$this->matrixRepoInterfaceFactory = $matrixRepoInterfaceFactory;
 
-        parent::__construct(
-            $scopeConfig,
-            $rateErrorFactory,
-            $logger,
-            $xmlSecurity,
-            $xmlElFactory,
-            $rateFactory,
-            $rateMethodFactory,
-            $trackFactory,
-            $trackErrorFactory,
-            $trackStatusFactory,
-            $regionFactory,
-            $countryFactory,
-            $currencyFactory,
-            $directoryData,
-            $stockRegistry,
-            $data
-        );
-    }
-    protected function _doShipmentRequest(\Magento\Framework\DataObject $request)
-    {
-    }
+		parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
+	}
+
 
     public function getAllowedMethods()
     {
@@ -90,7 +61,12 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
 
     public function collectRates(RateRequest $request)
     {
-        $result = $this->_rateFactory->create();
+
+	    if (!$this->getConfigFlag('active')) {
+		    return false;
+	    }
+
+        $result = $this->_rateResultFactory->create();
 		$price =$this->getPrice($request);
 
 
