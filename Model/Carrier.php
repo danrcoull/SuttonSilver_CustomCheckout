@@ -121,8 +121,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     	$debugArray = [];
 	    foreach ( $request->getAllItems() as $item ) {
 
-		    if (($item->getProduct()->isVirtual() || $item->getProduct()->getTypeId() == 'simple')
-		        &&  !$item->getParentItem()) {
+		    if (!$item->getParentItem()) {
 
 			    $product     = $item->getProduct();
 			    $matrix      = $this->getMatrixCollection( $product->getSku(), $destination );
@@ -131,20 +130,23 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
 		    }
 		}
 
+	    foreach ($arraySkus as $item)
+	    {
+		    $associated = $item['matrix']->getAssociatedSkus();
 
+		    unset($associated[$item['sku']]);
+
+		    foreach ( $associated as $associate ) {
+			    if ( isset( $arraySkus[ $associate ] ) && $item['sku'] != $associate ) {
+				    $arraySkus[ $associate ]['custom_price'] = $item['matrix']->getIncrementPrice();
+			    }
+		    }
+	    }
 
 		foreach ($arraySkus as $item)
 		{
 
 			if($item['matrix'] !== null) {
-				$associated = $item['matrix']->getAssociatedSkus();
-				unset($associated[$item['sku']]);
-
-				foreach ( $associated as $associate ) {
-					if ( isset( $arraySkus[ $associate ] ) && $item['sku'] != $associate ) {
-						$arraySkus[ $associate ]['custom_price'] = $item['matrix']->getIncrementPrice();
-					}
-				}
 
 				$singlePrice    = isset( $item['custom_price'] ) ? $item['custom_price'] : $item['matrix']->getSinglePrice();
 
@@ -174,9 +176,10 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
 
     public function getMatrixCollection($sku,$destination)
     {
+    	$sku = explode('-',$sku);
 	    return $this->matrixCollectionFactory->create()
-		    ->addFieldToFilter('product_sku', array('eq'=>$sku))
-		    ->addFieldToFilter('destination', array('eq'=>$destination))
+		    ->addFieldToFilter('product_sku', $sku[0])
+		    ->addFieldToFilter('destination', $destination)
 		    ->getFirstItem();
     }
 
