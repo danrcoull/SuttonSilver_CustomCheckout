@@ -155,7 +155,7 @@ class Create extends Action
                     $this->questionAnswersRepository->save($answer);
                 }catch(\Exception $e)
                 {
-                    $errors[$name] = __("Could Not Save:".$question->getQuestionName());
+                    $errors[$name] = __("Could Not Save:".$question->getQuestionName()." With:".$e->getMessage());
                 }
 
             }
@@ -195,6 +195,9 @@ class Create extends Action
         }catch(\Magento\Framework\Exception\NoSuchEntityException $e)
         {
             $customer = $this->customerFactory;
+        }catch(\Exception $e)
+        {
+	        return ['passed' => false, 'value' => $e->getMessage()];
         }
         //set the website (multi site usuage)
         $customer->setWebsiteId($websiteId);
