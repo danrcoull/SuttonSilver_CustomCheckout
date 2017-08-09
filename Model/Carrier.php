@@ -146,7 +146,7 @@ class Carrier extends  \Magento\Shipping\Model\Carrier\AbstractCarrier
 			$this->_price = $this->_price + $price;
 			$this->_breakdown[$item['sku']] = $price;
 		}
-die;
+
 		return $this->_price;
     }
 
