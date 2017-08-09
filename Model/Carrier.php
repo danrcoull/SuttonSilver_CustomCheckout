@@ -134,10 +134,11 @@ class Carrier extends  \Magento\Shipping\Model\Carrier\AbstractCarrier
 					$price = $singlePrice;
 				}
 				var_dump($singlePrice);
-				var_dump($price);
+				var_dump($item['matrix']->getMaxPrice());
 				if ( $price >= $item['matrix']->getMaxPrice() ) {
 					$price = $item['matrix']->getMaxPrice();
 				}
+				var_dump($price);
 			}else{
 				$price = 0;
 			}
