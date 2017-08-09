@@ -225,7 +225,7 @@ class Create extends Action
         $customer->setCustomAttribute('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
         $customer->setCustomAttribute('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
 
-        $customer->setCustomAttribute('studied_with_us_before', $data['have_studied']);
+        $customer->setCustomAttribute('studied_with_us_before', isset($data['have_studied']) ? 1 : 0 );
         $customer->setCustomAttribute('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
         $customer->setCustomAttribute('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
         $customer->setCustomAttribute('is_read_only',true);
