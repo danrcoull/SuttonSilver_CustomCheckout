@@ -227,7 +227,6 @@ class Create extends Action
         $customer->setCustomAttribute('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
         $customer->setCustomAttribute('is_read_only',true);
 
-        die(var_dump($customer));
         try {
             $interface = $this->customerRepository->save($customer);
         }catch(\Exception $e)
