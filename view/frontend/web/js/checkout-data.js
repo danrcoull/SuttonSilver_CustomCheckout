@@ -43,6 +43,7 @@ define([
         },
         setPersonalDetailsData: function (data) {
             var obj = getData();
+            delete obj.confirm_username;
             obj.personalDetailsData = data;
             saveData(obj);
         },

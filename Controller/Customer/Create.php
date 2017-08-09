@@ -37,7 +37,7 @@ class Create extends Action
         Data $jsonHelper,
         FormKey $formKey,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Api\Data\CustomerInterface $customerFactory,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \SuttonSilver\CustomCheckout\Model\ResourceModel\Question\CollectionFactory $questionFactory,
         \SuttonSilver\CustomCheckout\Model\QuestionAnswersFactory $questionAnswers,
@@ -203,14 +203,14 @@ class Create extends Action
         $customer->setPrefix(isset($data['title']) ? $data['title'] : "");
         $customer->setFirstname(isset($data['firstname']) ? $data['firstname'] : "");
         $customer->setLastname(isset($data['lastname']) ? $data['lastname'] : "");
-        $customer->setData('cilex_membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
-        $customer->setData('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
-        $customer->setData('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
+        $customer->setCustomAttribute('cilex_membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
+        $customer->setCustomAttribute('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
+        $customer->setCustomAttribute('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
 
-        $customer->setData('studied_with_us_before', $data['have_studied']);
-        $customer->setData('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
-        $customer->setData('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
-        $customer->setData('is_read_only',true);
+        $customer->setCustomAttribute('studied_with_us_before', $data['have_studied']);
+        $customer->setCustomAttribute('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
+        $customer->setCustomAttribute('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
+        $customer->setCustomAttribute('is_read_only',true);
 
         try {
             $interface = $this->customerRepository->save($customer);
