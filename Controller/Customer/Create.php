@@ -69,46 +69,47 @@ class Create extends Action
 
     public function execute()
     {
-        $result = $this->resultJsonFactory->create();
-        $response = [];
-        if ($this->getRequest()->isAjax()) {
+    	try {
+		    $result   = $this->resultJsonFactory->create();
+		    $response = [];
+		    if ( $this->getRequest()->isAjax() ) {
 
-            $post = $this->getRequest()->getPost('data');
+			    $post = $this->getRequest()->getPost( 'data' );
 
-            $decodedData = $this->jsonHelper->jsonDecode($post);
+			    $decodedData = $this->jsonHelper->jsonDecode( $post );
 
-            if($decodedData['form_key'] === $this->formKey->getFormKey())
-            {
-                $customerId = $this->createCustomer($decodedData);
-                if($customerId['passed'])
-                {
-                    $customerId =  $customerId['value'];
-                    $response['success'] = true;
-                    $response['customer_id'] = $customerId;
-                    $ansersResponse = $this->createCustomAnswers($decodedData, $customerId);
-                    $responseQuote = $this->setQuote($customerId);
+			    if ( $decodedData['form_key'] === $this->formKey->getFormKey() ) {
+				    $customerId = $this->createCustomer( $decodedData );
+				    if ( $customerId['passed'] ) {
+					    $customerId              = $customerId['value'];
+					    $response['success']     = true;
+					    $response['customer_id'] = $customerId;
+					    $ansersResponse          = $this->createCustomAnswers( $decodedData, $customerId );
+					    $responseQuote           = $this->setQuote( $customerId );
 
-                    if(!$ansersResponse['passed'] )
-                    {
-                        unset($response['success']);
-                        $response['error'] = true;
-                        $response['errors'][] = $ansersResponse['value'];
-                    }
+					    if ( ! $ansersResponse['passed'] ) {
+						    unset( $response['success'] );
+						    $response['error']    = true;
+						    $response['errors'][] = $ansersResponse['value'];
+					    }
 
 
-                }else {
-                    $response['error'] = true;
-                    $response['errors'][] = __($customerId['value']);
-                }
-            }else {
-                $response['error'] = true;
-                $response['errors'][] = __('Form Key Invalid PLease, refresh and try again');
-            }
+				    } else {
+					    $response['error']    = true;
+					    $response['errors'][] = __( $customerId['value'] );
+				    }
+			    } else {
+				    $response['error']    = true;
+				    $response['errors'][] = __( 'Form Key Invalid PLease, refresh and try again' );
+			    }
 
 
-             return $result->setData($response);
-        }
-
+			    return $result->setData( $this->jsonHelper->jsonEncode( $response ) );
+		    }
+	    }catch(\Exception $e)
+	    {
+		    $this->logger->critical($e->getMessage());
+	    }
 
         $this->_redirect($this->_redirect->getRefererUrl());
         return false;
