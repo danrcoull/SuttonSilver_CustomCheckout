@@ -126,6 +126,7 @@ class Carrier extends  \Magento\Shipping\Model\Carrier\AbstractCarrier
 
 				$singlePrice    = $item['matrix']->getSinglePrice();
 				$incrementPrice = $item['matrix']->getIncrementPrice();
+				var_dump($item['item']->getQty());
 
 				if ( $item['item']->getQty() > 1 ) {
 					$price = $singlePrice + ( ( $item['item']->getQty() - 1 ) * $incrementPrice );
@@ -143,10 +144,10 @@ class Carrier extends  \Magento\Shipping\Model\Carrier\AbstractCarrier
 
 
 
-			$this->_price += $price;
+			$this->_price = $this->_price + $price;
 			$this->_breakdown[$item['sku']] = $price;
 		}
-
+die;
 		return $this->_price;
     }
 
