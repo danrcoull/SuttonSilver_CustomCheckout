@@ -76,7 +76,6 @@ class Create extends Action
             $post = $this->getRequest()->getPost('data');
 
             $decodedData = $this->jsonHelper->jsonDecode($post);
-	        die(var_dump($decodedData));
 
             if($decodedData['form_key'] === $this->formKey->getFormKey())
             {
