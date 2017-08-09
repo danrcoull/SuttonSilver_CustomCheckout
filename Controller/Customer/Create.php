@@ -37,7 +37,7 @@ class Create extends Action
         Data $jsonHelper,
         FormKey $formKey,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Api\Data\CustomerInterface $customerFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \SuttonSilver\CustomCheckout\Model\ResourceModel\Question\CollectionFactory $questionFactory,
         \SuttonSilver\CustomCheckout\Model\QuestionAnswersFactory $questionAnswers,
@@ -194,7 +194,7 @@ class Create extends Action
             $customer = $this->customerRepository->get($data['username'],$websiteId);
         }catch(\Magento\Framework\Exception\NoSuchEntityException $e)
         {
-            $customer = $this->customerFactory;
+            $customer = $this->customerFactory->create();
         }
         //set the website (multi site usuage)
         $customer->setWebsiteId($websiteId);
@@ -206,14 +206,8 @@ class Create extends Action
         $customer->setData('cilex_membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
         $customer->setData('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
         $customer->setData('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
-        if((isset($data['previous_postcode']) && $data['previous_postcode'] != '') ||
-           (isset($data['previous_surname']) && $data['previous_surname'] != '')
-        )
-        {
-            $customer->setData('studied_with_us_before', 1);
-        }else{
-            $customer->setData('studied_with_us_before', 0);
-        }
+
+        $customer->setData('studied_with_us_before', $data['have_studied']);
         $customer->setData('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
         $customer->setData('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
         $customer->setData('is_read_only',true);
