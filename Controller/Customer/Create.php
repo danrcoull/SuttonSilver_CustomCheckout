@@ -114,6 +114,8 @@ class Create extends Action
 		    $this->logger->critical($e->getMessage());
 	    }
 
+
+
         $this->_redirect($this->_redirect->getRefererUrl());
         return false;
     }
@@ -159,7 +161,7 @@ class Create extends Action
                 $answer->setCustomerId($id);
                 $answer->setValue($data[$name]);
                 try {
-                    $this->questionAnswersRepository->save($answer);
+                    //$this->questionAnswersRepository->save($answer);
                 }catch(\Exception $e)
                 {
 	                $this->logger->critical($e->getMessage());
