@@ -126,15 +126,15 @@ class Carrier extends  \Magento\Shipping\Model\Carrier\AbstractCarrier
 
 				$singlePrice    = $item['matrix']->getSinglePrice();
 				$incrementPrice = $item['matrix']->getIncrementPrice();
-				var_dump($item['item']->getQty());
+
 
 				if ( $item['item']->getQty() > 1 ) {
 					$price = $singlePrice + ( ( $item['item']->getQty() - 1 ) * $incrementPrice );
 				} else {
 					$price = $singlePrice;
 				}
-
-
+				var_dump($singlePrice);
+				var_dump($price);
 				if ( $price >= $item['matrix']->getMaxPrice() ) {
 					$price = $item['matrix']->getMaxPrice();
 				}
