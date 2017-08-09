@@ -28,6 +28,7 @@ class Create extends Action
     protected $checkoutSession;
     protected $customerSession;
     protected $quoteRepository;
+    protected $logger;
 
 
     public function __construct(
@@ -46,6 +47,7 @@ class Create extends Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
+	    \Psr\Log\LoggerInterface $logger,
         array $data = []
 
     ){
@@ -64,6 +66,7 @@ class Create extends Action
         $this->checkoutSession = $checkoutSession;
         $this->customerSession = $customerSession;
         $this->quoteRepository = $quoteRepository;
+        $this->logger = $logger;
     }
 
 
