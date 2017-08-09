@@ -207,17 +207,19 @@ class Create extends Action
 
         //check if the customer exists if not create new.
         try{
-            $customer = $this->customerRepository->get($data['username'],$websiteId);
+            $customer = $this->customerRepository->get($data['username']);
         }catch(\Magento\Framework\Exception\NoSuchEntityException $e)
         {
             $customer = $this->customerFactory;
+	        $this->logger->critical($e->getMessage());
+
         }catch(\Exception $e)
         {
 	        $this->logger->critical($e->getMessage());
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
         //set the website (multi site usuage)
-        $customer->setWebsiteId($websiteId);
+        //$customer->setWebsiteId($websiteId);
 
         $customer->setEmail(isset($data['username']) ? $data['username'] : '');
         $customer->setPrefix(isset($data['title']) ? $data['title'] : "");
