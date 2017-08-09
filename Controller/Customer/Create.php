@@ -194,7 +194,7 @@ class Create extends Action
             $customer = $this->customerRepository->get($data['username'],$websiteId);
         }catch(\Magento\Framework\Exception\NoSuchEntityException $e)
         {
-            $customer = $this->customerFactory->create();
+            $customer = $this->customerFactory;
         }
         //set the website (multi site usuage)
         $customer->setWebsiteId($websiteId);
