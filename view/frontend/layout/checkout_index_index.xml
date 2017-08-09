@@ -3,6 +3,7 @@
     <body>
         <referenceBlock name="page.title" remove="true" />
         <referenceBlock name="page.main.title" remove="true" />
+        <referenceBlock name="breadcrumbs" remove="true" />
         <referenceBlock name="checkout.root">
             <arguments>
                 <argument name="jsLayout" xsi:type="array">

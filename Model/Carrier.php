@@ -159,14 +159,7 @@ class Carrier extends  \Magento\Shipping\Model\Carrier\AbstractCarrier
 		    ->getFirstItem();
     }
 
-    public function proccessAdditionalValidation(\Magento\Framework\DataObject $request) {
-        return true;
-    }
 
 
 
-	public function isCityRequired()
-	{
-		return false;
-	}
 }
