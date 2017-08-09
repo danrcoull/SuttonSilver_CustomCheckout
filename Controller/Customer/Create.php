@@ -72,9 +72,12 @@ class Create extends Action
         $result = $this->resultJsonFactory->create();
         $response = [];
         if ($this->getRequest()->isAjax()) {
-        	die('here');
+
             $post = $this->getRequest()->getPost('data');
+
             $decodedData = $this->jsonHelper->jsonDecode($post);
+	        die(var_dump($decodedData));
+
             if($decodedData['form_key'] === $this->formKey->getFormKey())
             {
                 $customerId = $this->createCustomer($decodedData);
