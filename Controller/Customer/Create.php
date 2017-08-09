@@ -72,6 +72,7 @@ class Create extends Action
         $result = $this->resultJsonFactory->create();
         $response = [];
         if ($this->getRequest()->isAjax()) {
+        	die('here');
             $post = $this->getRequest()->getPost('data');
             $decodedData = $this->jsonHelper->jsonDecode($post);
             if($decodedData['form_key'] === $this->formKey->getFormKey())
@@ -155,6 +156,7 @@ class Create extends Action
                     $this->questionAnswersRepository->save($answer);
                 }catch(\Exception $e)
                 {
+	                $this->logger->critical($e->getMessage());
                     $errors[$name] = __("Could Not Save:".$question->getQuestionName()." With:".$e->getMessage());
                 }
 
@@ -178,7 +180,13 @@ class Create extends Action
         $quote->setCustomerFirstname($customer->getFirstname());
         $quote->setCustomerLastname($customer->getLastname());
         $quote->setIsChanged(1);
-        $this->quoteRepository->save($quote);
+        try {
+	        $this->quoteRepository->save( $quote );
+        }catch(\Exception $e)
+        {
+	        $this->logger->critical($e->getMessage());
+	        return ['passed' => false, 'value' => $e->getMessage()];
+        }
 
         return true;
     }
@@ -197,6 +205,7 @@ class Create extends Action
             $customer = $this->customerFactory;
         }catch(\Exception $e)
         {
+	        $this->logger->critical($e->getMessage());
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
         //set the website (multi site usuage)
@@ -219,6 +228,7 @@ class Create extends Action
             $interface = $this->customerRepository->save($customer);
         }catch(\Exception $e)
         {
+	        $this->logger->critical($e->getMessage());
              return ['passed' => false, 'value' => $e->getMessage()];
         }
 
