@@ -124,9 +124,9 @@ class Carrier extends  \Magento\Shipping\Model\Carrier\AbstractCarrier
 
 			if($item['matrix']->getId()) {
 
-				$singlePrice    = isset( $item['custom_price'] ) ? ($item['custom_price'] >0 ?  $item['custom_price'] : $item['matrix']->getSinglePrice() ): $item['matrix']->getSinglePrice();
-
+				$singlePrice    = $item['matrix']->getSinglePrice();
 				$incrementPrice = $item['matrix']->getIncrementPrice();
+
 				if ( $item['item']->getQty() > 1 ) {
 					$price = $singlePrice + ( ( $item['item']->getQty() - 1 ) * $incrementPrice );
 				} else {
