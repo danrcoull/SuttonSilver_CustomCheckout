@@ -29,6 +29,7 @@ class Create extends Action
     protected $customerSession;
     protected $quoteRepository;
     protected $logger;
+    protected $encryptor;
 
 
     public function __construct(
@@ -38,7 +39,7 @@ class Create extends Action
         Data $jsonHelper,
         FormKey $formKey,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Api\Data\CustomerInterface $customerFactory,
+	    \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \SuttonSilver\CustomCheckout\Model\ResourceModel\Question\CollectionFactory $questionFactory,
         \SuttonSilver\CustomCheckout\Model\QuestionAnswersFactory $questionAnswers,
@@ -48,6 +49,7 @@ class Create extends Action
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
 	    \Psr\Log\LoggerInterface $logger,
+	    \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         array $data = []
 
     ){
@@ -67,6 +69,7 @@ class Create extends Action
         $this->customerSession = $customerSession;
         $this->quoteRepository = $quoteRepository;
         $this->logger = $logger;
+        $this->encryptor = $encryptor;
     }
 
 
@@ -113,8 +116,6 @@ class Create extends Action
 	    {
 		    $this->logger->critical($e->getMessage());
 	    }
-
-
 
         $this->_redirect($this->_redirect->getRefererUrl());
         return false;
@@ -203,47 +204,60 @@ class Create extends Action
     {
 
         // Get Website ID
-        $websiteId  = $this->storeManager->getWebsite()->getWebsiteId();
+	    $websiteId  = $this->storeManager->getWebsite()->getWebsiteId();
+
 
         //check if the customer exists if not create new.
         try{
-            $customer = $this->customerRepository->get($data['username']);
+
+            //$customer = $this->customerRepository->get($data['username'],$websiteId);
+            $customer = $this->customerFactory->create()->loadByEmail($data['username']);
+
         }catch(\Magento\Framework\Exception\NoSuchEntityException $e)
         {
-            $customer = $this->customerFactory;
-	        $this->logger->critical($e->getMessage());
 
+            $customer = $this->customerFactory->create();
         }catch(\Exception $e)
         {
 	        $this->logger->critical($e->getMessage());
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
         //set the website (multi site usuage)
-        //$customer->setWebsiteId($websiteId);
+
+
+        $customer->setWebsiteId($websiteId);
+
+	    $storeId = $this->storeManager->getWebsite($websiteId)->getDefaultStore()->getId();
+	    $customer->setStoreId($storeId);
 
         $customer->setEmail(isset($data['username']) ? $data['username'] : '');
         $customer->setPrefix(isset($data['title']) ? $data['title'] : "");
         $customer->setFirstname(isset($data['firstname']) ? $data['firstname'] : "");
         $customer->setLastname(isset($data['lastname']) ? $data['lastname'] : "");
 
-        //$customer->setCustomAttribute('cilex_membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
-        //$customer->setCustomAttribute('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
-        //$customer->setCustomAttribute('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
+	    $storeName = $this->storeManager->getStore($customer->getStoreId())->getName();
+	    $customer->setCreatedIn($storeName);
 
-        //$customer->setCustomAttribute('studied_with_us_before', isset($data['have_studied']) ? 1 : 0 );
-        //$customer->setCustomAttribute('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
-        //$customer->setCustomAttribute('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
-	    //$customer->setIsReadOnly(true);
+        $customer->setData('cilex_membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
+        $customer->setData('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
+        $customer->setData('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
+
+        $customer->setData('studied_with_us_before', isset($data['have_studied']) ? $data['have_studied'] : false );
+        $customer->setData('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
+        $customer->setData('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
+
+	    $customer->setIsReadonly(true);
 
         try {
-            $interface = $this->customerRepository->save($customer);
+            //$interface = $this->customerRepository->save($customer,$this->encryptor->getHash(rand(), true));
+			$customer->save();
         }catch(\Exception $e)
         {
 	        $this->logger->critical($e->getMessage());
              return ['passed' => false, 'value' => $e->getMessage()];
         }
 
-        return ['passed' => true, 'value' =>$interface->getId()];
+        return ['passed' => true, 'value' =>$customer->getId()];
 
     }
 }

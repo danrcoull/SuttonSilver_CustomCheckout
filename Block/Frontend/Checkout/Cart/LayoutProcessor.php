@@ -35,6 +35,7 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
                    ['value' => 'null','label' => __('Overseas')]
                ],
                'label' => '',
+	           'checked' => 'GB',
                'formElement' => 'checkbox-set',
                'visible' => true,
                'sortOrder' =>1

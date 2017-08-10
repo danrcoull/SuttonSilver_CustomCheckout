@@ -51,6 +51,5 @@ class HomeAddress extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
                 $this->getAttribute()->getEntity()->saveAttribute($object, $this->getAttribute()->getAttributeCode());
             }
         }
-        die;
     }
 }
