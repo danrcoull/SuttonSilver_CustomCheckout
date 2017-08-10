@@ -15,6 +15,7 @@ class Delivery implements \Magento\Framework\Data\CollectionDataSourceInterface
             [
                 'value' => '0',
                 'label' => __('My Work Address'),
+	            'checked' => true
             ],
             [
                 'value' => '1',
