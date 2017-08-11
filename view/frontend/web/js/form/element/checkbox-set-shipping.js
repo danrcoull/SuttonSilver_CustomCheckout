@@ -56,6 +56,22 @@ define([
 
                 setTimeout(function() {
 
+                    if (value !== 'default_shipping') {
+
+                        address = checkoutData.getHomeAddressData();
+
+                        Object.keys(address).forEach(function (key) {
+                            if (key === 'street') {
+                                var key2 = 'street.0';
+                            } else {
+                                key2 = key;
+                            }
+                            var element = uiRegistry.get(shippinhFieldset + '.' + key2);
+                            if (typeof element !== 'undefined') {
+                                element.value(address[key]);
+                            }
+                        });
+                    }
 
                     ko.utils.arrayForEach(element._elems, function (feature) {
 
@@ -71,7 +87,7 @@ define([
                             }
 
 
-                            if (value === 1 && typeof feature.hide === 'function') {
+                            if (value === 'home_address' && typeof feature.hide === 'function') {
 
                                 feature.hide();
 
@@ -106,23 +122,6 @@ define([
                         }
                     });
 
-
-                    if (value !== 0) {
-
-                        address = checkoutData.getHomeAddressData();
-
-                        Object.keys(address).forEach(function (key) {
-                            if (key === 'street') {
-                                var key2 = 'street.0';
-                            } else {
-                                key2 = key;
-                            }
-                            var element = uiRegistry.get(shippinhFieldset + '.' + key2);
-                            if (typeof element !== 'undefined') {
-                                element.value(address[key]);
-                            }
-                        });
-                    }
 
                 },400);
 

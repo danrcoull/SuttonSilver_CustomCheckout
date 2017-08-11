@@ -38,14 +38,22 @@ define([
                     validated = false;
 
                 let value = self.value();
+                let setShiping = registry.get(self.parentName + '.' + 'set_shipping');
+                var show = true;
+                if (typeof setShiping !== 'undefined') {
+                    if(setShiping.value() === 'home_address') {
+                        show = false;
+                    }
+                }
 
                 choose_address.hide();
 
-                if (country.value() === 'GB' && self.value() !== '') {
+                if (country.value() === 'GB' && self.value() !== '' && show) {
 
                     validated = self.postcodeValidation();
 
                     if (validated) {
+
                         validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
                         autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
 
@@ -55,16 +63,17 @@ define([
                                 $.getJSON(autoUrl, function (response2) {
                                     choose_address.setAddresses(response2);
                                     choose_address.show();
+
                                 }).error(function () {
                                     choose_address.setAddresses([]);
                                 });
-
 
                             }
 
                         }).error(function () {
                             validated = false;
                         });
+
                     }
 
                 } else {

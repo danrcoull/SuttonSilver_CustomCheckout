@@ -30,6 +30,8 @@ class Create extends Action
     protected $quoteRepository;
     protected $logger;
     protected $encryptor;
+    protected $addressInterface;
+    protected $addressRepositoryInterface;
 
 
     public function __construct(
@@ -39,7 +41,9 @@ class Create extends Action
         Data $jsonHelper,
         FormKey $formKey,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-	    \Magento\Customer\Model\CustomerFactory $customerFactory,
+	    \Magento\Customer\Api\Data\CustomerInterface $customerFactory,
+	    \Magento\Customer\Api\Data\AddressInterface $addressInterface,
+	    \Magento\Customer\Api\AddressRepositoryInterface $addressRepositoryInterface,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \SuttonSilver\CustomCheckout\Model\ResourceModel\Question\CollectionFactory $questionFactory,
         \SuttonSilver\CustomCheckout\Model\QuestionAnswersFactory $questionAnswers,
@@ -70,12 +74,15 @@ class Create extends Action
         $this->quoteRepository = $quoteRepository;
         $this->logger = $logger;
         $this->encryptor = $encryptor;
+        $this->addressInterface = $addressInterface;
+        $this->addressRepositoryInterface = $addressRepositoryInterface;
     }
 
 
     public function execute()
     {
     	try {
+
 		    $result   = $this->resultJsonFactory->create();
 		    $response = [];
 		    if ( $this->getRequest()->isAjax() ) {
@@ -83,6 +90,7 @@ class Create extends Action
 			    $post = $this->getRequest()->getPost( 'data' );
 
 			    $decodedData = $this->jsonHelper->jsonDecode( $post );
+
 
 			    if ( $decodedData['form_key'] === $this->formKey->getFormKey() ) {
 				    $customerId = $this->createCustomer( $decodedData );
@@ -210,13 +218,13 @@ class Create extends Action
         //check if the customer exists if not create new.
         try{
 
-            //$customer = $this->customerRepository->get($data['username'],$websiteId);
-            $customer = $this->customerFactory->create()->loadByEmail($data['username']);
+            $customer = $this->customerRepository->get($data['username'],$websiteId);
+            //$customer = $this->customerFactory->create()->loadByEmail($data['username']);
 
         }catch(\Magento\Framework\Exception\NoSuchEntityException $e)
         {
+	        $customer = $this->customerFactory;
 
-            $customer = $this->customerFactory->create();
         }catch(\Exception $e)
         {
 	        $this->logger->critical($e->getMessage());
@@ -230,7 +238,7 @@ class Create extends Action
 	    $storeId = $this->storeManager->getWebsite($websiteId)->getDefaultStore()->getId();
 	    $customer->setStoreId($storeId);
 
-        $customer->setEmail(isset($data['username']) ? $data['username'] : '');
+        $customer->setEmail(isset($data['username']) ? $data['usernam   e'] : '');
         $customer->setPrefix(isset($data['title']) ? $data['title'] : "");
         $customer->setFirstname(isset($data['firstname']) ? $data['firstname'] : "");
         $customer->setLastname(isset($data['lastname']) ? $data['lastname'] : "");
@@ -238,19 +246,36 @@ class Create extends Action
 	    $storeName = $this->storeManager->getStore($customer->getStoreId())->getName();
 	    $customer->setCreatedIn($storeName);
 
-        $customer->setData('cilex_membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
-        $customer->setData('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
-        $customer->setData('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
+        $customer->setCustomAttribute('cilex_membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
+        $customer->setCustomAttribute('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
+        $customer->setCustomAttribute('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
 
-        $customer->setData('studied_with_us_before', isset($data['have_studied']) ? $data['have_studied'] : false );
-        $customer->setData('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
-        $customer->setData('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
+        $customer->setCustomAttribute('studied_with_us_before', isset($data['have_studied']) ? $data['have_studied'] : false );
+        $customer->setCustomAttribute('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
+        $customer->setCustomAttribute('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
 
 	    $customer->setIsReadonly(true);
 
         try {
-            //$interface = $this->customerRepository->save($customer,$this->encryptor->getHash(rand(), true));
-			$customer->save();
+	        $customer = $this->customerRepository->save( $customer );
+	        die( 'hello i am here' );
+
+
+	        $address = $this->addressInterface
+		        ->setCustomerId( $customer->getId() )
+		        ->setFirstname( $customer->getFirstname() )
+		        ->setLastname( $customer->getLastname() )
+		        ->setCountryId( isset( $data['country_id'] ) ? $data['country_id'] : '' )
+		        ->setPostcode( isset( $data['postcode'] ) ? $data['postcode'] : '' )
+		        ->setCity( isset( $data['city'] ) ? $data['city'] : '' )
+		        ->setTelephone( isset( $data['daytimeNumber'] ) ? $data['daytimeNumber'] : '' )
+		        ->setStreet( isset( $data['street'] ) ? $data['street'] : '' )
+		        ->setCustomAttribute( 'home_address', 'true' )
+		        ->setIsDefaultShipping( '1' )
+		        ->setSaveInAddressBook( '1' );
+	        $this->addressRepositoryInterface->save( $address );
+
+	        //$customer->save();
         }catch(\Exception $e)
         {
 	        $this->logger->critical($e->getMessage());

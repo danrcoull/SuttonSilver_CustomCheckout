@@ -122,7 +122,7 @@
                                                             <item name="label" xsi:type="string">Have you studied with us in the past?</item>
                                                             <item name="sortOrder" xsi:type="string">5</item>
                                                             <item name="prefer" xsi:type="string">toggle</item>
-                                                            <item name="checked" xsi:type="boolean">false</item>
+                                                                <item name="checked" xsi:type="boolean">false</item>
                                                             <item name="valueMap" xsi:type="array">
                                                                 <item name="false" xsi:type="boolean">false</item>
                                                                 <item name="true" xsi:type="boolean">true</item>
@@ -386,6 +386,14 @@
                                                     <item name="children" xsi:type="array">
                                                         <item name="shipping-address-fieldset" xsi:type="array">
                                                             <item name="children" xsi:type="array">
+                                                                <item name="set_shipping" xsi:type="array">
+                                                                    <item name="checked" xsi:type="string">default_shipping</item>
+                                                                    <item name="selected" xsi:type="string">default_shipping</item>
+                                                                    <item name="config" xsi:type="array">
+                                                                        <item name="checked" xsi:type="string">default_shipping</item>
+                                                                        <item name="selected" xsi:type="string">default_shipping</item>
+                                                                    </item>
+                                                                </item>
                                                                 <item name="company" xsi:type="array">
                                                                    <item name="label" xsi:type="string">Employer</item>
                                                                     <item name="placeholder" xsi:type="string">Name of your employing organisation</item>

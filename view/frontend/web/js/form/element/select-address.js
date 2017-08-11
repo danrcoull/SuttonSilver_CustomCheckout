@@ -85,8 +85,14 @@ define([
 
                         if (feature.inputName !== 'country_id' && feature.inputName !== 'postcode' && feature.inputName !== 'address_choose') {
                             if (hide) {
-                                if (typeof feature.hide === 'function') {
-                                    feature.hide();
+                                var fieldsNotIn = [
+                                    'dx_number',
+                                    'company'
+                                ];
+                                if($.inArray(feature.inputName,fieldsNotIn) === -1) {
+                                    if (typeof feature.hide === 'function') {
+                                        feature.hide();
+                                    }
                                 }
                             } else {
 

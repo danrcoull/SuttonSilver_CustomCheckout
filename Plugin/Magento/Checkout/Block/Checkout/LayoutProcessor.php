@@ -118,7 +118,7 @@ class LayoutProcessor
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = "County";
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['before-fields']['children']['select-shipping-address'] = [
+        ['shippingAddress']['children']['before-fields']['children']['set_shipping'] = [
             'component' => 'SuttonSilver_CustomCheckout/js/form/element/checkbox-set-shipping',
             'config' => [
                 'customScope' => 'shippingAddress',
@@ -126,10 +126,9 @@ class LayoutProcessor
                 'options' => $this->delivery->toOptionArray(),
                 'id'=>'select_address',
                 'multiple'=> false,
-                'checked' => 0,
             ],
-            'dataScope' => 'shippingAddress.select_address',
-            'checked' => 0,
+            'dataScope' => 'shippingAddress.set_shipping',
+            'selected' => 'default_shipping',
             'label' => 'Deliver To',
             'provider' => 'checkoutProvider',
             'visible' => true,

@@ -1,5 +1,8 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+
+
 	<virtualType name="SuttonSilver\CustomCheckout\Model\ResourceModel\Question\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
 		<arguments>
 			<argument name="mainTable" xsi:type="string">suttonsilver_question</argument>
@@ -45,7 +48,7 @@
 
 	<preference for="Magento\Checkout\Block\Cart\LayoutProcessor" type="SuttonSilver\CustomCheckout\Block\Frontend\Checkout\Cart\LayoutProcessor" />
 
-
-	<preference for="Magento\Customer\Controller\Adminhtml\Index\Save" type="SuttonSilver\CustomCheckout\Controller\Adminhtml\Customer\Save" />
-	<preference for="Magento\Customer\Model\Data\Customer" type="SuttonSilver\CustomCheckout\Model\Data\Customer" />
+	<type name="Magento\Customer\Api\CustomerRepositoryInterface">
+		<plugin name="customerHomeAddress" type="SuttonSilver\CustomCheckout\Plugin\Magento\Customer\CustomerPlugin" sortOrder="10" />
+	</type>
 </config>

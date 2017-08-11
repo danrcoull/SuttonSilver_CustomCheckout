@@ -18,11 +18,10 @@ class HomeAddress extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
      */
     public function beforeSave($object)
     {
-
-        $defaultShipping = $object->getHomeAddress();
+        $defaultShipping = $object->getData('home_address');
 
         if ($defaultShipping === null) {
-            $object->unsetHomeAddress();
+            $object->unsetData('home_address');
         }
     }
 
@@ -32,24 +31,32 @@ class HomeAddress extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBa
      */
     public function afterSave($object)
     {
+	    $defaultShipping = $object->getCustomAttribute('home_address');
 
-        if ($defaultShipping = $object->getHomeAddress()) {
-            $addressId = false;
-            /**
-             * post_index set in customer save action for address
-             * this is $_POST array index for address
-             */
-            foreach ($object->getAddresses() as $address) {
-                if ($address->getPostIndex() == $defaultShipping) {
-                    $addressId = $address->getId();
-                }
-            }
+        if ($defaultShipping != null) {
+	        $addressId = false;
 
-            if ($addressId) {
+	        /**
+	         * post_index set in customer save action for address
+	         * this is $_POST array index for address
+	         */
+	        foreach ( $object->getAddresses() as $address ) {
+		        if ( $address->getPostIndex() == $defaultShipping ) {
+			        $addressId = $address->getId();
+		        }
+	        }
 
-                $object->setHomeAddress($addressId);
-                $this->getAttribute()->getEntity()->saveAttribute($object, $this->getAttribute()->getAttributeCode());
-            }
+	        if ( $addressId ) {
+
+		        $object->setData( 'home_address', $addressId );
+		        $this->getAttribute()->getEntity()->saveAttribute( $object, $this->getAttribute()->getAttributeCode() );
+	        }
         }
+
+
+
+
+
+
     }
 }

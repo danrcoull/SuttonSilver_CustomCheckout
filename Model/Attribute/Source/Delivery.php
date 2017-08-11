@@ -13,12 +13,12 @@ class Delivery implements \Magento\Framework\Data\CollectionDataSourceInterface
 
         $array = [
             [
-                'value' => '0',
+                'value' => 'default_shipping',
                 'label' => __('My Work Address'),
 	            'checked' => true
             ],
             [
-                'value' => '1',
+                'value' => 'home_address',
                 'label' => __('My Home Address'),
             ]
         ];

@@ -45,6 +45,13 @@ define([
 
                 this.required(!!option['is_region_required']);
             }
+
+
+            if(country.value() ==='GB')
+            {
+                registry.get(this.parentName + '.' + 'region').setVisible(false);
+                registry.get(this.parentName + '.' + 'region_id').setVisible(false);
+            }
         },
 
         /**
@@ -63,16 +70,15 @@ define([
                 var country = registry.get(self.parentName + '.' + 'country_id'),
                     option = country.indexedOptions[value];
 
-                if(country.value() != 'GB') {
-                    if (option && option['is_region_visible'] === false) {
-                        // hide select and corresponding text input field if region must not be shown for selected country
-                        self.setVisible(false);
 
-                        if (self.customEntry) {
-                            self.toggleInput(false);
-                        }
+                if (option && option['is_region_visible'] === false) {
+
+                    if (self.customEntry) {
+                        self.toggleInput(false);
                     }
                 }
+
+
 
             }, 500);
         }
