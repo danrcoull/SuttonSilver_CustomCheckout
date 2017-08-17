@@ -168,7 +168,8 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
 
     public function setQuestionName($question_name)
     {
-        return $this->setData(self::QUESTION_NAME, $question_name);
+        $this->setData(self::QUESTION_NAME, $question_name);
+        return $this;
     }
 
     public function getQuestionIsRequired()
@@ -178,7 +179,8 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
 
     public function setQuestionIsRequired($question_is_required)
     {
-        return $this->setData(self::QUESTION_IS_REQUIRED, filter_var($question_is_required, FILTER_VALIDATE_BOOLEAN));
+        $this->setData(self::QUESTION_IS_REQUIRED, filter_var($question_is_required, FILTER_VALIDATE_BOOLEAN));
+        return $this;
     }
 
     public function getQuestionPlaceholder()
@@ -188,7 +190,8 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
 
     public function setQuestionPlaceholder($question_placeholder)
     {
-        return $this->setData(self::QUESTION_PLACEHOLDER, $question_placeholder);
+        $this->setData(self::QUESTION_PLACEHOLDER, $question_placeholder);
+        return $this;
     }
 
     public function getQuestionIsActive()
@@ -198,7 +201,8 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
 
     public function setQuestionIsActive($question_is_active)
     {
-        return $this->setData(self::QUESTION_ACTIVE, $question_is_active);
+        $this->setData(self::QUESTION_ACTIVE, $question_is_active);
+        return $this;
     }
 
     public function getQuestionDependsOn()
@@ -217,8 +221,27 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
             $question_depends_on = implode(',',$question_depends_on);
         }
 
-        return $this->setData(self::QUESTION_DEPENDS_ON, $question_depends_on);
+        $this->setData(self::QUESTION_DEPENDS_ON, $question_depends_on);
+        return $this;
     }
+
+	public function getQuestionTooltip() {
+		return $this->getData(self::QUESTION_TOOLTIP);
+	}
+
+	public function setQuestionTooltip( $tooltip ) {
+		 $this->setData(self::QUESTION_TOOLTIP,$tooltip;
+		 return $this;
+	}
+
+	public function getQuestionPosition() {
+		return $this->getData(self::QUESTION_POSITION);
+	}
+
+	public function setQuestionPosition( $tooltip ) {
+		$this->setData(self::QUESTION_POSITION,$tooltip;
+		return $this;
+	}
 
 
 }

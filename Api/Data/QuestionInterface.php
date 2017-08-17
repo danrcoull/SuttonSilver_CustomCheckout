@@ -15,6 +15,8 @@ interface QuestionInterface
     const QUESTION_IS_REQUIRED = 'question_is_required';
     const QUESTION_ACTIVE = 'question_is_active';
     const QUESTION_DEPENDS_ON = 'question_depends_on';
+    const QUESTION_TOOLTIP = 'question_tooltip';
+    const QUESTION_POSITION = 'question_position';
 
 
     /**
@@ -151,4 +153,35 @@ interface QuestionInterface
      */
 
     public function setQuestionDependsOn($question_depends_on);
+
+
+	/**
+	 * Get question_tooltip
+	 * @return string|null
+	 */
+
+	public function getQuestionTooltip();
+
+	/**
+	 * Set question_tooltip
+	 * @param string $value
+	 * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface
+	 */
+
+	public function setQuestionTooltip($tooltip);
+
+	/**
+	 * Get question_position
+	 * @return string|null
+	 */
+
+	public function getQuestionPosition();
+
+	/**
+	 * Set question_position
+	 * @param string $value
+	 * @return \SuttonSilver\CustomCheckout\Api\Data\QuestionAnswersInterface
+	 */
+
+	public function setQuestionPosition($tooltip);
 }
