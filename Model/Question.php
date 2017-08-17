@@ -230,7 +230,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
 	}
 
 	public function setQuestionTooltip( $tooltip ) {
-		 $this->setData(self::QUESTION_TOOLTIP,$tooltip;
+		 $this->setData(self::QUESTION_TOOLTIP,$tooltip);
 		 return $this;
 	}
 
