@@ -239,7 +239,7 @@ class Question extends \Magento\Framework\Model\AbstractModel implements Questio
 	}
 
 	public function setQuestionPosition( $tooltip ) {
-		$this->setData(self::QUESTION_POSITION,$tooltip;
+		$this->setData(self::QUESTION_POSITION,$tooltip);
 		return $this;
 	}
 
