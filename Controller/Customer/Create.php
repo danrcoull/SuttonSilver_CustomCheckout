@@ -85,7 +85,7 @@ class Create extends Action
 
 		    $result   = $this->resultJsonFactory->create();
 		    $response = [];
-		    if ( $this->getRequest()->isAjax() ) {
+		  //  if ( $this->getRequest()->isAjax() ) {
 
 			    $post = $this->getRequest()->getPost( 'data' );
 
@@ -119,7 +119,7 @@ class Create extends Action
 
 
 			    return $result->setData( $this->jsonHelper->jsonEncode( $response ) );
-		    }
+		   // }
 	    }catch(\Exception $e)
 	    {
 		    $this->logger->critical($e->getMessage());

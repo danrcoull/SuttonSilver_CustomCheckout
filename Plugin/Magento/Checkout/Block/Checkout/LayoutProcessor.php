@@ -280,13 +280,14 @@ class LayoutProcessor
         }
 
       if(isset($jsLayout['components']['checkout']['children']['steps']['children']['my-new-step'])) {
-          $jsLayout['components']['checkout']['children']['steps']['children']
-          ['my-new-step']['children']['custom-checkout-form-additional'] =[
-              'component' => 'uiComponent',
-              'displayArea' => 'additional',
-              'children' => $options
-          ];
-
+        	if(count($options) > 0) {
+		        $jsLayout['components']['checkout']['children']['steps']['children']
+		        ['my-new-step']['children']['custom-checkout-form-additional'] = [
+			        'component'   => 'uiComponent',
+			        'displayArea' => 'additional',
+			        'children'    => $options
+		        ];
+	        }
         }
 
 
