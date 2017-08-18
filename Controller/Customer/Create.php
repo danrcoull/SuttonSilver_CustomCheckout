@@ -275,8 +275,7 @@ class Create extends Action
 		        ->setTelephone( isset( $data['daytimeNumber'] ) ? $data['daytimeNumber'] : '' )
 		        ->setStreet( isset( $data['street'] ) ? [$data['street']] : '' )
 		        ->setCustomAttribute( 'home_address', 'true' )
-		        ->setIsDefaultShipping( '1' )
-		        ->setSaveInAddressBook( '1' );
+		        ->setIsDefaultShipping( '1' );
 	        $this->addressRepositoryInterface->save( $address );
 
 	        //$customer->save();
