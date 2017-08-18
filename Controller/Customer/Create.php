@@ -272,8 +272,8 @@ class Create extends Action
         try {
 	        $customer = $this->customerRepository->save( $customer );
 	        //die( 'hello i am here' );
-			die(var_dump($data));
-			$region = $this->region_interface_factory->create()->setRegion();
+
+			$region = $this->region_interface_factory->create()->setRegion($data['region'])->setRegionId($data['region_id']);
 	        $address = $this->addressInterface
 		        ->setCustomerId( $customer->getId() )
 		        ->setFirstname( $customer->getFirstname() )
