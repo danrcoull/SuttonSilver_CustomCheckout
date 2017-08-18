@@ -51,11 +51,14 @@ abstract class ExportAbstract
 
     public function createExportDir()
     {
+	    $this->logger->info('Start creating Export Dir');
         $file =  $this->driverPool->getDriver(DriverPool::FILE);
         if(!$file->isDirectory(self::EXPORT_PATH))
         {
+	        $this->logger->info('Creating Export Dir');
             $file->createDirectory(self::EXPORT_PATH, 0755);
         }else {
+	        $this->logger->info('Change Export Dir Permissions');
             if(!$file->isWritable(self::EXPORT_PATH)){
                 $file->changePermissions(self::EXPORT_PATH,0755);
             }
@@ -88,12 +91,17 @@ abstract class ExportAbstract
 
     public function saveExport($data)
     {
+	    $this->logger->info('Save Export');
         try {
+	        $this->logger->info('Creating Export');
             $this->createExportDir();
+	        $this->logger->info('Creating Title');
             $file = self::EXPORT_PATH . "/export-" . date('dd-mm-Y') . ".csv";
+	        $this->logger->info('Save Export');
             $this->csv->saveData($file, $data);
         }catch(\Exception $e)
         {
+	        $this->logger->info('Error:');
             $this->logger->addError($e->getMessage());
         }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="default">
-        <job name="export_orders_CLS" instance="SuttonSilver\CustomCheckout\Cron\Export" method="execute">
-            <schedule>* * * * *</schedule>
+        <job name="export_orders_cls" instance="SuttonSilver\CustomCheckout\Cron\Export" method="execute">
+            <schedule>*/5 * * * *</schedule>
         </job>
     </group>
 </config>
