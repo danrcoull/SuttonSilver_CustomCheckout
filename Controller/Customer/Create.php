@@ -198,13 +198,14 @@ class Create extends Action
         $quote->setCustomer($customer);
         $quote->setCustomerFirstname($customer->getFirstname());
         $quote->setCustomerLastname($customer->getLastname());
+        $quote->setCheckoutMethod('register');
         $quote->setIsChanged(1);
 
         try {
 	        $this->quoteRepository->save( $quote );
         }catch(\Exception $e)
         {
-        	die('here;');
+        	die($e->getMessage());
 	        $this->logger->critical($e->getMessage());
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
