@@ -107,12 +107,14 @@ class Create extends Action
 					    $ansersResponse          = $this->createCustomAnswers( $decodedData, $customerId );
 					    $responseQuote           = $this->setQuote( $customerId );
 
-					    if ( ! $ansersResponse['passed'] ) {
-						    unset( $response['success'] );
-						    $response['error']    = true;
-						    $response['errors'][] = $ansersResponse['value'];
-					    }
+					    if($ansersResponse['passed'] && $responseQuote['passed'])
+					    {
+						    $response['error']    = false;
 
+					    }else {
+						    $response['errors'][] = $ansersResponse['value'];
+						    $response['errors'][] = $responseQuote['value'];
+					    }
 
 				    } else {
 					    $response['error']    = true;
@@ -128,8 +130,7 @@ class Create extends Action
 		   // }
 	    }catch(\Exception $e)
 	    {
-	    	die($e->getMessage());
-		    $this->logger->critical($e->getMessage());
+
 	    }
 
         $this->_redirect($this->_redirect->getRefererUrl());
@@ -181,8 +182,6 @@ class Create extends Action
                     $this->questionAnswersRepository->save($answer);
                 }catch(\Exception $e)
                 {
-	                die($e->getMessage());
-	                $this->logger->critical($e->getMessage());
                     $errors[$name] = __("Could Not Save:".$question->getQuestionName()." With:".$e->getMessage());
                 }
 
@@ -192,9 +191,10 @@ class Create extends Action
         if(count($errors) >= 1)
         {
             return ['passed' => false, 'value' => $errors];
-        }else{
-            return ['passed' => true];
         }
+
+        return ['passed' => true, 'value' => ''];
+
     }
 
     public function setQuote($id)
@@ -212,13 +212,10 @@ class Create extends Action
 	        $this->quoteRepository->save( $quote );
         }catch(\Exception $e)
         {
-
-	        die($e->getMessage());
-	        $this->logger->critical($e->getMessage());
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
 
-        return true;
+        return ['passed' => false, 'value' => $quote->getId()] ;
     }
 
     public function createCustomer($data)
