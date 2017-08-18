@@ -273,7 +273,7 @@ class Create extends Action
 		        ->setPostcode( isset( $data['postcode'] ) ? $data['postcode'] : '' )
 		        ->setCity( isset( $data['city'] ) ? $data['city'] : '' )
 		        ->setTelephone( isset( $data['daytimeNumber'] ) ? $data['daytimeNumber'] : '' )
-		        ->setStreet( isset( $data['street'] ) ? $data['street'] : '' )
+		        ->setStreet( isset( $data['street'] ) ? [$data['street']] : '' )
 		        ->setCustomAttribute( 'home_address', 'true' )
 		        ->setIsDefaultShipping( '1' )
 		        ->setSaveInAddressBook( '1' );
