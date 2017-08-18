@@ -260,7 +260,7 @@ class Create extends Action
 
         try {
 	        $customer = $this->customerRepository->save( $customer );
-	        die( 'hello i am here' );
+	        //die( 'hello i am here' );
 
 
 	        $address = $this->addressInterface
@@ -281,7 +281,7 @@ class Create extends Action
         }catch(\Exception $e)
         {
 	        $this->logger->critical($e->getMessage());
-             return ['passed' => false, 'value' => $e->getMessage()];
+            return ['passed' => false, 'value' => $e->getMessage()];
         }
 
         return ['passed' => true, 'value' =>$customer->getId()];
