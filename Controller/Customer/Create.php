@@ -230,6 +230,7 @@ class Create extends Action
 
         }catch(\Exception $e)
         {
+        	die($e->getMessage());
 	        $this->logger->critical($e->getMessage());
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
@@ -249,15 +250,15 @@ class Create extends Action
 	    $storeName = $this->storeManager->getStore($customer->getStoreId())->getName();
 	    $customer->setCreatedIn($storeName);
 
-        $customer->setCustomAttribute('cilex_membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
-        $customer->setCustomAttribute('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
-        $customer->setCustomAttribute('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
+       // $customer->setCustomAttribute('cilex_membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
+       // $customer->setCustomAttribute('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
+      // $customer->setCustomAttribute('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
 
-        $customer->setCustomAttribute('studied_with_us_before', isset($data['have_studied']) ? $data['have_studied'] : false );
-        $customer->setCustomAttribute('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
-        $customer->setCustomAttribute('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
+       // $customer->setCustomAttribute('studied_with_us_before', isset($data['have_studied']) ? $data['have_studied'] : false );
+       // $customer->setCustomAttribute('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
+       // $customer->setCustomAttribute('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
 
-	    $customer->setCustomAttribute('is_read_only',true);
+	   // $customer->setCustomAttribute('is_read_only',true);
 
         try {
 	        $customer = $this->customerRepository->save( $customer );
