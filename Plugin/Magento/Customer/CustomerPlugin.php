@@ -18,7 +18,7 @@ class CustomerPlugin
 	public function beforeSave(CustomerRepository $subject, CustomerInterface $customer) {
 
 		$request = $this->request->getPost( 'address' );
-		$addresses = (json_decode($request) !== FALSE ) ?  json_decode($request) : $request;
+		$addresses = (is_array($request) == FALSE ) ?  json_decode($request) : $request;
 		$id = 0;
 		if ( $addresses ) {
 
