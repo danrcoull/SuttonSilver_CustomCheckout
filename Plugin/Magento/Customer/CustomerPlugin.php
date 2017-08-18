@@ -14,18 +14,21 @@ class CustomerPlugin
        $this->request = $request;
     }
 
+	public function isJson($string) {
+		json_decode($string);
+		return (json_last_error() == JSON_ERROR_NONE);
+	}
 
 
 	public function beforeSave(CustomerRepository $subject, CustomerInterface $customer) {
 
-		$addresses = $customer->getAddresses();
-		var_dump(get_class_methods($addresses));
+		$addresses = $this->request->getPost( 'address' );
+		$addresses = ($this->isJson($addresses)) ? $addresses : json_decode($addresses);
 		$id        = 0;
 		if ( $addresses ) {
 
 			foreach ( $addresses as $key => $val ) {
-				var_dump(get_class_methods($val));
-
+				var_dump($val);
 				if ( $val['home_address'] == 'true' ) {
 					$id = $key;
 					break;
@@ -35,9 +38,8 @@ class CustomerPlugin
 			$id = $customer->getCustomAttribute('home_address');
 		}
 
-		die;
 		$customer->setCustomAttribute('home_address',$id);
-
+		die;
 		return [$customer];
 	}
 
