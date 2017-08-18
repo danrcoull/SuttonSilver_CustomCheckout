@@ -16,17 +16,17 @@ class CustomerPlugin
 
 
 
-	public function beforeSave(CustomerRepository $subject, CustomerInterface $customer)
-	{
-		$addresses = $this->request->getPost('address');
-		$id = 0;
-		foreach ($addresses as $key => $val)
-		{
+	public function beforeSave(CustomerRepository $subject, CustomerInterface $customer) {
+		$addresses = $this->request->getPost( 'address' );
+		$id        = 0;
+		if ( $addresses ) {
 
-			if($val['home_address'] == 'true')
-			{
-				$id = $key;
-				break;
+			foreach ( $addresses as $key => $val ) {
+
+				if ( $val['home_address'] == 'true' ) {
+					$id = $key;
+					break;
+				}
 			}
 		}
 
