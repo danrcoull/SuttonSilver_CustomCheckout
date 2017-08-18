@@ -264,27 +264,14 @@ class Create extends Action
 	        $customer = $this->customerRepository->save( $customer );
 	        //die( 'hello i am here' );
 
-
-	        $address = $this->addressInterface
-		        ->setCustomerId( $customer->getId() )
-		        ->setFirstname( $customer->getFirstname() )
-		        ->setLastname( $customer->getLastname() )
-		        ->setCountryId( isset( $data['country_id'] ) ? $data['country_id'] : '' )
-		        ->setPostcode( isset( $data['postcode'] ) ? $data['postcode'] : '' )
-		        ->setCity( isset( $data['city'] ) ? $data['city'] : '' )
-		        ->setTelephone( isset( $data['daytimeNumber'] ) ? $data['daytimeNumber'] : '' )
-		        ->setStreet( isset( $data['street'] ) ? $data['street'] : '' )
-		        ->setCustomAttribute( 'home_address', 'true' )
-		        ->setIsDefaultShipping( '1' )
-		        ->setSaveInAddressBook( '1' );
-	        $this->addressRepositoryInterface->save( $address );
-
 	        //$customer->save();
         }catch(\Exception $e)
         {
+        	die($e->getMessage());
 	        $this->logger->critical($e->getMessage());
             return ['passed' => false, 'value' => $e->getMessage()];
         }
+
 
         return ['passed' => true, 'value' =>$customer->getId()];
 
