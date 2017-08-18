@@ -24,7 +24,7 @@ class CustomerPlugin
 		if ( $addresses ) {
 
 			foreach ( $addresses as $key => $val ) {
-				die(var_dump($val));
+				print_r($val);
 				if ( $val->getCustomAttribute('home_address') == 'true' ) {
 					$id = $key;
 					break;
@@ -33,7 +33,7 @@ class CustomerPlugin
 		}else {
 			$id = $customer->getCustomAttribute('home_address');
 		}
-
+		die;
 		$customer->setCustomAttribute('home_address',$id);
 
 		return [$customer];
