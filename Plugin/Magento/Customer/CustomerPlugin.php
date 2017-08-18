@@ -24,14 +24,12 @@ class CustomerPlugin
 		if ( $addresses ) {
 
 			foreach ( $addresses as $key => $val ) {
-				print_r($val);
+				print_r($val->getHomeAddress());
 				if ( $val->getCustomAttribute('home_address') == 'true' ) {
 					$id = $key;
 					break;
 				}
 			}
-		}else {
-			$id = $customer->getCustomAttribute('home_address');
 		}
 		die;
 		$customer->setCustomAttribute('home_address',$id);
