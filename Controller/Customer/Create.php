@@ -163,8 +163,8 @@ class Create extends Action
                 {
                     foreach($ansers as $answer)
                     {
-                    	die(var_dump($answer));
-                        if($aid = $answer->getId())
+
+                        if($aid = $answer['questionanswers_id'])
                         {
                             $answer = $this->questionAnswersRepository->getById($aid);
                         }
