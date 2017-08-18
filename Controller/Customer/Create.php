@@ -273,7 +273,6 @@ class Create extends Action
 	        $customer = $this->customerRepository->save( $customer );
 	        //die( 'hello i am here' );
 
-			$region = $this->region_interface_factory->create()->setRegion($data['region'])->setRegionId($data['region_id']);
 	        $address = $this->addressInterface
 		        ->setCustomerId( $customer->getId() )
 		        ->setFirstname( $customer->getFirstname() )
@@ -283,7 +282,7 @@ class Create extends Action
 		        ->setCity( isset( $data['city'] ) ? $data['city'] : '' )
 		        ->setTelephone( isset( $data['daytimeNumber'] ) ? $data['daytimeNumber'] : '' )
 		        ->setStreet( isset( $data['street'] ) ? [$data['street']] : '' )
-		        ->setRegion($region)
+		        ->setRegionId($data['region_id'])
 		        ->setCustomAttribute( 'home_address', 'true' )
 		        ->setIsDefaultShipping( '1' );
 	        $this->addressRepositoryInterface->save( $address );
