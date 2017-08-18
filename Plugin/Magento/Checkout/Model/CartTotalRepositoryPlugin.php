@@ -38,10 +38,10 @@ class CartTotalRepositoryPlugin
             $itemCost = $item->getProduct()->getPrice();
             $childCost = 0;
             foreach($item->getChildren() as $child) {
-                var_dump($child->getProduct()->getPrice());
+                //var_dump($child->getProduct()->getPrice());
                 $childCost += $child->getProduct()->getPrice();
             }
-            var_dump($childCost);
+            //var_dump($childCost);
             $discount += ($childCost -$itemCost);
         }
 

@@ -12,7 +12,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
     public function runExport()
     {
         $orders= $this->getOrders();
-        $this->logger->addInfo(print_r($orders));
+        //$this->logger->addInfo(print_r($orders));
         $rows = [];
         foreach($orders as $order)
         {
