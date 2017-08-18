@@ -125,7 +125,6 @@ class Create extends Action
 	    }catch(\Exception $e)
 	    {
 		    $this->logger->critical($e->getMessage());
-		    die($e->getMessage());
 	    }
 
         $this->_redirect($this->_redirect->getRefererUrl());
@@ -200,10 +199,12 @@ class Create extends Action
         $quote->setCustomerFirstname($customer->getFirstname());
         $quote->setCustomerLastname($customer->getLastname());
         $quote->setIsChanged(1);
+
         try {
 	        $this->quoteRepository->save( $quote );
         }catch(\Exception $e)
         {
+        	die('here;');
 	        $this->logger->critical($e->getMessage());
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
@@ -230,7 +231,6 @@ class Create extends Action
 
         }catch(\Exception $e)
         {
-        	die($e->getMessage());
 	        $this->logger->critical($e->getMessage());
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
