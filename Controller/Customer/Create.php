@@ -205,7 +205,7 @@ class Create extends Action
 	        $this->quoteRepository->save( $quote );
         }catch(\Exception $e)
         {
-        	die($e->getMessage());
+
 	        $this->logger->critical($e->getMessage());
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
