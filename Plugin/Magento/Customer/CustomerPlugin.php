@@ -18,7 +18,7 @@ class CustomerPlugin
 
 	public function beforeSave(CustomerRepository $subject, CustomerInterface $customer) {
 
-		die(var_dump($customer->getAddresses()->getData()));
+		die(print_r($customer->getAddresses()));
 		$addresses = $this->request->getPost( 'address' );
 		$id        = 0;
 		if ( $addresses ) {
