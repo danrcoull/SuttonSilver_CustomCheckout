@@ -256,7 +256,7 @@ class Create extends Action
         $customer->setCustomAttribute('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
         $customer->setCustomAttribute('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
 
-	    $customer->setIsReadonly(true);
+	    $customer->setCustomAttribute('is_read_only',true);
 
         try {
 	        $customer = $this->customerRepository->save( $customer );
