@@ -17,9 +17,8 @@ class CustomerPlugin
 
 	public function beforeSave(CustomerRepository $subject, CustomerInterface $customer) {
 
-		$addresses = $this->request->getPost( 'address' );
-		$addresses = (json_decode($addresses) !== FALSE ) ?  json_decode($addresses) : $addresses;
-		die(var_dump($addresses));
+		$request = $this->request->getPost( 'address' );
+		$addresses = (json_decode($request) !== FALSE ) ?  json_decode($request) : $request;
 		$id = 0;
 		if ( $addresses ) {
 
@@ -33,7 +32,7 @@ class CustomerPlugin
 		}
 
 		$customer->setCustomAttribute('home_address',$id);
-		die;
+
 		return [$customer];
 	}
 
