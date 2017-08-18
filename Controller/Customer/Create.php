@@ -97,17 +97,18 @@ class Create extends Action
 				    $customerId = $this->createCustomer( $decodedData );
 				    if ( $customerId['passed'] ) {
 					    $customerId              = $customerId['value'];
-					    $responseQuote           = $this->setQuote( $customerId );
-					    /**$response['success']     = true;
-					    $response['customer_id'] = $customerId;
-					    $ansersResponse          = $this->createCustomAnswers( $decodedData, $customerId );
 
+					    $response['success']     = true;
+					    $response['customer_id'] = $customerId;
+
+					    $ansersResponse          = $this->createCustomAnswers( $decodedData, $customerId );
+					    $responseQuote           = $this->setQuote( $customerId );
 
 					    if ( ! $ansersResponse['passed'] ) {
 						    unset( $response['success'] );
 						    $response['error']    = true;
 						    $response['errors'][] = $ansersResponse['value'];
-					    }**/
+					    }
 
 
 				    } else {
@@ -124,6 +125,7 @@ class Create extends Action
 		   // }
 	    }catch(\Exception $e)
 	    {
+	    	die($e->getMessage());
 		    $this->logger->critical($e->getMessage());
 	    }
 
@@ -175,6 +177,7 @@ class Create extends Action
                     $this->questionAnswersRepository->save($answer);
                 }catch(\Exception $e)
                 {
+	                die($e->getMessage());
 	                $this->logger->critical($e->getMessage());
                     $errors[$name] = __("Could Not Save:".$question->getQuestionName()." With:".$e->getMessage());
                 }
@@ -206,6 +209,7 @@ class Create extends Action
         }catch(\Exception $e)
         {
 
+	        die($e->getMessage());
 	        $this->logger->critical($e->getMessage());
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
@@ -232,6 +236,7 @@ class Create extends Action
 
         }catch(\Exception $e)
         {
+	        die($e->getMessage());
 	        $this->logger->critical($e->getMessage());
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
@@ -282,6 +287,7 @@ class Create extends Action
 	        //$customer->save();
         }catch(\Exception $e)
         {
+	        die($e->getMessage());
 	        $this->logger->critical($e->getMessage());
             return ['passed' => false, 'value' => $e->getMessage()];
         }
