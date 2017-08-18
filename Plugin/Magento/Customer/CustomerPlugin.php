@@ -20,6 +20,7 @@ class CustomerPlugin
 
 		//$addresses = $this->request->getPost( 'address' );
 		$addresses = $customer->getAddresses();
+		die(var_dump($addresses));
 		$id        = 0;
 		if ( $addresses ) {
 
