@@ -28,6 +28,8 @@ class CustomerPlugin
 					break;
 				}
 			}
+		}else {
+			$id = $customer->getCustomAttribute('home_address');
 		}
 
 		$customer->setCustomAttribute('home_address',$id);

@@ -32,6 +32,7 @@ class Create extends Action
     protected $encryptor;
     protected $addressInterface;
     protected $addressRepositoryInterface;
+    protected $region_interface_factory;
 
 
     public function __construct(
@@ -54,6 +55,7 @@ class Create extends Action
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
 	    \Psr\Log\LoggerInterface $logger,
 	    \Magento\Framework\Encryption\EncryptorInterface $encryptor,
+        \Magento\Customer\Api\Data\RegionInterfaceFactory $region_interface_factory,
         array $data = []
 
     ){
@@ -76,6 +78,7 @@ class Create extends Action
         $this->encryptor = $encryptor;
         $this->addressInterface = $addressInterface;
         $this->addressRepositoryInterface = $addressRepositoryInterface;
+        $this->region_interface_factory = $region_interface_factory;
     }
 
 
@@ -269,8 +272,8 @@ class Create extends Action
         try {
 	        $customer = $this->customerRepository->save( $customer );
 	        //die( 'hello i am here' );
-
-
+			die(var_dump($data));
+			$region = $this->region_interface_factory->create()->setRegion();
 	        $address = $this->addressInterface
 		        ->setCustomerId( $customer->getId() )
 		        ->setFirstname( $customer->getFirstname() )
@@ -280,6 +283,7 @@ class Create extends Action
 		        ->setCity( isset( $data['city'] ) ? $data['city'] : '' )
 		        ->setTelephone( isset( $data['daytimeNumber'] ) ? $data['daytimeNumber'] : '' )
 		        ->setStreet( isset( $data['street'] ) ? [$data['street']] : '' )
+		        ->setRegion($region)
 		        ->setCustomAttribute( 'home_address', 'true' )
 		        ->setIsDefaultShipping( '1' );
 	        $this->addressRepositoryInterface->save( $address );
