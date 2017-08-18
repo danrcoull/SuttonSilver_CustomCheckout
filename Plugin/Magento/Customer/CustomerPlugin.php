@@ -24,7 +24,7 @@ class CustomerPlugin
 		if ( $addresses ) {
 
 			foreach ( $addresses as $address ) {
-				print_r($address->getCustomAttributes());
+				print_r($address->getCustomAttribute('home_address'));
 
 			}
 		}
