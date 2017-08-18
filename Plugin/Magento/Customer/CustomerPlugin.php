@@ -18,8 +18,8 @@ class CustomerPlugin
 
 	public function beforeSave(CustomerRepository $subject, CustomerInterface $customer) {
 
-
 		$addresses = $this->request->getPost( 'address' );
+		$addresses = $customer->getAddresses();
 		$id        = 0;
 		if ( $addresses ) {
 
