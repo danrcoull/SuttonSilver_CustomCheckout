@@ -97,16 +97,17 @@ class Create extends Action
 				    $customerId = $this->createCustomer( $decodedData );
 				    if ( $customerId['passed'] ) {
 					    $customerId              = $customerId['value'];
-					    $response['success']     = true;
+					    $responseQuote           = $this->setQuote( $customerId );
+					    /**$response['success']     = true;
 					    $response['customer_id'] = $customerId;
 					    $ansersResponse          = $this->createCustomAnswers( $decodedData, $customerId );
-					    $responseQuote           = $this->setQuote( $customerId );
+
 
 					    if ( ! $ansersResponse['passed'] ) {
 						    unset( $response['success'] );
 						    $response['error']    = true;
 						    $response['errors'][] = $ansersResponse['value'];
-					    }
+					    }**/
 
 
 				    } else {
