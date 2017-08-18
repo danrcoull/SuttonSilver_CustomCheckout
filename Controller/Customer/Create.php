@@ -81,7 +81,7 @@ class Create extends Action
 
     public function execute()
     {
-    	die('i hit here');
+
     	try {
 
 		    $result   = $this->resultJsonFactory->create();
@@ -124,6 +124,7 @@ class Create extends Action
 	    }catch(\Exception $e)
 	    {
 		    $this->logger->critical($e->getMessage());
+		    die($e->getMessage());
 	    }
 
         $this->_redirect($this->_redirect->getRefererUrl());
