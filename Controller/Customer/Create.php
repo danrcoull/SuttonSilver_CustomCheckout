@@ -240,7 +240,7 @@ class Create extends Action
 	    $storeId = $this->storeManager->getWebsite($websiteId)->getDefaultStore()->getId();
 	    $customer->setStoreId($storeId);
 
-        $customer->setEmail(isset($data['username']) ? $data['usernam   e'] : '');
+        $customer->setEmail(isset($data['username']) ? $data['username'] : '');
         $customer->setPrefix(isset($data['title']) ? $data['title'] : "");
         $customer->setFirstname(isset($data['firstname']) ? $data['firstname'] : "");
         $customer->setLastname(isset($data['lastname']) ? $data['lastname'] : "");
