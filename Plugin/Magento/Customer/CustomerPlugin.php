@@ -24,7 +24,7 @@ class CustomerPlugin
 		if ( $addresses ) {
 
 			foreach ( $addresses as $address ) {
-				print_r($address);
+				print_r((array)$address);
 			}
 		}
 		die;
