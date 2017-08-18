@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
-    <group id="default">
+    <group id="suttonsilver_group">
         <job name="export_orders_cls" instance="SuttonSilver\CustomCheckout\Cron\Export" method="execute">
             <schedule>* * * * *</schedule>
         </job>

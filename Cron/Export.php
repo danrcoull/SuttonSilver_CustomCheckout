@@ -1,6 +1,7 @@
 <?php
 namespace SuttonSilver\CustomCheckout\Cron;
 use \Psr\Log\LoggerInterface;
+
 class Export {
     protected $logger;
     protected $export;
@@ -21,6 +22,7 @@ class Export {
         $this->logger->addInfo('Export Running....');
         $this->export->runExport();
         $this->logger->addInfo('Export Finished....');
+        return $this;
     }
 
 }
