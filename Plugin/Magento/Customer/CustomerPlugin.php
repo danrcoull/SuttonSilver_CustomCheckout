@@ -25,7 +25,7 @@ class CustomerPlugin
 
 			foreach ( $addresses as $key => $val ) {
 
-				if ( $val['home_address'] == 'true' ) {
+				if ( $val->getData('home_address') == 'true' ) {
 					$id = $key;
 					break;
 				}
