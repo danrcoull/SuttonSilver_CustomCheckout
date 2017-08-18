@@ -5,8 +5,8 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
     public function getOrders()
     {
         return $this->OrderCollectionFactory->create()
-            ->addAttributeToSelect('*')
-            ->addFieldToFilter('export_processed', array('neq'=>1));
+            ->addAttributeToSelect('*');
+           // ->addFieldToFilter('export_processed', array('neq'=>1));
     }
 
     public function runExport()
