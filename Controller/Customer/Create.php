@@ -84,12 +84,11 @@ class Create extends Action
 
     public function execute()
     {
+	    $result   = $this->resultJsonFactory->create();
 
     	try {
-
-		    $result   = $this->resultJsonFactory->create();
 		    $response = [];
-		  //  if ( $this->getRequest()->isAjax() ) {
+		    if ( $this->getRequest()->isAjax() ) {
 
 			    $post = $this->getRequest()->getPost( 'data' );
 
@@ -109,7 +108,7 @@ class Create extends Action
 
 					    if($ansersResponse['passed'] && $responseQuote['passed'])
 					    {
-						    $response['error']    = false;
+						    $response['success']    = true;
 
 					    }else {
 						    $response['errors'][] = $ansersResponse['value'];
@@ -126,15 +125,16 @@ class Create extends Action
 			    }
 
 
-			    return $result->setData($response );
-		   // }
-	    }catch(\Exception $e)
-	    {
+
+		    }
+	    }catch(\Exception $e) {
+
+		    $response = ['error' => 'true', 'message' => $e->getMessage()];
 
 	    }
 
-        $this->_redirect($this->_redirect->getRefererUrl());
-        return false;
+	    return $result->setData($response );
+
     }
 
     public function createCustomAnswers($data,$id)
