@@ -126,7 +126,7 @@ class Create extends Action
 			    }
 
 
-			    return $result->setData( $this->jsonHelper->jsonEncode( $response ) );
+			    return $result->setData($response );
 		   // }
 	    }catch(\Exception $e)
 	    {
