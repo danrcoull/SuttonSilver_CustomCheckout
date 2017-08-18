@@ -81,6 +81,7 @@ class Create extends Action
 
     public function execute()
     {
+    	die('i hit here');
     	try {
 
 		    $result   = $this->resultJsonFactory->create();
