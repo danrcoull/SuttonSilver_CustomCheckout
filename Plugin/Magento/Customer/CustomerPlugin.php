@@ -18,13 +18,13 @@ class CustomerPlugin
 
 	public function beforeSave(CustomerRepository $subject, CustomerInterface $customer) {
 
-		$addresses = $this->request->getPost( 'address' );
+		//$addresses = $this->request->getPost( 'address' );
 		$addresses = $customer->getAddresses();
 		$id        = 0;
 		if ( $addresses ) {
 
 			foreach ( $addresses as $key => $val ) {
-				var_dump($val);
+
 				if ( $val['home_address'] == 'true' ) {
 					$id = $key;
 					break;
@@ -35,7 +35,7 @@ class CustomerPlugin
 		}
 
 		$customer->setCustomAttribute('home_address',$id);
-		die;
+
 		return [$customer];
 	}
 
