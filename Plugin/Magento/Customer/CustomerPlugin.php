@@ -14,11 +14,6 @@ class CustomerPlugin
        $this->request = $request;
     }
 
-	public function isJson($string) {
-		json_decode($string);
-		return (json_last_error() == JSON_ERROR_NONE);
-	}
-
 
 	public function beforeSave(CustomerRepository $subject, CustomerInterface $customer) {
 
