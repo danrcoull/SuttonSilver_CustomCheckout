@@ -192,6 +192,17 @@
                                                     <!-- the following display area is used in template (see below) -->
                                                     <item name="displayArea" xsi:type="string">home-address</item>
                                                     <item name="children" xsi:type="array">
+                                                        <item name="home_address" xsi:type="array">
+                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
+                                                                <item name="customScope" xsi:type="string">personalDetails</item>
+                                                                <item name="template" xsi:type="string">ui/form/element/hidden</item>
+                                                            </item>
+                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                            <item name="dataScope" xsi:type="string">personalDetails.home_address</item>
+                                                            <item name="value" xsi:type="string">true</item>
+                                                        </item>
                                                         <item name="street" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">

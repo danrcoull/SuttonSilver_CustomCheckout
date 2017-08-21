@@ -100,18 +100,18 @@ class Create extends Action
 				    if ( $customerId['passed'] ) {
 					    $customerId              = $customerId['value'];
 
-					    $response['success']     = true;
+					    $response['success']     = false;
 					    $response['customer_id'] = $customerId;
 
-					    $ansersResponse          = $this->createCustomAnswers( $decodedData, $customerId );
+					   // $ansersResponse          =  ['passed' => true];//$this->createCustomAnswers( $decodedData, $customerId );
 					    $responseQuote           = $this->setQuote( $customerId );
 
-					    if($ansersResponse['passed'] && $responseQuote['passed'])
+					    if($responseQuote['passed'])
 					    {
 						    $response['success']    = true;
 
 					    }else {
-						    $response['errors'][] = $ansersResponse['value'];
+						   // $response['errors'][] = $ansersResponse['value'];
 						    $response['errors'][] = $responseQuote['value'];
 					    }
 
@@ -201,12 +201,12 @@ class Create extends Action
     {
         $customer = $this->customerRepository->getById($id);
         $quote = $this->checkoutSession->getQuote();
-        $quote->setCustomerId($customer->getId());
+        $quote->setId($quote->getId());
         $quote->setCustomer($customer);
+        $quote->assignCustomer($customer);
         $quote->setCustomerFirstname($customer->getFirstname());
         $quote->setCustomerLastname($customer->getLastname());
         $quote->setCheckoutMethod('register');
-        $quote->setIsChanged(1);
 
         try {
 	        $this->quoteRepository->save( $quote );
@@ -215,11 +215,12 @@ class Create extends Action
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
 
-        return ['passed' => false, 'value' => $quote->getId()] ;
+        return ['passed' => true, 'value' => $quote->getId()] ;
     }
 
     public function createCustomer($data)
     {
+
 
         // Get Website ID
 	    $websiteId  = $this->storeManager->getWebsite()->getWebsiteId();
@@ -257,18 +258,20 @@ class Create extends Action
 	    $storeName = $this->storeManager->getStore($customer->getStoreId())->getName();
 	    $customer->setCreatedIn($storeName);
 
-       // $customer->setCustomAttribute('cilex_membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
-       // $customer->setCustomAttribute('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
-      // $customer->setCustomAttribute('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
+        $customer->setCustomAttribute('cilex_membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
+        $customer->setCustomAttribute('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
+        $customer->setCustomAttribute('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
 
-       // $customer->setCustomAttribute('studied_with_us_before', isset($data['have_studied']) ? $data['have_studied'] : false );
-       // $customer->setCustomAttribute('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
-       // $customer->setCustomAttribute('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
+        $customer->setCustomAttribute('studied_with_us_before', isset($data['have_studied']) ? $data['have_studied'] : false );
+        $customer->setCustomAttribute('daytime_phone_number',isset($data['daytimeNumber']) ? $data['daytimeNumber'] : "");
+        $customer->setCustomAttribute('mobile_number',isset($data['mobileNumber']) ? $data['mobileNumber'] : "");
 
-	   // $customer->setCustomAttribute('is_read_only',true);
+	    $customer->setCustomAttribute('is_read_only',true);
 
         try {
+
 	        $customer = $this->customerRepository->save( $customer );
+
 	        //die( 'hello i am here' );
 
 	        $address = $this->addressInterface
@@ -281,10 +284,17 @@ class Create extends Action
 		        ->setTelephone( isset( $data['daytimeNumber'] ) ? $data['daytimeNumber'] : '' )
 		        ->setStreet( isset( $data['street'] ) ? [$data['street']] : '' )
 		        ->setRegionId($data['region_id'])
-		        ->setCustomAttribute( 'home_address', 'true' )
+		        ->setCustomAttribute('home_address', true)
 		        ->setIsDefaultShipping( '1' );
-	        $this->addressRepositoryInterface->save( $address );
 
+	        $address = $this->addressRepositoryInterface->save( $address );
+
+
+	        $customer->setAddresses([$address]);
+	        $customer->setDefaultShipping($address->getId());
+	        $customer->setCustomAttribute('home_address', $address->getId());
+
+	        $this->customerRepository->save( $customer );
 
 	        //$customer->save();
         }catch(\Exception $e)

@@ -21,7 +21,7 @@ define(
             },
             createCustomer: function () {
                 var self = this;
-                var payload = $('#custom-checkout-form').serializeArray();
+                var payload = JSON.stringify($('#custom-checkout-form').serializeArray());
                 var config = {};
                 $.map( payload, function( n, i ) {
                     config[n.name] = n.value;

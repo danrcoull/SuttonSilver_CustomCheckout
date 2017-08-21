@@ -51,4 +51,6 @@
 	<type name="Magento\Customer\Api\CustomerRepositoryInterface">
 		<plugin name="customerHomeAddress" type="SuttonSilver\CustomCheckout\Plugin\Magento\Customer\CustomerPlugin" sortOrder="10" />
 	</type>
+
+	<preference for="Magento\Customer\Model\Customer\DataProvider" type="SuttonSilver\CustomCheckout\Model\Customer\DataProvider" />
 </config>
