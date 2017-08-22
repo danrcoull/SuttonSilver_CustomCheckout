@@ -21,51 +21,52 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
             $rows[] = $this->getCustomerKeys();
 
             //createcustomer
-            $customerObject = $this->customerRepository->getById($order->getCustomerId());
-            $customerArray = array_fill_keys($this->getCustomerKeys(),'');
+	        if($order->getCustomerId()) {
+		        $customerObject = $this->customerRepository->getById( $order->getCustomerId() );
+		        $customerArray  = array_fill_keys( $this->getCustomerKeys(), '' );
 
-            $customerArray['Title'] = $customerObject->getPrefix();
-            $customerArray['Forename'] = $customerObject->getFirstname();
-            $customerArray['Surname'] = $customerObject->getLastname();
-            $customerArray['DOB'] = $customerObject->getDob();
-            $customerArray['Homephone'] = $customerObject->getCustomAttribute('daytime_phone_number')->getValue();
-            $customerArray['Mobile'] = $customerObject->getCustomAttribute('mobile_number')->getValue();
-            $customerArray['Email'] = $customerObject->getEmail();
-            $customerArray['Membership'] = $customerObject->getCustomAttribute('membership_number')->getValue();
-            $customerArray['Previous CLS'] = $customerObject->getCustomAttribute('studied_with_us_before')->getValue();
+		        $customerArray['Title']        = $customerObject->getPrefix();
+		        $customerArray['Forename']     = $customerObject->getFirstname();
+		        $customerArray['Surname']      = $customerObject->getLastname();
+		        $customerArray['DOB']          = $customerObject->getDob();
+		        $customerArray['Homephone']    = $customerObject->getCustomAttribute( 'daytime_phone_number' )->getValue();
+		        $customerArray['Mobile']       = $customerObject->getCustomAttribute( 'mobile_number' )->getValue();
+		        $customerArray['Email']        = $customerObject->getEmail();
+		        $customerArray['Membership']   = ($membershipNumber = $customerObject->getCustomAttribute( 'membership_number' )) ? $membershipNumber->getValue() : "";
+		        $customerArray['Previous CLS'] = ($studiedBefore = $customerObject->getCustomAttribute( 'studied_with_us_before' )) ? $studiedBefore->getValue() : "";
 
 
-            $customerArray['Disability'] = $this->findQuestionAnswer($customerObject->getId(), 'DisabilityAct' );
-            $customerArray['Read Terms'] = 1;
-            $customerArray['Delivery'] =  $order->getShippingMethod() ? 1 : 0;
-            $customerArray['Ethnicity Code'] = $this->findQuestionAnswer($customerObject->getId(), 'Ethnic' );
-            $customerArray['Prev Surname'] = $customerObject->getCustomAttribute('previous_surname')->getValue();
-            $customerArray['Prev Postcode'] = $customerObject->getCustomAttribute('previous_postcode')->getValue();
-            $customerArray['Reason for study'] = $this->findQuestionAnswer($customerObject->getId(), 'ReasonForStudy' );
+		        $customerArray['Disability']       = $this->findQuestionAnswer( $customerObject->getId(), 'DisabilityAct' );
+		        $customerArray['Read Terms']       = 1;
+		        $customerArray['Delivery']         = $order->getShippingMethod() ? 1 : 0;
+		        $customerArray['Ethnicity Code']   = $this->findQuestionAnswer( $customerObject->getId(), 'Ethnic' );
+		        $customerArray['Prev Surname']     = ($previousSurname = $customerObject->getCustomAttribute( 'previous_surname' )) ? $previousSurname->getValue() : "";
+		        $customerArray['Prev Postcode']    = ($previousPostcode = $customerObject->getCustomAttribute( 'previous_postcode' )) ? $previousPostcode->getValue() : "";
+		        $customerArray['Reason for study'] = $this->findQuestionAnswer( $customerObject->getId(), 'ReasonForStudy' );
 
-            $rows[] = $customerArray;
+		        $rows[] = $customerArray;
 
-            $itemsObject = $this->getItems($order);
-            if(count($itemsObject) > 0) {
-                $rows[] = $this->getOrderItemKeys();
-                foreach ($itemsObject as $itemObject) {
-                    $itemRow = array_fill_keys($this->getOrderItemKeys(),'');
-                    $itemRow['Description'] = $itemObject->getName();
-                    $itemRow['Quantity'] = $itemObject->getQtyOrdered();
-                    $itemRow['Price'] = $itemObject->getPrice();
-                    $itemRow['Shipping'] = 0;
-                    $itemRow['Subtotal'] = $itemObject->getRowTotal();
-                    $rows[] = $itemRow;
-                }
-            }
+		        $itemsObject = $this->getItems( $order );
+		        if ( count( $itemsObject ) > 0 ) {
+			        $rows[] = $this->getOrderItemKeys();
+			        foreach ( $itemsObject as $itemObject ) {
+				        $itemRow                = array_fill_keys( $this->getOrderItemKeys(), '' );
+				        $itemRow['Description'] = $itemObject->getName();
+				        $itemRow['Quantity']    = $itemObject->getQtyOrdered();
+				        $itemRow['Price']       = $itemObject->getPrice();
+				        $itemRow['Shipping']    = 0;
+				        $itemRow['Subtotal']    = $itemObject->getRowTotal();
+				        $rows[]                 = $itemRow;
+			        }
+		        }
 
-            try {
-                $order->setData('export_processed', 1);
-                $order->save();
-            }catch(\Exception $e)
-            {
-                $this->logger->addError($e->getMessage());
-            }
+		        try {
+			        $order->setData( 'export_processed', 1 );
+			        $order->save();
+		        } catch ( \Exception $e ) {
+			        $this->logger->addError( $e->getMessage() );
+		        }
+	        }
         }
 
         $this->saveExport($rows);
@@ -99,7 +100,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
                 'eq'
             )->create();
 
-        $current = $this->questionAnswersRepository->getList($searchCriteriaBuilder);
+        $current = $this->questionAnswersRepository->getList($searchCriteriaBuilder)->getItems();
         $value = null;
         foreach ($current as $answerValue)
         {
