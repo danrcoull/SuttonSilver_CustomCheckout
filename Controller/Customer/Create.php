@@ -103,7 +103,7 @@ class Create extends Action
 					    $response['success']     = false;
 					    $response['customer_id'] = $customerId;
 
-					   // $ansersResponse          =  ['passed' => true];//$this->createCustomAnswers( $decodedData, $customerId );
+					    $ansersResponse          = $this->createCustomAnswers( $decodedData, $customerId );
 					    $responseQuote           = $this->setQuote( $customerId );
 
 					    if($responseQuote['passed'])
