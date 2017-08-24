@@ -10,7 +10,6 @@ define([
     'jquery',
     'Magento_Ui/js/form/element/country'
 ], function (ko,_, registry, $,Abstract) {
-    'use strict';
 
     return Abstract.extend({
 
@@ -39,31 +38,35 @@ define([
             clearTimeout(self.timeout);
             self.timeout = setTimeout(function() {
                 var parent = self.parentName;
-                var fieldset = registry.get(parent);
-                ko.utils.arrayForEach(fieldset._elems, function (feature) {
+                console.log(parent);;
 
-                    if (typeof feature === 'string')
-                    {
-                        feature = registry.get(feature);
-                    }
+                var elements = [
+                    'company',
+                    'street',
+                    'street.0',
+                    'city',
+                    'region_id',
+                    'region',
+                    'country_id',
+                    'postcode',
+                    'address_choose',
+                    'dx_number'
+                ];
 
+                ko.utils.arrayForEach(elements, function (inputName) {
 
-                    if (typeof feature !== "undefined" && typeof feature !== "string") {
+                    var feature = registry.get(parent+'.'+inputName);
 
-                        if (feature.name == parent + '.street') {
-                            if(typeof feature._elems != 'undefined') {
-                                feature = registry.get(parent + '.street.0');
-                            }
-                        }
+                    if(typeof feature != 'undefined') {
 
-                        if (feature.inputName != 'country_id' && feature.inputName != 'postcode') {
+                        if (inputName !== 'country_id' && inputName !== 'postcode') {
                             if (hide) {
                                 if (typeof feature.hide == 'function') {
                                     feature.hide();
                                 }
                             } else {
                                 if (typeof feature.show == 'function') {
-                                    if(feature.inputName != 'address_choose' && feature.inputName != 'region' ) {
+                                    if (inputName !== 'address_choose' && inputName !== 'region') {
                                         feature.show();
                                     }
                                 }

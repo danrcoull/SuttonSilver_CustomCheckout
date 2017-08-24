@@ -18,28 +18,31 @@ define([
             addresses:''
         },
         onUpdate: function (value) {
-            var addressData = checkoutData.getHomeAddressData();
-            if(value !== addressData.postcode) {
-                this.setAddress();
-            }
+            this.setAddress(value);
+
         },
-        setAddress: function(){
-            let value = this.value();
+        setAddress: function(value) {
+
             var self = this;
-            setTimeout(function() {
+
+            console.log('set-shipping'+self.parentName);
+            clearTimeout(self.timeout);
+            self.timeout = setTimeout(function () {
                 var addresses = self.addresses,
-                    address = registry.get(self.parentName + '.' + 'street'),
-                    city = registry.get(self.parentName + '.' + 'city'),
-                    region = registry.get(self.parentName + '.' + 'region_id');
+                    address = registry.get(self.parentName + 'street.0'),
+                    city = registry.get(self.parentName + '.city'),
+                    region = registry.get(self.parentName + '.region_id'),
+                    postcode = region.get(self.parentName + '.postcode');
+
+                var addressData = checkoutData.getHomeAddressData();
+                console.log(addressData);
+                if($.inArray('postcode',addressData)) {
+                    if (addressData.country_id == postcode.value()) {
+                        value = addressData.address_choose;
+                    }
+                }
 
                 if (value !== '-1') {
-
-
-                    if (address.name === self.parentName  + '.street') {
-                        if(typeof address._elems !== 'undefined') {
-                            address = registry.get(self.parentName  + '.street.0');
-                        }
-                    }
 
                     if (typeof addresses[value] !== 'undefined') {
                         address.value(addresses[value].number + " " + addresses[value].street);
@@ -59,37 +62,40 @@ define([
                 } else {
                     this.notAvailable(false);
                 }
-            },400);
+            }, 400);
         },
         notAvailable: function(hide) {
             var self = this;
             setTimeout(function() {
                 var parent = self.parentName;
+                console.log(parent);
+                var elements = [
+                    'company',
+                    'street',
+                    'street.0',
+                    'city',
+                    'region_id',
+                    'region',
+                    'country_id',
+                    'postcode',
+                    'address_choose',
+                    'dx_number'
+                ];
 
-                var fieldset = registry.get(parent);
-                ko.utils.arrayForEach(fieldset._elems, function (feature) {
+                ko.utils.arrayForEach(elements, function (inputName) {
 
-                    if (typeof feature === 'string') {
-                        feature = registry.get(feature);
-                    }
+                    var feature = registry.get(parent+'.'+inputName);
 
-
-                    if (typeof feature !== "undefined" && typeof feature !== "string") {
-
-                        if (feature.name === parent  + '.street') {
-                            if(typeof feature._elems !== 'undefined') {
-                                feature = registry.get(self.parentName + '.street.0');
-                            }
-                        }
+                    if(typeof feature != 'undefined') {
 
 
-                        if (feature.inputName !== 'country_id' && feature.inputName !== 'postcode' && feature.inputName !== 'address_choose') {
+                        if (inputName !== 'country_id' && inputName !== 'postcode' && inputName !== 'address_choose') {
                             if (hide) {
                                 var fieldsNotIn = [
                                     'dx_number',
                                     'company'
                                 ];
-                                if($.inArray(feature.inputName,fieldsNotIn) === -1) {
+                                if($.inArray(inputName,fieldsNotIn) === -1) {
                                     if (typeof feature.hide === 'function') {
                                         feature.hide();
                                     }
@@ -101,7 +107,7 @@ define([
                                     'county'
                                 ];
 
-                                if($.inArray(feature.inputName,fieldsNotIn) === -1) {
+                                if($.inArray(inputName,fieldsNotIn) === -1) {
                                     if (typeof feature.show === 'function') {
                                         feature.show();
                                     }

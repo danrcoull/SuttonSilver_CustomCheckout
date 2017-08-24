@@ -73,19 +73,25 @@ define([
                         });
                     }
 
-                    ko.utils.arrayForEach(element._elems, function (feature) {
+                    var elements = [
+                        'company',
+                        'street',
+                        'street.0',
+                        'city',
+                        'region_id',
+                        'region',
+                        'country_id',
+                        'postcode',
+                        'address_choose',
+                        'dx_number'
+                    ];
+                    var parent = self.parentName;
 
-                        if (typeof feature === 'string') {
-                            feature = uiRegistry.get(feature);
-                        }
+                    ko.utils.arrayForEach(elements, function (inputName) {
 
+                        var feature = registry.get(parent+'.'+inputName);
 
                         if (typeof feature !== "undefined" && typeof feature !== "string") {
-
-                            if (feature.name === shippinhFieldset + '.street') {
-                                feature = uiRegistry.get(shippinhFieldset + '.street.0');
-                            }
-
 
                             if (value === 'home_address' && typeof feature.hide === 'function') {
 

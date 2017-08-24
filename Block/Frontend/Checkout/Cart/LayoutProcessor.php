@@ -17,7 +17,7 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
 	        'region_id' => [
 		        'visible' => false,
 		        'formElement' => 'select',
-		        'label' => __('State/Province'),
+		        'label' => __('County'),
 		        'options' => $this->regionCollection->load()->toOptionArray(),
 		        'value' => null,
 		        'sortOrder' => 1
@@ -25,18 +25,16 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
 	        'postcode' => [
 		        'visible' => false,
 		        'formElement' => 'input',
-		        'label' => __('Zip/Postal Code'),
+		        'label' => __('Postcode'),
 		        'value' => null,
 		        'sortOrder' => 2
 	        ],
            'country_id' => [
-               'options' => [
-                   ['value' => 'GB','label' => __('UK Mainland')],
-                   ['value' => 'null','label' => __('Overseas')]
-               ],
+
+               'component' =>'Magento_Ui/js/form/element/checkbox-set',
                'label' => '',
-	           'checked' => 'GB',
-               'formElement' => 'checkbox-set',
+	           'formElement' => 'checkbox-set',
+	           'disabled' => true,
                'visible' => true,
                'sortOrder' =>1
            ]
@@ -50,6 +48,20 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
             ['children']['address-fieldsets']['children'];
             $fieldSetPointer = $this->merger->merge($elements, 'checkoutProvider', 'shippingAddress', $fieldSetPointer);
             $fieldSetPointer['region_id']['config']['skipValidation'] = true;
+
+	        $fieldSetPointer['country_id']['multiple'] =false;
+	        $fieldSetPointer['country_id']['component'] = 'Magento_Ui/js/form/element/checkbox-set';
+	        $fieldSetPointer['country_id']['disabled'] = false;
+	        $fieldSetPointer['country_id']['value'] = 'GB';
+	        $fieldSetPointer['country_id']['default'] = 'GB';
+	        $fieldSetPointer['country_id']['initialValue'] = 'GB';
+	        $fieldSetPointer['country_id']['config']['template'] = 'ui/form/element/checkbox-set';
+	        $fieldSetPointer['country_id']['options'] = [
+		        ['value' => 'GB','label' => __('UK Mainland')],
+		        ['value' => 'null','label' => __('Overseas')]
+	        ];
+
+	       // die(var_dump($fieldSetPointer['country_id']));
         }
 
 	    unset($jsLayout['components']['block-summary']['children']['block-shipping']['children']['address-fieldsets']['children']['region']);

@@ -56,7 +56,8 @@ class LayoutProcessor
         \Magento\Checkout\Block\Checkout\LayoutProcessor $subject,
         array  $jsLayout
     ) {
-
+		//die(print_r( $jsLayout['components']['checkout']['children']['steps']['children']
+		//['my-new-step']['children']['custom-checkout-form-home-address']['children']['street']));
         $elements = [
             'country_id' => [
                 'visible' => true,
@@ -86,18 +87,18 @@ class LayoutProcessor
         }
 
 
-        unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-            ['shippingAddress']['children']['shipping-address-fieldset']['children']['firstname']);
+	    unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+		    ['shippingAddress']['children']['shipping-address-fieldset']['children']['prefix']);
 
-        unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-            ['shippingAddress']['children']['shipping-address-fieldset']['children']['prefix']);
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+            ['shippingAddress']['children']['shipping-address-fieldset']['children']['firstname']['config']['template'] = 'ui/form/element/hidden';
 
-        unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-            ['shippingAddress']['children']['shipping-address-fieldset']['children']['lastname']);
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+            ['shippingAddress']['children']['shipping-address-fieldset']['children']['lastname']['config']['template'] = "ui/form/element/hidden";
 
 
-        unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-            ['shippingAddress']['children']['shipping-address-fieldset']['children']['telephone']);
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+            ['shippingAddress']['children']['shipping-address-fieldset']['children']['telephone']['config']['template'] = "ui/form/element/hidden";
 
         unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
             ['shippingAddress']['children']['customer-email']);
@@ -127,6 +128,9 @@ class LayoutProcessor
                 'id'=>'select_address',
                 'multiple'=> false,
             ],
+	        'default' =>'default_shipping',
+	        'value' =>'default_shipping',
+	        'initialValue' =>'default_shipping',
             'dataScope' => 'shippingAddress.set_shipping',
             'selected' => 'default_shipping',
             'label' => 'Deliver To',
@@ -245,14 +249,18 @@ class LayoutProcessor
                     break;
 
             }
+
             $options[$name]['placeholder'] = $placeholder;
             $options[$name]['label'] = $label;
             $options[$name]['dataScope'] = 'additionalDetails.'.$name;
             $options[$name]['sortOrder'] = $question->getQuestionPosition() ?: 1;
             $options[$name]['visible'] = true;
             $options[$name]['provider'] = 'checkoutProvider';
-            if($description = $question->getQuestionTooltip() != '') {
+
+	        $description = $question->getQuestionTooltip();
+            if($description != '') {
                 $options[$name]['tooltip']['description'] = $description;
+                $options[$name]['config']['tooltip'] = $description;
             }
 
             if($required)
@@ -289,6 +297,97 @@ class LayoutProcessor
 		        ];
 	        }
         }
+
+
+	    /* config: checkout/options/display_billing_address_on = payment_method */
+	    if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+		    ['payment']['children']['payments-list']['children']
+	    )) {
+
+		    foreach ($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+		    ['payment']['children']['payments-list']['children'] as $key => $payment) {
+
+			    /* company */
+			    if (isset($payment['children']['form-fields']['children']['company'])) {
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+				    ['company']['sortOrder'] = 0;
+			    }
+
+			    if (isset($payment['children']['form-fields']['children']['postcode'])) {
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+				    ['postcode']['label'] = "Postcode";
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+				    ['postcode']['component'] = "SuttonSilver_CustomCheckout/js/form/element/post-code";
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+				    ['postcode']['placeholder'] = "eg. MK42 7AB";
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+				    ['postcode']['validation'] = ['required'=>true,'validate-zip-international'=>true];
+
+				    $method = substr($key, 0, -5);
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']['address_choose'] = [
+				    	'component' => 'SuttonSilver_CustomCheckout/js/form/element/select-address',
+					    'config' => [
+					        'template' => 'ui/form/field',
+						    'elementTmpl' => 'ui/form/element/select',
+					        'customScope' => 'billingAddress' . $method,
+					        'customEntry' => null,
+					        'tooltip' => null,
+					    ],
+					    'visible' => 'valse',
+					    'placeholder' => __('--Please Select Address--'),
+					    'label' => 'Choose Address',
+					    'provider' => 'checkoutProvider',
+					    'dataScope' => 'billingAddress' . $method . '.address_choose',
+					    'dataScopePrefix' => 'billingAddress' . $method,
+				    ];
+
+			    }
+
+			    if (isset($payment['children']['form-fields']['children']['street'])) {
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][ $key ]['children']['form-fields']['children']
+				    ['street']['label'] = "";
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][ $key ]['children']['form-fields']['children']
+				    ['street']['children'][0]['label'] = "First Line of Address";
+
+				    unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+					    ['payment']['children']['payments-list']['children'][ $key ]['children']['form-fields']['children']
+					    ['street']['children'][1]);
+			    }
+
+
+		    }
+	    }
+
+	    /* config: checkout/options/display_billing_address_on = payment_page */
+	    if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+		    ['payment']['children']['afterMethods']['children']['billing-address-form']
+	    )) {
+
+		    /* company */
+		    if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+			    ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+			    ['children']['company']
+		    )) {
+			    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+			    ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+			    ['children']['company']['sortOrder'] = 0;
+		    }
+
+	    }
 
 
 

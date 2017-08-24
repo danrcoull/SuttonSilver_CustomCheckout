@@ -22,10 +22,11 @@ define([
          * @param {String} value
          */
         update: function (value) {
-            var country = registry.get(this.parentName + '.' + 'country_id'),
+            var country = registry.get(this.parentName + '.country_id'),
                 options = country.indexedOptions,
                 option;
 
+            var self = this;
             if (!value) {
                 return;
             }
@@ -49,8 +50,10 @@ define([
 
             if(country.value() ==='GB')
             {
-                registry.get(this.parentName + '.' + 'region').setVisible(false);
-                registry.get(this.parentName + '.' + 'region_id').setVisible(false);
+                setTimeout(function() {
+                    registry.get(self.parentName + '.region').setVisible(false);
+                    registry.get(self.parentName + '.region_id').setVisible(false);
+                },400);
             }
         },
 

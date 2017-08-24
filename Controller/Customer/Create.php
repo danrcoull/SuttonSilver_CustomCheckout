@@ -145,6 +145,8 @@ class Create extends Action
         {
             $name = strtolower(trim(str_replace(' ','-',$question->getQuestionName())));
             $qid = $question->getId();
+
+
             if(array_key_exists($name, $data))
             {
                 $searchCriteriaBuilder = $this->searchCriteriaBuilder
@@ -179,9 +181,10 @@ class Create extends Action
                 $answer->setCustomerId($id);
                 $answer->setValue($data[$name]);
                 try {
-                    $this->questionAnswersRepository->save($answer);
+                	$answer->save();
                 }catch(\Exception $e)
                 {
+                	die($e->getMessage());
                     $errors[$name] = __("Could Not Save:".$question->getQuestionName()." With:".$e->getMessage());
                 }
 
@@ -271,7 +274,9 @@ class Create extends Action
         try {
 
 	        $customer = $this->customerRepository->save( $customer );
-
+			$region = $this->region_interface_factory->create()
+				->setRegion($data['region'])
+				->setRegionId($data['region_id']);
 	        //die( 'hello i am here' );
 
 	        $address = $this->addressInterface
@@ -282,8 +287,9 @@ class Create extends Action
 		        ->setPostcode( isset( $data['postcode'] ) ? $data['postcode'] : '' )
 		        ->setCity( isset( $data['city'] ) ? $data['city'] : '' )
 		        ->setTelephone( isset( $data['daytimeNumber'] ) ? $data['daytimeNumber'] : '' )
-		        ->setStreet( isset( $data['street'] ) ? [$data['street']] : '' )
-		        ->setRegionId($data['region_id'])
+		        ->setStreet( isset( $data['street'] ) ? [$data['street']] : [] )
+		        //->setRegionId($data['region_id'])
+		        ->setRegion($region)
 		        ->setCustomAttribute('home_address', true)
 		        ->setIsDefaultShipping( '1' );
 

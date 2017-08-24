@@ -204,20 +204,35 @@
                                                             <item name="value" xsi:type="string">true</item>
                                                         </item>
                                                         <item name="street" xsi:type="array">
-                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
-                                                            <item name="config" xsi:type="array">
-                                                                <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
-                                                                <item name="customScope" xsi:type="string">homeAddress</item>
-                                                                <item name="template" xsi:type="string">ui/form/field</item>
-                                                                <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
-                                                            </item>
-                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                            <item name="component" xsi:type="string">Magento_Ui/js/form/components/group</item>
+                                                            <item name="label" xsi:type="string" />
+                                                            <item name="required" xsi:type="boolean">true</item>
                                                             <item name="dataScope" xsi:type="string">homeAddress.street</item>
-                                                            <item name="label" xsi:type="string">Address</item>
-                                                            <item name="placeholder" xsi:type="string">First Line of Address</item>
-                                                            <item name="sortOrder" xsi:type="string">4</item>
-                                                            <item name="validation" xsi:type="array">
-                                                                <item name="required-entry" xsi:type="string">true</item>
+                                                            <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                            <item name="type" xsi:type="string">group</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="template" xsi:type="string">ui/group/group</item>
+                                                                <item name="additionalClasses" xsi:type="string">street</item>
+                                                            </item>
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="0" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                                    <item name="config" xsi:type="array">
+                                                                        <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
+                                                                        <item name="customScope" xsi:type="string">homeAddress</item>
+                                                                        <item name="template" xsi:type="string">ui/form/field</item>
+                                                                        <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
+                                                                    </item>
+                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                                    <item name="dataScope" xsi:type="string">0</item>
+                                                                    <item name="label" xsi:type="string">Address</item>
+                                                                    <item name="placeholder" xsi:type="string">First Line of Address</item>
+                                                                    <item name="sortOrder" xsi:type="string">4</item>
+                                                                    <item name="additionalClasses" xsi:type="boolean">true</item>
+                                                                    <item name="validation" xsi:type="array">
+                                                                        <item name="required-entry" xsi:type="string">true</item>
+                                                                    </item>
+                                                                </item>
                                                             </item>
                                                         </item>
                                                         <item name="city" xsi:type="array">
