@@ -17,7 +17,14 @@ define([
             timeout:'',
             addresses:''
         },
+        initialize: function(){
+            this._super();
+            this.visible(false);
+            return this;
+
+        },
         onUpdate: function (value) {
+
             this.setAddress(value);
 
         },
@@ -25,108 +32,105 @@ define([
 
             var self = this;
 
-            console.log('set-shipping'+self.parentName);
-            clearTimeout(self.timeout);
-            self.timeout = setTimeout(function () {
-                var addresses = self.addresses,
-                    address = registry.get(self.parentName + 'street.0'),
-                    city = registry.get(self.parentName + '.city'),
-                    region = registry.get(self.parentName + '.region_id'),
-                    postcode = region.get(self.parentName + '.postcode');
+            var addresses = self.addresses,
+                address = registry.get(self.parentName + '.street.0'),
+                city = registry.get(self.parentName + '.city'),
+                region = registry.get(self.parentName + '.region_id'),
+                postcode = registry.get(self.parentName + '.postcode');
 
-                var addressData = checkoutData.getHomeAddressData();
-                console.log(addressData);
-                if($.inArray('postcode',addressData)) {
-                    if (addressData.country_id == postcode.value()) {
+
+            var addressData = checkoutData.getHomeAddressData();
+            console.log(value);
+            if ($.inArray('postcode', addressData)) {
+                if(typeof postcode !== 'undefined') {
+                    if (addressData.postcode === postcode.value()) {
                         value = addressData.address_choose;
                     }
                 }
+            }
 
-                if (value !== '-1') {
+            if (value != '-1') {
 
-                    if (typeof addresses[value] !== 'undefined') {
-                        address.value(addresses[value].number + " " + addresses[value].street);
-                        city.value(addresses[value].posttown);
-                        region.options().map(function (o) {
-                            if (o.title === addresses[value].county) {
-                                region.value(o.value);
-                            }
-                        });
-                        var addressData = checkoutData.getHomeAddressData();
-                        addressData['home-address'] = addresses[value]
-                        checkoutData.setHomeAddressData(addressData);
-                    }
-
-                    self.notAvailable(true);
-
-                } else {
-                    this.notAvailable(false);
+                if (typeof addresses[value] !== 'undefined') {
+                    console.log(addresses[value]);
+                    address.value(addresses[value].number + " " + addresses[value].street);
+                    city.value(addresses[value].posttown);
+                    region.options().map(function (o) {
+                        if (o.title === addresses[value].county) {
+                            region.value(o.value);
+                        }
+                    });
+                    var addressData = checkoutData.getHomeAddressData();
+                    addressData['home-address'] = addresses[value];
+                    checkoutData.setHomeAddressData(addressData);
                 }
-            }, 400);
+
+                self.notAvailable(false);
+
+            } else {
+                self.notAvailable(true);
+            }
+
         },
-        notAvailable: function(hide) {
+        notAvailable: function(visible) {
             var self = this;
-            setTimeout(function() {
-                var parent = self.parentName;
-                console.log(parent);
-                var elements = [
-                    'company',
-                    'street',
-                    'street.0',
-                    'city',
-                    'region_id',
-                    'region',
-                    'country_id',
-                    'postcode',
-                    'address_choose',
-                    'dx_number'
-                ];
+            var parent = self.parentName;
 
-                ko.utils.arrayForEach(elements, function (inputName) {
+            console.log(parent);
+            var elements = [
+                'company',
+                'street.0',
+                'city',
+                'region_id',
+                'region',
+                'country_id',
+                'postcode',
+                'address_choose',
+                'dx_number'
+            ];
 
-                    var feature = registry.get(parent+'.'+inputName);
+            ko.utils.arrayForEach(elements, function (inputName) {
 
-                    if(typeof feature != 'undefined') {
+                var feature = registry.get(parent + '.' + inputName);
+                var country = registry.get(parent + '.country_id');
+
+                if (typeof feature !== 'undefined') {
 
 
-                        if (inputName !== 'country_id' && inputName !== 'postcode' && inputName !== 'address_choose') {
-                            if (hide) {
-                                var fieldsNotIn = [
-                                    'dx_number',
-                                    'company'
-                                ];
-                                if($.inArray(inputName,fieldsNotIn) === -1) {
-                                    if (typeof feature.hide === 'function') {
-                                        feature.hide();
-                                    }
-                                }
-                            } else {
-
-                                var fieldsNotIn = [
-                                    'region',
-                                    'county'
-                                ];
-
-                                if($.inArray(inputName,fieldsNotIn) === -1) {
-                                    if (typeof feature.show === 'function') {
-                                        feature.show();
-                                    }
-                                }
-                            }
+                    if (inputName !== 'country_id' && inputName !== 'postcode' && inputName !== 'dx_number' && inputName !== 'company') {
+                        if (visible) {
+                            var fieldsNotIn = [
+                                'region',
+                                'region_id',
+                                'county',
+                                'address_choose'
+                            ];
+                        } else {
+                            var fieldsNotIn = [
+                                'dx_number',
+                                'company'
+                            ];
 
                         }
+
+                        if ($.inArray(inputName, fieldsNotIn) === -1) {
+                            feature.visible(visible);
+                        }
+
                     }
-                });
-            },400);
+                }
+            });
         },
         setAddresses: function(addresses)
         {
+            console.log(addresses);
             this.addresses = addresses;
             var result = [];
             if(this.addresses.length !== 0) {
 
                 this.addresses.forEach(function ($addr, $index) {
                     var address = {value: $index, label: $addr.summaryline};
+
                     result.push(address);
                 });
             }

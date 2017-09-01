@@ -21,17 +21,15 @@ define(
             },
             createCustomer: function () {
                 var self = this;
-                var payload = $('#custom-checkout-form').serializeArray();
+                var payload = JSON.stringify($('#custom-checkout-form').serializeArray());
                 var config = {};
-                $.map( payload, function( n, i ) {
-                    config[n.name] = n.value;
-                });
+
                 //console.log(config);
                 $.ajax({
                     url: self.getUrlForCustomerCreateUpdate(),
                     type: 'POST',
                     data: {
-                        'data': JSON.stringify(config)
+                        'data': payload
                     },
 
                 }).done(

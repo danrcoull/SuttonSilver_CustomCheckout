@@ -21,65 +21,64 @@ define([
         },
         initialize:function() {
             this._super();
-            if(this.value() !== '') {
-                this.toggleLookup();
-            }
+            this.toggleLookup(this.value());
+
         },
         onUpdate: function (value) {
-            this.toggleLookup();
+            this.toggleLookup(value);
         },
-        toggleLookup:function(){
+        toggleLookup:function(value) {
             var self = this,
                 parent = self.parentName;
 
-            setTimeout(function() {
-                var country = registry.get(parent + '.' + 'country_id'),
-                    choose_address = registry.get(parent + '.' + 'address_choose'),
-                    validated = false;
 
-                let value = self.value();
-                let setShiping = registry.get(self.parentName + '.' + 'set_shipping');
-                var show = true;
-                if (typeof setShiping !== 'undefined') {
-                    if(setShiping.value() === 'home_address') {
-                        show = false;
-                    }
+            var country = registry.get(parent + '.' + 'country_id'),
+                choose_address = registry.get(parent + '.' + 'address_choose'),
+                validated = false;
+
+
+            let setShiping = registry.get(self.parentName + '.' + 'set_shipping');
+            var show = true;
+            if (typeof setShiping !== 'undefined') {
+                if (setShiping.value() === 'home_address') {
+                    show = false;
+                }
+            }
+
+            choose_address.visible(false);
+
+            if (country.value() === 'GB' && value !== '' && show) {
+
+                validated = self.postcodeValidation();
+
+                if (validated) {
+
+                    validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
+                    autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
+
+                    $.getJSON(validateUrl, function (response) {
+                        if (response) {
+
+                            $.getJSON(autoUrl, function (response2) {
+                                choose_address.setAddresses(response2);
+                                choose_address.visible(true);
+
+                            }).error(function () {
+                                choose_address.setAddresses([]);
+                            });
+
+                        }
+
+                    }).error(function () {
+                        validated = false;
+                    });
+
                 }
 
-                choose_address.hide();
+            } else {
+                validated = self.postcodeValidation();
+            }
 
-                if (country.value() === 'GB' && self.value() !== '' && show) {
-
-                    validated = self.postcodeValidation();
-
-                    if (validated) {
-
-                        validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
-                        autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
-
-                        $.getJSON(validateUrl, function (response) {
-                            if (response) {
-
-                                $.getJSON(autoUrl, function (response2) {
-                                    choose_address.setAddresses(response2);
-                                    choose_address.show();
-
-                                }).error(function () {
-                                    choose_address.setAddresses([]);
-                                });
-
-                            }
-
-                        }).error(function () {
-                            validated = false;
-                        });
-
-                    }
-
-                } else {
-                    validated = self.postcodeValidation();
-                }
-            },400);
         },
         postcodeValidation: function () {
             var countryId = $('select[name="country_id"]').val(),

@@ -21,12 +21,18 @@ define([
             this.toggleAddress(this.value());
         },
         onUpdate: function (value) {
-            if (this.value() != value) {
-                this.toggleAddress(value);
-            }
+            this.toggleAddress(value);
         },
         toggleAddress:function (value) {
-            if(value === 'GB')
+            var feature = registry.get(parent + '.address_choose');
+            var enterManual = false;
+
+            if(typeof feature !== 'undefined')
+            {
+                enterManual = (feature.value() != '-1');
+            }
+
+            if(value === 'GB' && !enterManual)
             {
                 this.toggleVisibility(true,false)
             }else{
@@ -35,51 +41,49 @@ define([
         },
         toggleVisibility: function (hide,disable) {
             var self = this;
-            clearTimeout(self.timeout);
-            self.timeout = setTimeout(function() {
-                var parent = self.parentName;
-                console.log(parent);;
 
-                var elements = [
-                    'company',
-                    'street',
-                    'street.0',
-                    'city',
-                    'region_id',
-                    'region',
-                    'country_id',
-                    'postcode',
-                    'address_choose',
-                    'dx_number'
-                ];
+            var parent = self.parentName;
 
-                ko.utils.arrayForEach(elements, function (inputName) {
+            var elements = [
+                'street.0',
+                'city',
+                'region_id',
+                'region',
+                'country_id',
+                'postcode',
+                'address_choose',
+                'dx_number',
+                'company'
+            ];
 
-                    var feature = registry.get(parent+'.'+inputName);
+            ko.utils.arrayForEach(elements, function (inputName) {
 
-                    if(typeof feature != 'undefined') {
+                var feature = registry.get(parent + '.' + inputName);
 
-                        if (inputName !== 'country_id' && inputName !== 'postcode') {
-                            if (hide) {
-                                if (typeof feature.hide == 'function') {
-                                    feature.hide();
-                                }
-                            } else {
-                                if (typeof feature.show == 'function') {
-                                    if (inputName !== 'address_choose' && inputName !== 'region') {
-                                        feature.show();
-                                    }
-                                }
+                if (typeof feature !== 'undefined') {
+
+
+                    var fieldsNotIn = [
+                        'region',
+                        'region_id',
+                        'county',
+                        'address_choose',
+                    ];
+
+                    if (inputName !== 'country_id' && inputName !== 'postcode' && inputName !== 'dx_number' && inputName !== 'company') {
+                        if (hide) {
+                            feature.visible(false);
+
+                        } else {
+                            if ($.inArray(feature.inputName, fieldsNotIn) === -1) {
+                                feature.visible(true);
                             }
+
                         }
                     }
-                });
+                }
+            });
 
-                registry.get(parent+'.address_choose').disabled(disable);
-
-
-
-            },400);
         }
     });
 });

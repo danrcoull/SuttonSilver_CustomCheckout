@@ -56,8 +56,7 @@ class LayoutProcessor
         \Magento\Checkout\Block\Checkout\LayoutProcessor $subject,
         array  $jsLayout
     ) {
-		//die(print_r( $jsLayout['components']['checkout']['children']['steps']['children']
-		//['my-new-step']['children']['custom-checkout-form-home-address']['children']['street']));
+
         $elements = [
             'country_id' => [
                 'visible' => true,
@@ -118,8 +117,11 @@ class LayoutProcessor
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = "County";
 
+       $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+	        ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['config']['template'] = 'SuttonSilver_CustomCheckout/ui/group/group';
+
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['before-fields']['children']['set_shipping'] = [
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['set_shipping'] = [
             'component' => 'SuttonSilver_CustomCheckout/js/form/element/checkbox-set-shipping',
             'config' => [
                 'customScope' => 'shippingAddress',
@@ -141,7 +143,7 @@ class LayoutProcessor
         ];
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['before-fields']['children']['select-address-error'] = [
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['select-address-error'] = [
             'component' => 'Magento_Ui/js/form/components/html',
             'config' => [
                 'customScope' => 'shippingAddress',
@@ -344,7 +346,7 @@ class LayoutProcessor
 					        'customEntry' => null,
 					        'tooltip' => null,
 					    ],
-					    'visible' => 'valse',
+					    'visible' => false,
 					    'placeholder' => __('--Please Select Address--'),
 					    'label' => 'Choose Address',
 					    'provider' => 'checkoutProvider',
@@ -353,21 +355,6 @@ class LayoutProcessor
 				    ];
 
 			    }
-
-			    if (isset($payment['children']['form-fields']['children']['street'])) {
-				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
-				    ['payment']['children']['payments-list']['children'][ $key ]['children']['form-fields']['children']
-				    ['street']['label'] = "";
-
-				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
-				    ['payment']['children']['payments-list']['children'][ $key ]['children']['form-fields']['children']
-				    ['street']['children'][0]['label'] = "First Line of Address";
-
-				    unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
-					    ['payment']['children']['payments-list']['children'][ $key ]['children']['form-fields']['children']
-					    ['street']['children'][1]);
-			    }
-
 
 		    }
 	    }

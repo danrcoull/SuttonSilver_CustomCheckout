@@ -20,7 +20,7 @@ class CustomerPlugin
 		$request = $this->request->getPost();
 
 
-		$addresses = ( isset( $request->address ) ) ? $request->address : (object)json_decode($request->data);
+		$addresses = ( is_object( $request->address ) ) ? $request->address : (object)[];
 		if(!isset($addresses->home_address)) {
 
 			$id = 0;
@@ -44,8 +44,7 @@ class CustomerPlugin
 			if($homeAddress) {
 				$customer->setCustomAttribute( 'home_address', $id );
 			}
-			//var_dump($id);
-			//die(var_dump($customer));
+
 		}
 		return [ $customer ];
 	}

@@ -53,17 +53,6 @@ define(
                 );
 
                 registry.async('checkoutProvider')(function (checkoutProvider) {
-                    var homeAddressData = checkoutData.getHomeAddressData();
-
-                    if (homeAddressData) {
-                        checkoutProvider.set(
-                            'homeAddress',
-                            $.extend({}, checkoutProvider.get('homeAddress'), homeAddressData)
-                        );
-                    }
-                    checkoutProvider.on('homeAddress', function (homeAddressData) {
-                        checkoutData.setHomeAddressData(homeAddressData);
-                    });
 
                     var personalDetailsData = checkoutData.getPersonalDetailsData();
 
@@ -76,6 +65,19 @@ define(
                     checkoutProvider.on('personalDetails', function (personalDetailsData) {
                         checkoutData.setPersonalDetailsData(personalDetailsData);
                     });
+
+                    var homeAddressData = checkoutData.getHomeAddressData();
+
+                    if (homeAddressData) {
+                        checkoutProvider.set(
+                            'homeAddress',
+                            $.extend({}, checkoutProvider.get('homeAddress'), homeAddressData)
+                        );
+                    }
+                    checkoutProvider.on('homeAddress', function (homeAddressData) {
+                        checkoutData.setHomeAddressData(homeAddressData);
+                    });
+
 
                     var additonalDetailsData = checkoutData.getAdditonalDetailsData();
 

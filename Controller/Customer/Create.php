@@ -33,6 +33,7 @@ class Create extends Action
     protected $addressInterface;
     protected $addressRepositoryInterface;
     protected $region_interface_factory;
+    protected $customerModelFactory;
 
 
     public function __construct(
@@ -52,6 +53,7 @@ class Create extends Action
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Model\CustomerFactory $customerModelFactory,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
 	    \Psr\Log\LoggerInterface $logger,
 	    \Magento\Framework\Encryption\EncryptorInterface $encryptor,
@@ -79,6 +81,7 @@ class Create extends Action
         $this->addressInterface = $addressInterface;
         $this->addressRepositoryInterface = $addressRepositoryInterface;
         $this->region_interface_factory = $region_interface_factory;
+        $this->customerModelFactory = $customerModelFactory;
     }
 
 
@@ -93,7 +96,12 @@ class Create extends Action
 			    $post = $this->getRequest()->getPost( 'data' );
 
 			    $decodedData = $this->jsonHelper->jsonDecode( $post );
-
+			    $data = [];
+			    foreach ($decodedData as $key)
+			    {
+			    	$data[$key['name']] = $key['value'];
+			    }
+			    $decodedData = $data;
 
 			    if ( $decodedData['form_key'] === $this->formKey->getFormKey() ) {
 				    $customerId = $this->createCustomer( $decodedData );
@@ -202,17 +210,24 @@ class Create extends Action
 
     public function setQuote($id)
     {
-        $customer = $this->customerRepository->getById($id);
+        $customer = $this->customerModelFactory->create()->load($id);
+	    //
+
         $quote = $this->checkoutSession->getQuote();
+        //die(var_dump($quote));
+
+
         $quote->setId($quote->getId());
-        $quote->setCustomer($customer);
-        $quote->assignCustomer($customer);
+        $quote->setCustomer($customer->getDataModel());
         $quote->setCustomerFirstname($customer->getFirstname());
         $quote->setCustomerLastname($customer->getLastname());
-        $quote->setCheckoutMethod('register');
+        $quote->setCheckoutMethod('guest');
 
         try {
-	        $this->quoteRepository->save( $quote );
+	       $this->quoteRepository->save( $quote );
+	       $this->checkoutSession->setQuoteId($quote->getId());
+	       $this->customerSession->setCustomerAsLoggedIn($customer );
+
         }catch(\Exception $e)
         {
 	        return ['passed' => false, 'value' => $e->getMessage()];
@@ -225,6 +240,7 @@ class Create extends Action
     {
 
 
+
         // Get Website ID
 	    $websiteId  = $this->storeManager->getWebsite()->getWebsiteId();
 
@@ -232,12 +248,20 @@ class Create extends Action
         //check if the customer exists if not create new.
         try{
 
-            $customer = $this->customerRepository->get($data['username'],$websiteId);
-            //$customer = $this->customerFactory->create()->loadByEmail($data['username']);
+        	if(!$this->customerSession->isLoggedIn()) {
+		        $customer = $this->customerRepository->get( $data['username'], $websiteId );
+	        }
+	        else {
+		        $customer = $this->customerRepository->getById( $this->customerSession->getCustomerId(), $websiteId );
+	        }
 
         }catch(\Magento\Framework\Exception\NoSuchEntityException $e)
         {
 	        $customer = $this->customerFactory;
+	        $customer->setWebsiteId($websiteId);
+	        $storeId = $this->storeManager->getWebsite($websiteId)->getDefaultStore()->getId();
+	        $customer->setStoreId($storeId);
+	        $customer->setEmail(isset($data['username']) ? $data['username'] : '');
 
         }catch(\Exception $e)
         {
@@ -245,15 +269,8 @@ class Create extends Action
 	        $this->logger->critical($e->getMessage());
 	        return ['passed' => false, 'value' => $e->getMessage()];
         }
-        //set the website (multi site usuage)
 
 
-        $customer->setWebsiteId($websiteId);
-
-	    $storeId = $this->storeManager->getWebsite($websiteId)->getDefaultStore()->getId();
-	    $customer->setStoreId($storeId);
-
-        $customer->setEmail(isset($data['username']) ? $data['username'] : '');
         $customer->setPrefix(isset($data['title']) ? $data['title'] : "");
         $customer->setFirstname(isset($data['firstname']) ? $data['firstname'] : "");
         $customer->setLastname(isset($data['lastname']) ? $data['lastname'] : "");
@@ -274,6 +291,7 @@ class Create extends Action
         try {
 
 	        $customer = $this->customerRepository->save( $customer );
+
 			$region = $this->region_interface_factory->create()
 				->setRegion($data['region'])
 				->setRegionId($data['region_id']);
@@ -287,17 +305,13 @@ class Create extends Action
 		        ->setPostcode( isset( $data['postcode'] ) ? $data['postcode'] : '' )
 		        ->setCity( isset( $data['city'] ) ? $data['city'] : '' )
 		        ->setTelephone( isset( $data['daytimeNumber'] ) ? $data['daytimeNumber'] : '' )
-		        ->setStreet( isset( $data['street'] ) ? [$data['street']] : [] )
-		        //->setRegionId($data['region_id'])
-		        ->setRegion($region)
-		        ->setCustomAttribute('home_address', true)
-		        ->setIsDefaultShipping( '1' );
+		        ->setStreet( isset( $data['street[0]'] ) ? [$data['street[0]']] : [] )
+		        ->setRegion($region);
 
 	        $address = $this->addressRepositoryInterface->save( $address );
 
 
 	        $customer->setAddresses([$address]);
-	        $customer->setDefaultShipping($address->getId());
 	        $customer->setCustomAttribute('home_address', $address->getId());
 
 	        $this->customerRepository->save( $customer );
