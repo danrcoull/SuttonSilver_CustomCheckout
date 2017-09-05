@@ -49,10 +49,19 @@ define([
                 countryId = uiRegistry.get(shippinhFieldset + '.country_id'),
                 addressChoose = uiRegistry.get(shippinhFieldset + '.address_choose');
 
+            var personalDetails = checkoutData.getPersonalDetailsData();
+
+            console.log(personalDetails);
+
+            uiRegistry.get(shippinhFieldset + '.firstname').value(personalDetails.firstname);
+            uiRegistry.get(shippinhFieldset + '.lastname').value(personalDetails.lastname);
+            uiRegistry.get(shippinhFieldset + '.telephone').value(personalDetails.daytimeNumber);
 
             if (value !== 'default_shipping') {
 
                 var address = checkoutData.getHomeAddressData();
+
+                console.log(address);
 
                 Object.keys(address).forEach(function (key) {
                     if (key === 'street') {

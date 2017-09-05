@@ -321,6 +321,18 @@ class LayoutProcessor
 
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+				    ['firstname']['config']['template'] = "ui/form/element/hidden";
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+				    ['lastname']['config']['template'] = "ui/form/element/hidden";
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+				    ['telephone']['config']['template'] = "ui/form/element/hidden";
+			    	
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
 				    ['postcode']['label'] = "Postcode";
 
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']

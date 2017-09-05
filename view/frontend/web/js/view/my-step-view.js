@@ -32,7 +32,6 @@ define(
             defaults: {
                 template: 'SuttonSilver_CustomCheckout/mystep'
             },
-
             //add here your logic to display step,
             isVisible: ko.observable(true),
             isLoading: ko.observable(false),
@@ -106,7 +105,7 @@ define(
             },
             validate: function() {
                 // trigger form validation
-                this.source.    set('params.invalid', false);
+                this.source.set('params.invalid', false);
                 this.source.trigger('personalDetails.data.validate');
                 this.source.trigger('homeAddress.data.validate');
                 this.source.trigger('additionalDetails.data.validate');
@@ -114,6 +113,7 @@ define(
                 // verify that form data is valid
                 if (!this.source.get('params.invalid')) {
                     var response = customerCreate.createCustomer();
+
                 }
             },
             getFormKey: function() {

@@ -34,6 +34,7 @@ class Create extends Action
     protected $addressRepositoryInterface;
     protected $region_interface_factory;
     protected $customerModelFactory;
+    protected $configProvider;
 
 
     public function __construct(
@@ -58,6 +59,7 @@ class Create extends Action
 	    \Psr\Log\LoggerInterface $logger,
 	    \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Customer\Api\Data\RegionInterfaceFactory $region_interface_factory,
+	    \Magento\Checkout\Model\CompositeConfigProvider $configProvider,
         array $data = []
 
     ){
@@ -82,6 +84,7 @@ class Create extends Action
         $this->addressRepositoryInterface = $addressRepositoryInterface;
         $this->region_interface_factory = $region_interface_factory;
         $this->customerModelFactory = $customerModelFactory;
+	    $this->configProvider = $configProvider;
     }
 
 
@@ -140,6 +143,8 @@ class Create extends Action
 		    $response = ['error' => 'true', 'message' => $e->getMessage()];
 
 	    }
+
+	    $response['checkoutConfig'] =$this->configProvider->getConfig();
 
 	    return $result->setData($response );
 

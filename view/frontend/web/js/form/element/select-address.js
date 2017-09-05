@@ -108,7 +108,8 @@ define([
                         } else {
                             var fieldsNotIn = [
                                 'dx_number',
-                                'company'
+                                'company',
+                                'address_choose'
                             ];
 
                         }
