@@ -67,9 +67,9 @@ define(
             errorValidationMessage: ko.observable(false),
             isCustomerLoggedIn: customer.isLoggedIn,
             isFormPopUpVisible: formPopUpState.isVisible,
-            isFormInline: addressList().length == 0,
+            isFormInline: true,
             isNewAddressAdded: ko.observable(false),
-            saveInAddressBook: 1,
+            saveInAddressBook: 0,
             quoteIsVirtual: quote.isVirtual(),
 
             /**

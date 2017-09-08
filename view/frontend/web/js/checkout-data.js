@@ -36,6 +36,7 @@ define([
         setHomeAddressData: function (data) {
             var obj = getData();
             obj.homeAddressData = data;
+            console.log(obj);
             saveData(obj);
         },
         getHomeAddressData: function () {

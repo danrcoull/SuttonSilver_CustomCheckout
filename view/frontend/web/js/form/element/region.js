@@ -46,15 +46,6 @@ define([
 
                 this.required(!!option['is_region_required']);
             }
-
-
-            if(country.value() ==='GB')
-            {
-                setTimeout(function() {
-                    registry.get(self.parentName + '.region').setVisible(false);
-                    registry.get(self.parentName + '.region_id').setVisible(false);
-                },400);
-            }
         },
 
         /**
@@ -69,21 +60,18 @@ define([
 
             this._super(value, field);
 
-            setTimeout(function () {
-                var country = registry.get(self.parentName + '.' + 'country_id'),
-                    option = country.indexedOptions[value];
+            var country = registry.get(self.parentName + '.' + 'country_id'),
+                option = country.indexedOptions[value];
 
 
-                if (option && option['is_region_visible'] === false) {
+            if (option && option['is_region_visible'] === false) {
 
-                    if (self.customEntry) {
-                        self.toggleInput(false);
-                    }
+                if (self.customEntry) {
+                    self.toggleInput(false);
                 }
+            }
 
 
-
-            }, 500);
         }
 
     });

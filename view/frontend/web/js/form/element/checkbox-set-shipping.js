@@ -65,14 +65,17 @@ define([
 
                 Object.keys(address).forEach(function (key) {
                     if (key === 'street') {
-                        var key2 = 'street.0';
+                        var element = uiRegistry.get(shippinhFieldset + '.street.0');
+                        if (typeof element !== 'undefined') {
+                            element.value(address[key][0]);
+                        }
                     } else {
-                        var key2 = key;
+                        var element = uiRegistry.get(shippinhFieldset + '.' + key);
+                        if (typeof element !== 'undefined') {
+                            element.value(address[key]);
+                        }
                     }
-                    var element = uiRegistry.get(shippinhFieldset + '.' + key2);
-                    if (typeof element !== 'undefined') {
-                        element.value(address[key]);
-                    }
+
                 });
             }
 
@@ -82,6 +85,7 @@ define([
                 'city',
                 'region_id',
                 'region',
+                'region_id_input',
                 'country_id',
                 'postcode',
                 'address_choose',

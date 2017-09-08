@@ -117,6 +117,9 @@ class LayoutProcessor
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = "County";
 
+	    $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+	    ['shippingAddress']['children']['shipping-address-fieldset']['children']['region']['valueUpdate'] = "input";
+
        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
 	        ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['config']['template'] = 'SuttonSilver_CustomCheckout/ui/group/group';
 

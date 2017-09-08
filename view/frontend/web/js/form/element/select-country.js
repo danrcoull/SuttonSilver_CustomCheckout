@@ -53,6 +53,7 @@ define([
                 'postcode',
                 'address_choose',
                 'dx_number',
+                'region_id_input',
                 'company'
             ];
 

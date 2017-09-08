@@ -35,7 +35,7 @@ define([
             var addresses = self.addresses,
                 address = registry.get(self.parentName + '.street.0'),
                 city = registry.get(self.parentName + '.city'),
-                region = registry.get(self.parentName + '.region_id'),
+                region = registry.get(self.parentName + '.region_id_input'),
                 postcode = registry.get(self.parentName + '.postcode');
 
 
@@ -53,15 +53,35 @@ define([
 
                 if (typeof addresses[value] !== 'undefined') {
                     console.log(addresses[value]);
-                    address.value(addresses[value].number + " " + addresses[value].street);
-                    city.value(addresses[value].posttown);
-                    region.options().map(function (o) {
-                        if (o.title === addresses[value].county) {
-                            region.value(o.value);
+
+                    //if street doesnt exist use the company instead.
+                    var street = "";
+                    if (typeof addresses[value].premise !== 'undefined')
+                    {
+                        street = addresses[value].premise + " ";
+                    }else {
+                        if (typeof addresses[value].organisation !== 'undefined') {
+                            street = addresses[value].organisation + " ";
                         }
-                    });
-                    var addressData = checkoutData.getHomeAddressData();
+                    }
+
+                    address.value(street + addresses[value].street);
+                    city.value(addresses[value].posttown);
+                    /**region_id.options().map(function (o) {
+                        if (o.title === addresses[value].county) {
+                            region_id.value(o.value);
+                        }
+                    });**/
+
+                    console.log(region.uid);
+
+                    $('#'+region.uid).val(addresses[value].county);
+                    region.value(addresses[value].county);
+
+                    addressData['region'] = addresses[value].county;
+                    addressData['region_id_input'] = addresses[value].county;
                     addressData['home-address'] = addresses[value];
+                    addressData['address_choose'] = value;
                     checkoutData.setHomeAddressData(addressData);
                 }
 
@@ -86,6 +106,7 @@ define([
                 'country_id',
                 'postcode',
                 'address_choose',
+                'region_id_input',
                 'dx_number'
             ];
 

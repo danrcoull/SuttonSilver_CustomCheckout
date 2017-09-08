@@ -104,6 +104,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
         $value = null;
         foreach ($current as $answerValue)
         {
+        	die(var_dump($answerValue));
             $value = $answerValue->getValue();
         }
 

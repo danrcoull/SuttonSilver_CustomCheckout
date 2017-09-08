@@ -56,22 +56,40 @@ define([
                     validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
                     autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
 
-                    $.getJSON(validateUrl, function (response) {
-                        if (response) {
+                    $.ajax({
+                        url: autoUrl,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response) {
 
-                            $.getJSON(autoUrl, function (response2) {
-                                choose_address.setAddresses(response2);
-                                choose_address.visible(true);
 
-                            }).error(function () {
-                                choose_address.setAddresses([]);
-                            });
+                                $.ajax({
+                                    url: autoUrl,
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    success: function (response2) {
+                                        choose_address.setAddresses(response2);
+                                        choose_address.visible(true);
+                                    },
+                                    error: function () {
+                                        choose_address.setAddresses([]);
+                                    },
+                                    beforeSend: setHeader
+                                });
 
-                        }
+                            }
 
-                    }).error(function () {
-                        validated = false;
+                        },
+                        error: function () {
+                           validated = false;
+                        },
+                        beforeSend: setHeader
                     });
+
+                    function setHeader(xhr) {
+                        xhr.setRequestHeader('Referer', 'https://cls.suttonsilverdev.co.uk/');
+                    }
 
                 }
 
