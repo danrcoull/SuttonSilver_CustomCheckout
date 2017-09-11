@@ -60,19 +60,24 @@ define([
 
             this._super(value, field);
 
-            var country = registry.get(self.parentName + '.' + 'country_id'),
-                option = country.indexedOptions[value];
+            var country = registry.get(self.parentName + '.' + 'country_id');
+            if(typeof country !== 'undefined' ) {
 
+               var option = country.indexedOptions[value];
 
-            if (option && option['is_region_visible'] === false) {
+                if (option && option['is_region_visible'] === false) {
 
-                if (self.customEntry) {
-                    self.toggleInput(false);
+                    if (self.customEntry) {
+                        self.toggleInput(false);
+                    }
                 }
+            }else {
+                self.toggleInput(false);
             }
-
-
         }
+
+
+
 
     });
 });

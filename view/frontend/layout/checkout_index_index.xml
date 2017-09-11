@@ -414,7 +414,7 @@
                                                                 <item name="company" xsi:type="array">
                                                                    <item name="label" xsi:type="string">Employer</item>
                                                                     <item name="placeholder" xsi:type="string">Name of your employing organisation</item>
-                                                                    <item name="sortOrder" xsi:type="string">1</item>
+                                                                    <item name="sortOrder" xsi:type="string">5</item>
                                                                 </item>
                                                                 <item name="street" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
@@ -428,7 +428,7 @@
                                                                     <item name="dataScope" xsi:type="string">shippingAddress.street</item>
                                                                     <item name="label" xsi:type="string">Address</item>
                                                                     <item name="placeholder" xsi:type="string">First Line of Address</item>
-                                                                    <item name="sortOrder" xsi:type="string">4</item>
+                                                                    <item name="sortOrder" xsi:type="string">10</item>
                                                                     <item name="validation" xsi:type="array">
                                                                         <item name="required-entry" xsi:type="string">true</item>
                                                                     </item>
@@ -436,7 +436,7 @@
                                                                 <item name="city" xsi:type="array">
                                                                     <item name="additionalClasses" xsi:type="string">col-xs-6 no-padding-left</item>
                                                                     <item name="label" xsi:type="string">City - Optional</item>
-                                                                    <item name="sortOrder" xsi:type="string">10</item>
+                                                                    <item name="sortOrder" xsi:type="string">15</item>
                                                                     <item name="placeholder" xsi:type="string">Enter City</item>
                                                                 </item>
                                                                 <item name="postcode" xsi:type="array">

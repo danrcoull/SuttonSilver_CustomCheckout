@@ -85,10 +85,6 @@ class LayoutProcessor
 
         }
 
-
-	    unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-		    ['shippingAddress']['children']['shipping-address-fieldset']['children']['prefix']);
-
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
             ['shippingAddress']['children']['shipping-address-fieldset']['children']['firstname']['config']['template'] = 'ui/form/element/hidden';
 
@@ -117,8 +113,8 @@ class LayoutProcessor
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = "County";
 
-	    $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-	    ['shippingAddress']['children']['shipping-address-fieldset']['children']['region']['valueUpdate'] = "input";
+	    /**$jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+	    ['shippingAddress']['children']['shipping-address-fieldset']['children']['region']['valueUpdate'] = "input";**/
 
        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
 	        ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['config']['template'] = 'SuttonSilver_CustomCheckout/ui/group/group';
@@ -154,7 +150,7 @@ class LayoutProcessor
             'dataScope' => 'shippingAddress.select_address',
             'content' => '',
             'provider' => 'checkoutProvider',
-            'sortOrder' => 2,
+            'sortOrder' => 3,
             'additionalClasses' => 'warning shiping-address-warning',
         ];
 
@@ -264,8 +260,7 @@ class LayoutProcessor
 
 	        $description = $question->getQuestionTooltip();
             if($description != '') {
-                $options[$name]['tooltip']['description'] = $description;
-                $options[$name]['config']['tooltip'] = $description;
+                $options[$name]['config']['tooltip']['description'] = $description;
             }
 
             if($required)
@@ -315,9 +310,9 @@ class LayoutProcessor
 			    /* company */
 			    if (isset($payment['children']['form-fields']['children']['company'])) {
 
-				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
-				    ['company']['sortOrder'] = 0;
+				    ['company']);
 			    }
 
 			    if (isset($payment['children']['form-fields']['children']['postcode'])) {
@@ -337,6 +332,15 @@ class LayoutProcessor
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
 				    ['postcode']['label'] = "Postcode";
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']['street']['label'] = "";
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']['street']['config']['template'] = 'SuttonSilver_CustomCheckout/ui/group/group';
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']['street']['children'][0]['label'] = "First Line of Address";
 
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
@@ -384,9 +388,9 @@ class LayoutProcessor
 			    ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
 			    ['children']['company']
 		    )) {
-			    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+			    unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 			    ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
-			    ['children']['company']['sortOrder'] = 0;
+			    ['children']['company']);
 		    }
 
 	    }
