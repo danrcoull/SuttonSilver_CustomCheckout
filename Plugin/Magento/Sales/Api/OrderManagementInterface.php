@@ -1,6 +1,9 @@
 <?php
 namespace SuttonSilver\CustomCheckout\Plugin\Magento\Sales\Api;
-class OrderManagementInterface {
+
+use Magento\Framework\Event\ObserverInterface;
+
+class OrderManagementInterface implements ObserverInterface {
 
 	private $customerSession;
 
@@ -11,10 +14,9 @@ class OrderManagementInterface {
 		$this->customerSession = $customerSession;
 	}
 
-	public function afterPlace(\Magento\Sales\Api\Data\OrderInterface $subject)
+	public function execute(\Magento\Framework\Event\Observer $observer)
 	{
 		$this->customerSession->logout();
-		return $subject;
 	}
 
 }

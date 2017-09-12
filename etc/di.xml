@@ -30,9 +30,9 @@
 		<plugin sortOrder="100" name="custom_discount" type="SuttonSilver\CustomCheckout\Plugin\Magento\Checkout\Model\CustomDiscountConfigProvider" />
 	</type>
 
-	<type name="Magento\Sales\Api\OrderManagementInterface">
-		<plugin sortOrder="100" name="suttonsilver_customcheckout" type="SuttonSilver\CustomCheckout\Plugin\Magento\Sales\Api\OrderManagementInterface" />
-	</type>
+	<event name="checkout_onepage_controller_success_action">
+		<observer sortOrder="100" name="suttonsilver_customcheckout" instance="SuttonSilver\CustomCheckout\Plugin\Magento\Sales\Api\OrderManagementInterface" />
+	</event>
 
 	<preference for="SuttonSilver\CustomCheckout\Api\QuestionAnswersRepositoryInterface" type="SuttonSilver\CustomCheckout\Model\QuestionAnswersRepository" />
 	<preference for="SuttonSilver\CustomCheckout\Api\QuestionValuesRepositoryInterface" type="SuttonSilver\CustomCheckout\Model\QuestionValuesRepository" />
