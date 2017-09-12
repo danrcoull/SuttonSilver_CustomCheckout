@@ -88,6 +88,15 @@ class LayoutProcessor
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
             ['shippingAddress']['children']['shipping-address-fieldset']['children']['firstname']['config']['template'] = 'ui/form/element/hidden';
 
+	    $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+	    ['shippingAddress']['children']['shipping-address-fieldset']['children']['firstname']['validation']['required'] = false;
+
+	    $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+	    ['shippingAddress']['children']['shipping-address-fieldset']['children']['lastname']['validation']['required'] = false;
+
+	    $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+	    ['shippingAddress']['children']['shipping-address-fieldset']['children']['telephone']['validation']['required'] = false;
+
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
             ['shippingAddress']['children']['shipping-address-fieldset']['children']['lastname']['config']['template'] = "ui/form/element/hidden";
 
