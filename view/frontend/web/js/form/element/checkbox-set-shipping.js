@@ -44,7 +44,7 @@ define([
         },
         setHidden : function() {
             var personalDetails = checkoutData.getPersonalDetailsData();
-            if(typeof personalDetails !== 'undefined'  || personalDetails !== null) {
+            if(typeof personalDetails !== 'undefined' && personalDetails !== null) {
                 uiRegistry.get(this.parentName + '.firstname').value(personalDetails.firstname);
                 uiRegistry.get(this.parentName + '.lastname').value(personalDetails.lastname);
                 uiRegistry.get(this.parentName + '.telephone').value(personalDetails.daytimeNumber);
