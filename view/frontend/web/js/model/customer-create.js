@@ -20,6 +20,20 @@ define(
                 };
                 return urls.default;
             },
+            getUrlForCustomerLogout: function () {
+                var params = {};
+                var urls = {
+                    'default': '/customcheckout/customer/logout'
+                };
+                return urls.default;
+            },
+            logoutCustomer: function() {
+                var self = this;
+                $.ajax({
+                    url: self.getUrlForCustomerLogout(),
+                    type: 'POST',
+                })
+            },
             createCustomer: function () {
 
 
@@ -42,7 +56,6 @@ define(
 
                 }).done(
                     function (response) {
-                        console.log(response);
                         if(response.success) {
                             step.isLoading(false);
 
@@ -58,7 +71,6 @@ define(
                 ).fail(
                     function (response) {
                         step.isLoading(false);
-                        console.log(response);
                     }
                 );
 
