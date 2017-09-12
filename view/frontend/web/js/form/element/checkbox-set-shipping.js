@@ -44,10 +44,11 @@ define([
         },
         setHidden : function() {
             var personalDetails = checkoutData.getPersonalDetailsData();
-
-            uiRegistry.get(this.parentName + '.firstname').value(personalDetails.firstname);
-            uiRegistry.get(this.parentName  + '.lastname').value(personalDetails.lastname);
-            uiRegistry.get(this.parentName  + '.telephone').value(personalDetails.daytimeNumber);
+            if(typeof personalDetails !== 'undefined') {
+                uiRegistry.get(this.parentName + '.firstname').value(personalDetails.firstname);
+                uiRegistry.get(this.parentName + '.lastname').value(personalDetails.lastname);
+                uiRegistry.get(this.parentName + '.telephone').value(personalDetails.daytimeNumber);
+            }
         },
         onUpdate: function (value) {
 
