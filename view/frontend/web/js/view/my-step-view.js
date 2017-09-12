@@ -91,8 +91,6 @@ define(
                     });
                 });
 
-                registry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.set_shipping').setHidden();
-
                 return this;
             },
 
@@ -114,7 +112,6 @@ define(
                 // verify that form data is valid
                 if (!this.source.get('params.invalid')) {
                     var response = customerCreate.createCustomer();
-
                 }
             },
             getFormKey: function() {

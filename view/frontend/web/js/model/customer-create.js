@@ -50,6 +50,8 @@ define(
                             window.checkoutConfig = response.checkoutConfig;
                             window.customerData = window.checkoutConfig.customerData;
 
+                            registry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.set_shipping').setHidden();
+
                             stepNavigator.next();
                         }
                     }
