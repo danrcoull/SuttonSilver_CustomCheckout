@@ -6,17 +6,22 @@ use Magento\Framework\Event\ObserverInterface;
 class OrderManagementInterface implements ObserverInterface {
 
 	private $customerSession;
+	private $checkoutSession;
 
 	public function __construct(
-		\Magento\Customer\Model\Session $customerSession
+		\Magento\Customer\Model\Session $customerSession,
+		\Magento\Checkout\Model\Session $checkoutSession
 	) {
 
 		$this->customerSession = $customerSession;
+		$this->checkoutSession = $checkoutSession;
 	}
 
 	public function execute(\Magento\Framework\Event\Observer $observer)
 	{
+		$ids = $observer->getEvent()->getOrderIds();
 		$this->customerSession->logout();
+		$this->checkoutSession->setData('increment_id',$ids );
 		return $this;
 	}
 
