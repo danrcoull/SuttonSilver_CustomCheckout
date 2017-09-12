@@ -32,7 +32,12 @@ define(
                 $.ajax({
                     url: self.getUrlForCustomerLogout(),
                     type: 'POST',
-                })
+                }).done(
+                    function (response) {
+                        console.log('response success');
+                        window.isCustomerLoggedIn = false;
+                    }
+                );
             },
             createCustomer: function () {
 
