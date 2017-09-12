@@ -17,6 +17,7 @@ class OrderManagementInterface implements ObserverInterface {
 	public function execute(\Magento\Framework\Event\Observer $observer)
 	{
 		$this->customerSession->logout();
+		return $this;
 	}
 
 }
