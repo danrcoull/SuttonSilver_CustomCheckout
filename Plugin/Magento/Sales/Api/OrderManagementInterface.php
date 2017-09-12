@@ -19,10 +19,7 @@ class OrderManagementInterface implements ObserverInterface {
 
 	public function execute(\Magento\Framework\Event\Observer $observer)
 	{
-		$ids = $observer->getEvent()->getOrderIds();
 		$this->customerSession->logout();
-		$this->checkoutSession->setData('increment_id',$ids );
-		return $this;
 	}
 
 }
