@@ -22,6 +22,8 @@ define([
         initialize: function () {
             this._super();
             this.initializeError();
+
+            this.setHidden();
         },
         initializeError: function () {
             var error = uiRegistry.get(this.parentName + '.select-address-error');
@@ -40,6 +42,13 @@ define([
                 error.visible(true);
             }
         },
+        setHidden() : function() {
+            var personalDetails = checkoutData.getPersonalDetailsData();
+
+            uiRegistry.get(this.parentName + '.firstname').value(personalDetails.firstname);
+            uiRegistry.get(this.parentName  + '.lastname').value(personalDetails.lastname);
+            uiRegistry.get(this.parentName  + '.telephone').value(personalDetails.daytimeNumber);
+        },
         onUpdate: function (value) {
 
             var self = this;
@@ -49,19 +58,12 @@ define([
                 countryId = uiRegistry.get(shippinhFieldset + '.country_id'),
                 addressChoose = uiRegistry.get(shippinhFieldset + '.address_choose');
 
-            var personalDetails = checkoutData.getPersonalDetailsData();
-
-            console.log(personalDetails);
-
-            uiRegistry.get(shippinhFieldset + '.firstname').value(personalDetails.firstname);
-            uiRegistry.get(shippinhFieldset + '.lastname').value(personalDetails.lastname);
-            uiRegistry.get(shippinhFieldset + '.telephone').value(personalDetails.daytimeNumber);
+            this.setHidden();
 
             if (value !== 'default_shipping') {
 
                 var address = checkoutData.getHomeAddressData();
 
-                console.log(address);
 
                 Object.keys(address).forEach(function (key) {
                     if (key === 'street') {
@@ -119,10 +121,7 @@ define([
                         ];
 
                         if (countryId.value() === 'GB' && addressChoose.value() != '-1') {
-
-                            console.log('gb');
                             if ($.inArray(feature.inputName, fieldsIn) !== -1) {
-                                console.log('hide it');
                                 feature.visible(true);
                             }else {
                                 feature.visible(false);
@@ -130,7 +129,6 @@ define([
 
                         } else {
                             if ($.inArray(feature.inputName, fieldsNotIn) === -1) {
-                                console.log('show it');
                                 feature.visible(true);
                             }
                         }

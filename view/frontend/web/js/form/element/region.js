@@ -71,13 +71,10 @@ define([
                         self.toggleInput(false);
                     }
                 }
-            }else {
-                self.toggleInput(false);
             }
+
+
         }
-
-
-
 
     });
 });
