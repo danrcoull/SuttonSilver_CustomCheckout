@@ -29,6 +29,11 @@
 	<type name="Magento\Checkout\Model\DefaultConfigProvider">
 		<plugin sortOrder="100" name="custom_discount" type="SuttonSilver\CustomCheckout\Plugin\Magento\Checkout\Model\CustomDiscountConfigProvider" />
 	</type>
+
+	<type name="Magento\Sales\Api\OrderManagementInterface">
+		<plugin sortOrder="100" name="suttonsilver_customcheckout" type="SuttonSilver\CustomCheckout\Plugin\Magento\Sales\Api\OrderManagementInterface" />
+	</type>
+
 	<preference for="SuttonSilver\CustomCheckout\Api\QuestionAnswersRepositoryInterface" type="SuttonSilver\CustomCheckout\Model\QuestionAnswersRepository" />
 	<preference for="SuttonSilver\CustomCheckout\Api\QuestionValuesRepositoryInterface" type="SuttonSilver\CustomCheckout\Model\QuestionValuesRepository" />
 	<preference for="SuttonSilver\CustomCheckout\Api\QuestionRepositoryInterface" type="SuttonSilver\CustomCheckout\Model\QuestionRepository" />
