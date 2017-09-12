@@ -42,7 +42,7 @@ define([
                 error.visible(true);
             }
         },
-        setHidden() : function() {
+        setHidden : function() {
             var personalDetails = checkoutData.getPersonalDetailsData();
 
             uiRegistry.get(this.parentName + '.firstname').value(personalDetails.firstname);
