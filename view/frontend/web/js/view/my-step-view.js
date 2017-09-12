@@ -91,11 +91,11 @@ define(
                     });
                 });
 
-                var shippignStep = registry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.set_shipping');
+                /**var shippignStep = registry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.set_shipping');
                 if(typeof shippignStep !=='undefined')
                 {
                     shippignStep.setHidden();
-                }
+                }**/
 
                 return this;
             },
