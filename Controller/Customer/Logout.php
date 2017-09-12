@@ -88,7 +88,6 @@ class Logout extends Action {
 
 
 	public function execute() {
-		die('here');
 		$result = $this->resultJsonFactory->create();
 
 		try {
