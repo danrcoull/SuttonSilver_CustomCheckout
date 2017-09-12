@@ -91,7 +91,6 @@ define(
                     });
                 });
 
-                registry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.set_shipping').setHidden();
 
                 return this;
             },
