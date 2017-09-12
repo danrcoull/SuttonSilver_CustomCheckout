@@ -1,5 +1,5 @@
 <?php
-
+namespace SuttonSilver\CustomCheckout\Plugin\Magento\Sales\Api;
 class OrderManagementInterface {
 
 	private $customerSession;
