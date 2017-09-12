@@ -2,16 +2,11 @@ define(
     [
         'ko',
         'jquery',
-        'Magento_Checkout/js/model/quote',
-        'Magento_Customer/js/model/customer',
         'SuttonSilver_CustomCheckout/js/checkout-data',
-        'mageUtils',
-        'mage/storage',
-        'Magento_Checkout/js/model/error-processor',
         'Magento_Checkout/js/model/step-navigator',
         'uiRegistry'
     ],
-    function(ko,$, quote, customer, checkoutData, utils, storage, errorProcessor,stepNavigator, uiRegistry) {
+    function(ko,$, checkoutData, stepNavigator, uiRegistry) {
         return {
             getUrlForCustomerCreateUpdate: function () {
                 var params = {};
@@ -64,9 +59,9 @@ define(
                         if(response.success) {
                             step.isLoading(false);
 
-                            window.isCustomerLoggedIn = true;
                             window.checkoutConfig = response.checkoutConfig;
                             window.customerData = window.checkoutConfig.customerData;
+                            window.isCustomerLoggedIn = true;
 
                             uiRegistry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.set_shipping').setHidden();
 
