@@ -63,13 +63,13 @@ define(
             defaults: {
                 template: 'SuttonSilver_CustomCheckout/shipping'
             },
-            visible: ko.observable(!quote.isVirtual() && stepNavigator.isProcessed('personal-details')),
+            visible: ko.observable(false),
             errorValidationMessage: ko.observable(false),
             isCustomerLoggedIn: customer.isLoggedIn,
             isFormPopUpVisible: formPopUpState.isVisible,
             isFormInline: true,
             isNewAddressAdded: ko.observable(false),
-            saveInAddressBook: 0,
+            saveInAddressBook: false,
             quoteIsVirtual: quote.isVirtual(),
 
             /**
@@ -300,7 +300,7 @@ define(
                     shippingAddress.lastname = personalDetails.lastname;
                     shippingAddress.telephone = personalDetails.daytimeNumber;
                     shippingAddress.email = checkoutData.getValidatedEmailValue();
-                    shippingAddress.save_in_address_book = 1;
+                    shippingAddress.save_in_address_book = 0;
 
                     selectShippingAddress(shippingAddress);
                 }

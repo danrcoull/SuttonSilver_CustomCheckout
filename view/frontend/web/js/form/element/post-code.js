@@ -89,10 +89,12 @@ define([
 
                     function setHeader(xhr) {
                         xhr.setRequestHeader('Referer', 'https://cls.suttonsilverdev.co.uk/');
+                        xhr.setRequestHeader("X-Requested-With", 'https://cls.suttonsilverdev.co.uk/');
                     }
 
+                }else {
+                    choose_address.setAddresses([]);
                 }
-
             } else {
                 validated = self.postcodeValidation();
             }

@@ -315,6 +315,15 @@ class LayoutProcessor
 				    ['company']);
 			    }
 
+
+			    if (isset($payment['children']['form-fields']['children']['dx_number'])) {
+				    unset( $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+					    ['payment']['children']['payments-list']['children'][ $key ]['children']['form-fields']['children']
+					    ['dx_number'] );
+			    }
+
+
+
 			    if (isset($payment['children']['form-fields']['children']['postcode'])) {
 
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
@@ -342,6 +351,7 @@ class LayoutProcessor
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']['street']['children'][0]['label'] = "First Line of Address";
 
+				    //postcode
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
 				    ['postcode']['component'] = "SuttonSilver_CustomCheckout/js/form/element/post-code";
@@ -350,10 +360,12 @@ class LayoutProcessor
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
 				    ['postcode']['placeholder'] = "eg. MK42 7AB";
 
+
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
 				    ['postcode']['validation'] = ['required'=>true,'validate-zip-international'=>true];
 
+				    //custom
 				    $method = substr($key, 0, -5);
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']['address_choose'] = [

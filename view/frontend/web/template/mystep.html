@@ -36,7 +36,13 @@
             <div class="actions-toolbar">
                 <div class="primary">
                     <button data-role="opc-continue" data-bind="click: validate" type="submit" class="button action continue primary">
-                        <span><!-- ko i18n: 'Proceed to Delivery'--><i class="fa fa-long-arrow-right"></i><!-- /ko --></span>
+                        <!-- ko ifnot: (quoteIsVirtual) -->
+                            <span><!-- ko i18n: 'Proceed to Delivery'--><i class="fa fa-long-arrow-right"></i><!-- /ko --></span>
+                        <!--/ko-->
+
+                        <!-- ko if: (quoteIsVirtual) -->
+                            <span><!-- ko i18n: 'Proceed to Payment'--><i class="fa fa-long-arrow-right"></i><!-- /ko --></span>
+                        <!--/ko-->
                     </button>
                 </div>
             </div>

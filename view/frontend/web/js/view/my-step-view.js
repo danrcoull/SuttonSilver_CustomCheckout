@@ -8,6 +8,7 @@ define(
         'SuttonSilver_CustomCheckout/js/checkout-data',
         'SuttonSilver_CustomCheckout/js/model/customer-create',
         'uiRegistry',
+        'Magento_Checkout/js/model/quote',
         'mage/translate'
     ],
     function (
@@ -19,6 +20,7 @@ define(
         checkoutData,
         customerCreate,
         registry,
+        quote,
         $t
     ) {
         'use strict';
@@ -35,6 +37,7 @@ define(
             //add here your logic to display step,
             isVisible: ko.observable(true),
             isLoading: ko.observable(false),
+            quoteIsVirtual: quote.isVirtual(),
             /**
              *
              * @returns {*}
