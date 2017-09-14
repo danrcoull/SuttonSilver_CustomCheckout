@@ -66,6 +66,8 @@ define(
                             uiRegistry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.set_shipping').setHidden();
 
                             stepNavigator.next();
+                        }else {
+                            step.isLoading(false);
                         }
                     }
                 ).fail(

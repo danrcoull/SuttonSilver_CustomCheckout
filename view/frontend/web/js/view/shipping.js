@@ -189,7 +189,7 @@ define(
                 if (!this.source.get('params.invalid')) {
                     addressData = this.source.get('shippingAddress');
                     // if user clicked the checkbox, its value is true or false. Need to convert.
-                    addressData.save_in_address_book = 1;
+                    addressData.save_in_address_book = 0;
 
                     // New address must be selected as a shipping address
                     newShippingAddress = createShippingAddress(addressData);

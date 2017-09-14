@@ -17,7 +17,10 @@ define([
                 update: '${ $.parentName }.country_id:value'
             }
         },
-
+        initialize: function(){
+          this._super();
+            this.toggleInput(false);
+        },
         /**
          * @param {String} value
          */
@@ -37,7 +40,7 @@ define([
                 this.validation['required-entry'] = false;
                 this.required(false);
             } else {
-                if (!option['is_region_required']) {
+                if (!('is_region_required' in option) || !option['is_region_required']) {
                     this.error(false);
                     this.validation = _.omit(this.validation, 'required-entry');
                 } else {
@@ -61,9 +64,8 @@ define([
             this._super(value, field);
 
             var country = registry.get(self.parentName + '.' + 'country_id');
-            if(typeof country !== 'undefined' ) {
-
-               var option = country.indexedOptions[value];
+            if(typeof country !== 'undefined') {
+                var option = country.indexedOptions[value];
 
                 if (option && option['is_region_visible'] === false) {
 

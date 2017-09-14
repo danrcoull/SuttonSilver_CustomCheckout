@@ -113,8 +113,11 @@ class LayoutProcessor
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = "County";
 
-	    /**$jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-	    ['shippingAddress']['children']['shipping-address-fieldset']['children']['region']['valueUpdate'] = "input";**/
+	    $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+	    ['shippingAddress']['children']['shipping-address-fieldset']['children']['region']['valueUpdate'] = "input";
+
+	    $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+	    ['shippingAddress']['children']['shipping-address-fieldset']['children']['dx_number']['default'] = "DX";
 
        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
 	        ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['config']['template'] = 'SuttonSilver_CustomCheckout/ui/group/group';
@@ -260,7 +263,7 @@ class LayoutProcessor
 
 	        $description = $question->getQuestionTooltip();
             if($description != '') {
-                $options[$name]['config']['tooltip']['description'] = $description;
+                $options[$name]['config']['tooltip']['description'] = strip_tags($description);
             }
 
             if($required)
@@ -307,6 +310,10 @@ class LayoutProcessor
 		    foreach ($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 		    ['payment']['children']['payments-list']['children'] as $key => $payment) {
 
+			    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+			    ['payment']['children']['payments-list']['children'][$key]['component'] = "SuttonSilver_CustomCheckout/js/view/billing-address";
+
+
 			    /* company */
 			    if (isset($payment['children']['form-fields']['children']['company'])) {
 
@@ -323,20 +330,31 @@ class LayoutProcessor
 			    }
 
 
-
 			    if (isset($payment['children']['form-fields']['children']['postcode'])) {
 
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
 				    ['firstname']['config']['template'] = "ui/form/element/hidden";
 
+				    unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				         ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+				         ['firstname']['validation']);
+
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
 				    ['lastname']['config']['template'] = "ui/form/element/hidden";
 
+				    unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+					    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+					    ['lastname']['validation']);
+
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
 				    ['telephone']['config']['template'] = "ui/form/element/hidden";
+
+				    unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+					    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+					    ['telephone']['validation']);
 			    	
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
@@ -355,6 +373,14 @@ class LayoutProcessor
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
 				    ['postcode']['component'] = "SuttonSilver_CustomCheckout/js/form/element/post-code";
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+				    ['country_id']['component'] = "SuttonSilver_CustomCheckout/js/form/element/select-country";
+
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+				    ['region_id']['component'] = "SuttonSilver_CustomCheckout/js/form/element/region";
 
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
@@ -378,6 +404,7 @@ class LayoutProcessor
 					        'tooltip' => null,
 					    ],
 					    'visible' => false,
+					    'sortOrder' => 130,
 					    'placeholder' => __('--Please Select Address--'),
 					    'label' => 'Choose Address',
 					    'provider' => 'checkoutProvider',
@@ -394,6 +421,8 @@ class LayoutProcessor
 	    if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 		    ['payment']['children']['afterMethods']['children']['billing-address-form']
 	    )) {
+
+
 
 		    /* company */
 		    if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']

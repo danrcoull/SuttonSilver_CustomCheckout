@@ -58,7 +58,7 @@ class LayoutProcessor extends \Magento\Checkout\Block\Cart\LayoutProcessor
 	        $fieldSetPointer['country_id']['config']['template'] = 'ui/form/element/checkbox-set';
 	        $fieldSetPointer['country_id']['options'] = [
 		        ['value' => 'GB','label' => __('UK Mainland')],
-		        ['value' => 'null','label' => __('Overseas')]
+		        ['value' => 'US','label' => __('Overseas')]
 	        ];
 
 	       // die(var_dump($fieldSetPointer['country_id']));

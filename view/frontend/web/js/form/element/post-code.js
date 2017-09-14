@@ -17,27 +17,55 @@ define([
             timeout:'',
             validateUrl:'https://ws.postcoder.com/pcw/[api-key]/codepoint/validatepostcode/[postcode]?format=json',
             autoUrl:'https://ws.postcoder.com/pcw/[api-key]/address/uk/[postcode]?format=json',
-            apikey: 'PCWZS-FLZX8-Z9QS9-K2HX6'
+            apikey: 'PCWZS-FLZX8-Z9QS9-K2HX6',
+            imports: {
+                update: '${ $.parentName }.country_id:value'
+            }
         },
         initialize:function() {
             this._super();
-            this.toggleLookup(this.value());
+            //this.toggleLookup(this.value());
 
+        },
+        /**
+         * @param {String} value
+         */
+        update: function (value) {
+
+            var country = registry.get(this.parentName + '.' + 'country_id'),
+                options = country.indexedOptions,
+                option;
+
+            if (!value) {
+                return;
+            }
+
+            option = options[value];
+
+            if (!('is_zipcode_optional' in option) || option['is_zipcode_optional']) {
+                this.error(false);
+                this.validation = _.omit(this.validation, 'required-entry');
+            } else {
+                this.validation['required-entry'] = true;
+            }
+
+            this.required(!option['is_zipcode_optional']);
         },
         onUpdate: function (value) {
             this.toggleLookup(value);
         },
         toggleLookup:function(value) {
+
             var self = this,
                 parent = self.parentName;
 
 
-            var country = registry.get(parent + '.' + 'country_id'),
-                choose_address = registry.get(parent + '.' + 'address_choose'),
+            var country = registry.get(parent + '.country_id'),
+                choose_address = registry.get(parent + '.address_choose'),
                 validated = false;
 
 
-            let setShiping = registry.get(self.parentName + '.' + 'set_shipping');
+            var setShiping = registry.get(self.parentName + '.set_shipping');
             var show = true;
             if (typeof setShiping !== 'undefined') {
                 if (setShiping.value() === 'home_address') {
@@ -47,17 +75,18 @@ define([
 
             choose_address.visible(false);
 
+
             if (country.value() === 'GB' && value !== '' && show) {
 
                 validated = self.postcodeValidation();
 
                 if (validated) {
 
-                    validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
-                    autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
+                    var validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
+                    var autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
 
                     $.ajax({
-                        url: autoUrl,
+                        url: validateUrl,
                         type: 'GET',
                         dataType: 'json',
                         success: function (response) {
@@ -82,7 +111,7 @@ define([
 
                         },
                         error: function () {
-                           validated = false;
+                            validated = false;
                         },
                         beforeSend: setHeader
                     });
@@ -92,12 +121,13 @@ define([
                         xhr.setRequestHeader("X-Requested-With", 'https://cls.suttonsilverdev.co.uk/');
                     }
 
-                }else {
+                } else {
                     choose_address.setAddresses([]);
                 }
             } else {
                 validated = self.postcodeValidation();
             }
+
 
         },
         postcodeValidation: function () {

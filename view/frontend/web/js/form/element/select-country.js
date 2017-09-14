@@ -69,6 +69,7 @@ define([
                         'region_id',
                         'county',
                         'address_choose',
+                        'region_id_input'
                     ];
 
                     if (inputName !== 'country_id' && inputName !== 'postcode' && inputName !== 'dx_number' && inputName !== 'company') {
