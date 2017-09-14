@@ -1,38 +1,74 @@
 <?php
 namespace SuttonSilver\CustomCheckout\Model\Export;
+
 class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 {
     public function getOrders()
     {
         return $this->OrderCollectionFactory->create()
-            ->addAttributeToSelect('*');
-           // ->addFieldToFilter('export_processed', array('neq'=>1));
+            ->addAttributeToSelect('*')
+            ->addFieldToFilter('export_processed', array('neq'=>1));
+    }
+
+    public function stripHouseNumber($street)
+    {
+	    if ( preg_match('/([^\d]+)\s?(.+)/i', $street, $result) )
+	    {
+		    return $result;
+	    }
+
+	    return false;
     }
 
     public function runExport()
     {
         $orders= $this->getOrders();
-        //$this->logger->addInfo(print_r($orders));
+        //$this->logger->addInfo(print_r($orders,));
         $rows = [];
         foreach($orders as $order)
         {
 
-            //create  signiture row
-            $rows[] = $this->getCustomerKeys();
 
             //createcustomer
 	        if($order->getCustomerId()) {
-		        $customerObject = $this->customerRepository->getById( $order->getCustomerId() );
-		        $customerArray  = array_fill_keys( $this->getCustomerKeys(), '' );
+				//create  signiture row
+		        $rows[] = $this->getCustomerKeys();
 
-		        $customerArray['Title']        = $customerObject->getPrefix();
-		        $customerArray['Forename']     = $customerObject->getFirstname();
-		        $customerArray['Surname']      = $customerObject->getLastname();
-		        $customerArray['DOB']          = $customerObject->getDob();
-		        $customerArray['Homephone']    = $customerObject->getCustomAttribute( 'daytime_phone_number' )->getValue();
-		        $customerArray['Mobile']       = $customerObject->getCustomAttribute( 'mobile_number' )->getValue();
-		        $customerArray['Email']        = $customerObject->getEmail();
+		        $customerObject = $this->customerRepository->getById( $order->getCustomerId() );
+		        //prepopulate the array with empty key values
+		        $customerArray  = array_fill_keys( $this->getCustomerKeys(), "" );
+
+		        //get home address;
+		        $homeAddressId = $customerObject->getCustomAttribute('home_address');
+		        $homeAddress = $this->addressRepository->getById($homeAddressId);
+		        $street = $this->stripHouseNumber(implode(',',$homeAddress->getStreet()));
+		        $number = isset($street[0]) ? $street[0] : false;
+		        $address = isset($street[1]) ? explode(',',$street[1]) : false;
+		        $address1 = isset($address[0]) ? $address[0] : false;
+		        $address2 = isset($address[1]) ? $street[1] : false;
+		        $address3 = isset($address[2]) ? $address[2] : false;
+
+				$customerArray['House No'] = (($number !== false) ? $number  : "");
+				$customerArray['Address1'] = (($address1 !== false) ? $address1  : "");
+				$customerArray['Address2'] = (($address2 !== false) ? $address2  : "");
+				$customerArray['Address3'] = (($address3 !== false) ? $address3  : "");
+				$customerArray['Town'] = $homeAddress->getCity() ?: "";
+				$customerArray['County'] = $homeAddress->getRegion()->getRegion() ?: "";
+				$customerArray['Postcode'] = $homeAddress->getPostcode() ?: "";
+				$customerArray['DX'] = $order->getShippingAddress()->getData('dx_number') ?: "";
+
+				//get order datye
+		        $customerArray['Date']        = $order->getCreatedAt() ? : "";
+
+		        $customerArray['Title']        = $customerObject->getPrefix() ? : "";
+		        $customerArray['Forename']     = $customerObject->getFirstname() ?: "";
+		        $customerArray['Surname']      = $customerObject->getLastname() ?: "";
+		        $customerArray['DOB']          = $customerObject->getDob() ?: "";
+		        $customerArray['Homephone']    = $customerObject->getCustomAttribute( 'daytime_phone_number' )->getValue() ?: "";
+		        $customerArray['Mobile']       = $customerObject->getCustomAttribute( 'mobile_number' )->getValue() ?: "";
+		        $customerArray['Email']        = $customerObject->getEmail() ?: "";
 		        $customerArray['Membership']   = ($membershipNumber = $customerObject->getCustomAttribute( 'membership_number' )) ? $membershipNumber->getValue() : "";
+		        $customerArray['Previous CLS'] = ($studiedBefore = $customerObject->getCustomAttribute( 'studied_with_us_before' )) ? $studiedBefore->getValue() : "";
 		        $customerArray['Previous CLS'] = ($studiedBefore = $customerObject->getCustomAttribute( 'studied_with_us_before' )) ? $studiedBefore->getValue() : "";
 
 
@@ -104,8 +140,8 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
         $value = null;
         foreach ($current as $answerValue)
         {
-        	die(var_dump($answerValue));
-            $value = $answerValue->getValue();
+	        $this->logger->info(print_r($answerValue,true));
+            $value = isset($answerValue['value']) ? $answerValue['value'] : null;
         }
 
         return $value !== null ? $value : $default;

@@ -6,10 +6,12 @@ class Export {
     protected $logger;
     protected $export;
 
+
     public function __construct(LoggerInterface $logger,
                                 \SuttonSilver\CustomCheckout\Model\Export\Export $export) {
         $this->logger = $logger;
         $this->export = $export;
+
     }
 
     /**

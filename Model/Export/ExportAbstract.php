@@ -25,6 +25,7 @@ abstract class ExportAbstract
     protected $storeManager;
     protected $searchCriteriaBuilder;
     protected $logger;
+	protected $addressRepository;
 
     public function __construct( \Magento\Framework\Model\Context $context,
                                 DriverPool $driverPool,
@@ -35,6 +36,7 @@ abstract class ExportAbstract
                                 QuestionRepositoryInterface $questionRepository,
                                 StoreManagerInterface $storeManager,
                                 SearchCriteriaBuilder $searchCriteriaBuilder,
+	                            \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
                                 LoggerInterface $logger,
                                 array $data = []
     ){
@@ -47,6 +49,7 @@ abstract class ExportAbstract
         $this->storeManager = $storeManager;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->logger = $logger;
+	    $this->addressRepository = $addressRepository;
     }
 
     public function createExportDir()
@@ -102,7 +105,7 @@ abstract class ExportAbstract
         }catch(\Exception $e)
         {
 	        $this->logger->info('Error:');
-            $this->logger->addError($e->getMessage());
+            $this->logger->error($e->getMessage());
         }
 
         return $this;

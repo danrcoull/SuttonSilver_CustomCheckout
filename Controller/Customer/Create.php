@@ -283,7 +283,7 @@ class Create extends Action
 	    $storeName = $this->storeManager->getStore($customer->getStoreId())->getName();
 	    $customer->setCreatedIn($storeName);
 
-        $customer->setCustomAttribute('cilex_membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
+        $customer->setCustomAttribute('membership_number',isset($data['cilex_membership_number']) ? $data['cilex_membership_number'] : "");
         $customer->setCustomAttribute('previous_surname',isset($data['previous_surname']) ? $data['previous_surname'] : "");
         $customer->setCustomAttribute('previous_postcode',isset($data['previous_postcode']) ? $data['previous_postcode'] : "");
 

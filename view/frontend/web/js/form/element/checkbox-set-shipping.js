@@ -27,7 +27,7 @@ define([
         },
         initializeError: function () {
             var error = uiRegistry.get(this.parentName + '.select-address-error');
-            error.content('As someone must be available to accept delivery, we strongly recommend that your course is sent to your employers address.');
+            error.content("As someone must be available to accept delivery, we strongly recommend that your course is sent to your employer's address.");
             error.visible(true);
             //this.toggleErrorVisibility();
 

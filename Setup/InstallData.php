@@ -34,7 +34,7 @@ class InstallData implements InstallDataInterface
                 'label' => 'CILEx Membership Number',
                 'input' => 'text',
                 'required' => false,
-                'default' => '0',
+                'default' => '',
                 'sort_order' => 100,
                 'system' => false,
                 'position' => 100
@@ -48,7 +48,7 @@ class InstallData implements InstallDataInterface
                 'input' => 'select',
                 'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
                 'required' => false,
-                'default' => '0',
+                'default' => '',
                 'sort_order' => 101,
                 'system' => false,
                 'position' => 100
@@ -61,7 +61,7 @@ class InstallData implements InstallDataInterface
                 'label' => 'CILEx Membership Number',
                 'input' => 'text',
                 'required' => false,
-                'default' => '0',
+                'default' => '',
                 'sort_order' => 100,
                 'system' => false,
                 'position' => 100
@@ -124,13 +124,13 @@ class InstallData implements InstallDataInterface
                 'label' => 'DX Number',
                 'input' => 'text',
                 'required' => false,
-                'default' => '0',
+                'default' => 'DX',
                 'sort_order' => 100,
                 'system' => false,
                 'position' => 100
             ]
         );
-        $sampleAttribute = $eavSetup->getEavConfig()->getAttribute(\Magento\Customer\Model\Customer::ENTITY, 'dx_number');
+        $sampleAttribute = $eavSetup->getEavConfig()->getAttribute('customer_address', 'dx_number');
         $sampleAttribute->setData(
             'used_in_forms',
             ['adminhtml_customer_address', 'customer_address_edit', 'customer_register_address']
