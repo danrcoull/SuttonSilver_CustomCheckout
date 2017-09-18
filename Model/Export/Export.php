@@ -39,23 +39,24 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 
 		        //get home address;
 		        $homeAddressId = $customerObject->getCustomAttribute('home_address');
-		        $homeAddress = $this->addressRepository->getById($homeAddressId);
-		        $street = $this->stripHouseNumber(implode(',',$homeAddress->getStreet()));
-		        $number = isset($street[0]) ? $street[0] : false;
-		        $address = isset($street[1]) ? explode(',',$street[1]) : false;
-		        $address1 = isset($address[0]) ? $address[0] : false;
-		        $address2 = isset($address[1]) ? $street[1] : false;
-		        $address3 = isset($address[2]) ? $address[2] : false;
+		        if($homeAddressId) {
+			        $homeAddress = $this->addressRepository->getById( $homeAddressId );
+			        $street      = $this->stripHouseNumber( implode( ',', $homeAddress->getStreet() ) );
+			        $number      = isset( $street[0] ) ? $street[0] : false;
+			        $address     = isset( $street[1] ) ? explode( ',', $street[1] ) : false;
+			        $address1    = isset( $address[0] ) ? $address[0] : false;
+			        $address2    = isset( $address[1] ) ? $street[1] : false;
+			        $address3    = isset( $address[2] ) ? $address[2] : false;
 
-				$customerArray['House No'] = (($number !== false) ? $number  : "");
-				$customerArray['Address1'] = (($address1 !== false) ? $address1  : "");
-				$customerArray['Address2'] = (($address2 !== false) ? $address2  : "");
-				$customerArray['Address3'] = (($address3 !== false) ? $address3  : "");
-				$customerArray['Town'] = $homeAddress->getCity() ?: "";
-				$customerArray['County'] = $homeAddress->getRegion()->getRegion() ?: "";
-				$customerArray['Postcode'] = $homeAddress->getPostcode() ?: "";
-				$customerArray['DX'] = $order->getShippingAddress()->getData('dx_number') ?: "";
-
+			        $customerArray['House No'] = ( ( $number !== false ) ? $number : "" );
+			        $customerArray['Address1'] = ( ( $address1 !== false ) ? $address1 : "" );
+			        $customerArray['Address2'] = ( ( $address2 !== false ) ? $address2 : "" );
+			        $customerArray['Address3'] = ( ( $address3 !== false ) ? $address3 : "" );
+			        $customerArray['Town']     = $homeAddress->getCity() ?: "";
+			        $customerArray['County']   = $homeAddress->getRegion()->getRegion() ?: "";
+			        $customerArray['Postcode'] = $homeAddress->getPostcode() ?: "";
+			        $customerArray['DX']       = $order->getShippingAddress()->getData( 'dx_number' ) ?: "";
+		        }
 				//get order datye
 		        $customerArray['Date']        = $order->getCreatedAt() ? : "";
 
