@@ -15,9 +15,6 @@ define([
     return Abstract.extend({
         defaults: {
             timeout:'',
-            validateUrl:'https://ws.postcoder.com/pcw/[api-key]/codepoint/validatepostcode/[postcode]?format=json',
-            autoUrl:'https://ws.postcoder.com/pcw/[api-key]/address/uk/[postcode]?format=json',
-            apikey: 'PCWZS-FLZX8-Z9QS9-K2HX6',
             imports: {
                 update: '${ $.parentName }.country_id:value'
             }
@@ -52,7 +49,17 @@ define([
             this.required(!option['is_zipcode_optional']);
         },
         onUpdate: function (value) {
-            this.toggleLookup(value);
+            var self = this;
+            var postcode = value;
+
+            if (this.timeout) {
+                clearTimeout(  this.timeout);
+            }
+
+            this.timeout = setTimeout(function (value) {
+                self.toggleLookup(postcode);
+            }, 500);
+
         },
         toggleLookup:function(value) {
 
@@ -82,36 +89,20 @@ define([
 
                 if (validated) {
 
-                    var validateUrl = self.validateUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
-                    var autoUrl = self.autoUrl.replace('[api-key]', self.apikey).replace('[postcode]', value);
-
                     $.ajax({
-                        url: validateUrl,
-                        type: 'GET',
+                        url: '/customcheckout/customer/postcode',
+                        type: 'POST',
+                        data: {
+                            'postcode': value,
+                            'isAjax' : true
+                        },
                         dataType: 'json',
-                        success: function (response) {
-                            if (response) {
-
-
-                                $.ajax({
-                                    url: autoUrl,
-                                    type: 'GET',
-                                    dataType: 'json',
-                                    success: function (response2) {
-                                        choose_address.setAddresses(response2);
-                                        choose_address.visible(true);
-                                    },
-                                    error: function () {
-                                        choose_address.setAddresses([]);
-                                    },
-                                    beforeSend: setHeader
-                                });
-
-                            }
-
+                        success: function (response2) {
+                            choose_address.setAddresses($.parseJSON(response2));
+                            choose_address.visible(true);
                         },
                         error: function () {
-                            validated = false;
+                            choose_address.setAddresses([]);
                         },
                         beforeSend: setHeader
                     });

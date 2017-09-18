@@ -69,8 +69,6 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 		        $customerArray['Email']        = $customerObject->getEmail() ?: "";
 		        $customerArray['Membership']   = ($membershipNumber = $customerObject->getCustomAttribute( 'membership_number' )) ? $membershipNumber->getValue() : "";
 		        $customerArray['Previous CLS'] = ($studiedBefore = $customerObject->getCustomAttribute( 'studied_with_us_before' )) ? $studiedBefore->getValue() : "";
-		        $customerArray['Previous CLS'] = ($studiedBefore = $customerObject->getCustomAttribute( 'studied_with_us_before' )) ? $studiedBefore->getValue() : "";
-
 
 		        $customerArray['Disability']       = $this->findQuestionAnswer( $customerObject->getId(), 'DisabilityAct' );
 		        $customerArray['Read Terms']       = 1;
