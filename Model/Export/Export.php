@@ -133,9 +133,10 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					$customerArray[40] = "";
 					$customerArray[41] = "";
 					$customerArray[42] = "";
-					$customerArray[43]    = ( $previousPostcode = $customerObject->getCustomAttribute( 'previous_postcode' ) ) ? $previousPostcode->getValue() : "";
-					$customerArray[44] = "";
-					$customerArray[45] = $this->findQuestionAnswer( $customerObject->getId(), 'ReasonForStudy' );
+					$customerArray[43] = "";
+					$customerArray[44]    = ( $previousPostcode = $customerObject->getCustomAttribute( 'previous_postcode' ) ) ? $previousPostcode->getValue() : "";
+					$customerArray[45] = "";
+					$customerArray[46] = $this->findQuestionAnswer( $customerObject->getId(), 'ReasonForStudy' );
 
 
 					$this->logger->addInfo(print_r($customerArray,true));
