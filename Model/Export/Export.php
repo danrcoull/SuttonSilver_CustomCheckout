@@ -42,22 +42,27 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					$homeAddressId = $customerObject->getCustomAttribute( 'home_address' );
 
 					$this->logger->addInfo(print_r($homeAddressId,true));
-					if ( $homeAddressId ) {
-						$homeAddress = $this->addressRepository->getById( $homeAddressId->getValue() );
-						$street      = $this->stripHouseNumber( implode( ',', $homeAddress->getStreet() ) );
-						$number      = isset( $street[0] ) ? $street[0] : "";
-						$address     = isset( $street[1] ) ? explode( ',', $street[1] ) : explode( ',', $street[0] );
-						$address1    = isset( $address[0] ) ? $address[0] : "";
-						$address2    = isset( $address[1] ) ? $address[1] : "";
-						$address3    = isset( $address[2] ) ? $address[2] : "";
+					if ( $homeAddressId > 0 ) {
+						try {
+							$homeAddress = $this->addressRepository->getById( $homeAddressId->getValue() );
+							$street      = $this->stripHouseNumber( implode( ',', $homeAddress->getStreet() ) );
+							$number      = isset( $street[0] ) ? $street[0] : "";
+							$address     = isset( $street[1] ) ? explode( ',', $street[1] ) : explode( ',', $street[0] );
+							$address1    = isset( $address[0] ) ? $address[0] : "";
+							$address2    = isset( $address[1] ) ? $address[1] : "";
+							$address3    = isset( $address[2] ) ? $address[2] : "";
 
-						$customerArray[6] = ( ( $number !== false ) ? $number : "" );
-						$customerArray[7] = ( ( $address1 !== false ) ? $address1 : "" );
-						$customerArray[8] = ( ( $address2 !== false ) ? $address2 : "" );
-						$customerArray[9] = ( ( $address3 !== false ) ? $address3 : "" );
-						$customerArray[10]     = $homeAddress->getCity() ?: "";
-						$customerArray[11]   = $homeAddress->getRegion()->getRegion() ?: "";
-						$customerArray[12] = $homeAddress->getPostcode() ?: "";
+							$customerArray[6]  = ( ( $number !== false ) ? $number : "" );
+							$customerArray[7]  = ( ( $address1 !== false ) ? $address1 : "" );
+							$customerArray[8]  = ( ( $address2 !== false ) ? $address2 : "" );
+							$customerArray[9]  = ( ( $address3 !== false ) ? $address3 : "" );
+							$customerArray[10] = $homeAddress->getCity() ?: "";
+							$customerArray[11] = $homeAddress->getRegion()->getRegion() ?: "";
+							$customerArray[12] = $homeAddress->getPostcode() ?: "";
+						}catch(\Exception $e)
+						{
+
+						}
 
 					}
 

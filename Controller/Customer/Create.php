@@ -321,6 +321,7 @@ class Create extends Action
 
 	        $this->customerRepository->save( $customer );
 
+
 	        //$customer->save();
         }catch(\Exception $e)
         {
