@@ -38,6 +38,10 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 				if($customerObject) {
 					//$customerArray  = array_fill_keys( $this->getCustomerKeys(), "" );
 					$customerArray = [];
+					for($i = 0; $i >=46; $i++)
+					{
+						$customerArray[$i] = "";
+					}
 					//get home address;
 					$homeAddressId = $customerObject->getCustomAttribute( 'home_address' );
 
@@ -61,23 +65,8 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 							$customerArray[12] = $homeAddress->getPostcode() ?: "";
 						}catch(\Exception $e)
 						{
-							$customerArray[6]  = "";
-							$customerArray[7]  = "";
-							$customerArray[8]  = "";
-							$customerArray[9]  = "";
-							$customerArray[10] = "";
-							$customerArray[11] = "";
-							$customerArray[12] = "";
 						}
 
-					}else {
-						$customerArray[6]  = "";
-						$customerArray[7]  = "";
-						$customerArray[8]  = "";
-						$customerArray[9]  = "";
-						$customerArray[10] = "";
-						$customerArray[11] = "";
-						$customerArray[12] = "";
 					}
 
 
@@ -102,7 +91,6 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					}
 					//get order datye
 					$customerArray[5] = $order->getCreatedAt() ?: "";
-
 					$customerArray[0] = $order->getIncrementId();
 					$customerArray[1]        = $customerObject->getPrefix() ?: "";
 					$customerArray[2]     = $customerObject->getFirstname() ?: "";
@@ -113,29 +101,14 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					$customerArray[15]        = $customerObject->getEmail() ?: "";
 					$customerArray[16]   = ( $membershipNumber = $customerObject->getCustomAttribute( 'membership_number' ) ) ? $membershipNumber->getValue() : "";
 					$customerArray[17] = ( $studiedBefore = $customerObject->getCustomAttribute( 'studied_with_us_before' ) ) ? $studiedBefore->getValue() : "";
-					$customerArray[18] = "";
-					$customerArray[19] = "";
-
 					$customerArray[28] = ($previousCls= $customerObject->getCustomAttribute('studied_with_us_before')) ? $previousCls->getValue() : "false";
-
 					$customerArray[29]       = $this->findQuestionAnswer( $customerObject->getId(), 'DisabilityAct' );
 					$customerArray[30]       = "true";
 					$customerArray[31]         = $order->getShippingMethod() ? 1 : 0;
 					$customerArray[32]         = ($gender = $customerObject->getGender() ) ? $gender : "";
-
 					$customerArray[33]    = $this->findQuestionAnswer( $customerObject->getId(), 'Ethnic' );
-					$customerArray[34] = "";
-					$customerArray[35] = "";
 					$customerArray[36]     = ( $previousSurname = $customerObject->getCustomAttribute( 'previous_surname' ) ) ? $previousSurname->getValue() : "";
-					$customerArray[37] ="";
-					$customerArray[38] = "";
-					$customerArray[39] = "";
-					$customerArray[40] = "";
-					$customerArray[41] = "";
-					$customerArray[42] = "";
-					$customerArray[43] = "";
 					$customerArray[44]    = ( $previousPostcode = $customerObject->getCustomAttribute( 'previous_postcode' ) ) ? $previousPostcode->getValue() : "";
-					$customerArray[45] = "";
 					$customerArray[46] = $this->findQuestionAnswer( $customerObject->getId(), 'ReasonForStudy' );
 
 
