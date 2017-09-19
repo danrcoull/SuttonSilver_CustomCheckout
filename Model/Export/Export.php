@@ -42,7 +42,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					$homeAddressId = $customerObject->getCustomAttribute( 'home_address' );
 
 					$this->logger->addInfo(print_r($homeAddressId,true));
-					if ( $homeAddressId->getValue() > 0 ) {
+					if ( $homeAddressId->getValue()) {
 						try {
 							$homeAddress = $this->addressRepository->getById( $homeAddressId->getValue() );
 							$street      = $this->stripHouseNumber( implode( ',', $homeAddress->getStreet() ) );
@@ -61,9 +61,23 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 							$customerArray[12] = $homeAddress->getPostcode() ?: "";
 						}catch(\Exception $e)
 						{
-
+							$customerArray[6]  = "";
+							$customerArray[7]  = "";
+							$customerArray[8]  = "";
+							$customerArray[9]  = "";
+							$customerArray[10] = "";
+							$customerArray[11] = "";
+							$customerArray[12] = "";
 						}
 
+					}else {
+						$customerArray[6]  = "";
+						$customerArray[7]  = "";
+						$customerArray[8]  = "";
+						$customerArray[9]  = "";
+						$customerArray[10] = "";
+						$customerArray[11] = "";
+						$customerArray[12] = "";
 					}
 
 
