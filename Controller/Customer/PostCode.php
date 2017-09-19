@@ -115,6 +115,8 @@ class PostCode extends Action
 
 				if($response)
 				{
+					$this->curl->setOption(CURLOPT_REFERER,'cls.suttonsilverdev.co.uk');
+					$this->curl->setOption(CURLOPT_RETURNTRANSFER,'1');
 					$this->curl->setHeaders($headers);
 					$this->curl->get($autoUrl,[]);
 					return $result->setData($this->curl->getBody());
