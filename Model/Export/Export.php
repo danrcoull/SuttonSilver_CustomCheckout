@@ -6,7 +6,15 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
     public function getOrders()
     {
         return $this->OrderCollectionFactory->create()
-            ->addAttributeToSelect('*');
+            ->addAttributeToSelect('*')
+	        ->addFieldToFilter(
+		        'status',
+		        ['in' => ['processing','complete']]
+	        )
+	        ->setOrder(
+		        'created_at',
+		        'desc'
+	        );;
     }
 
     public function stripHouseNumber($street)
@@ -103,7 +111,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					//get order datye
 					$customerArray[5] = $order->getCreatedAt() ?: "";
 
-					$customerArray[0] = $order->getIncrementId();
+					$customerArray[0] = $order->getId();
 					$customerArray[1]        = $customerObject->getPrefix() ?: "";
 					$customerArray[2]     = $customerObject->getFirstname() ?: "";
 					$customerArray[3]      = $customerObject->getLastname() ?: "";
@@ -118,10 +126,10 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 
 					$customerArray[28] = ($previousCls= $customerObject->getCustomAttribute('studied_with_us_before')) ? $previousCls->getValue() : "false";
 
-					$customerArray[29]       = $this->findQuestionAnswer( $customerObject->getId(), 'DisabilityAct' );
-					$customerArray[30]       = "true";
-					$customerArray[31]         = $order->getShippingMethod() ? 1 : 0;
-					$customerArray[32]         = ($gender = $customerObject->getGender() ) ? $gender : "";
+					$customerArray[29]       = ($disability = $this->findQuestionAnswer( $customerObject->getId(), 'DisabilityAct' )) ? $disability : 0;
+					$customerArray[30]       = 1;
+					$customerArray[31]       = $order->getShippingMethod() ? 1 : 0;
+					$customerArray[32]       = ($gender = $customerObject->getGender() ) ? $gender : "";
 
 					$customerArray[33]    = $this->findQuestionAnswer( $customerObject->getId(), 'Ethnic' );
 					$customerArray[34] = "";
@@ -150,13 +158,23 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 						$rows[] = $this->getOrderItemKeys();
 						foreach ( $itemsObject as $itemObject ) {
 							$itemRow                = array_fill_keys( $this->getOrderItemKeys(), '' );
+
+							$rowTotal =     $itemObject->getRowTotal() +
+											$itemObject->getTaxAmount() +
+							                $itemObject->getDiscountTaxCompensationAmount() -
+							                $itemObject->getDiscountAmount();
+
 							$itemRow['Description'] = $itemObject->getName();
 							$itemRow['Quantity']    = $itemObject->getQtyOrdered();
-							$itemRow['Price']       = $itemObject->getPrice();
+							$itemRow['Price']       = $itemObject->getFinalPrice();
 							$itemRow['Shipping']    = 0;
-							$itemRow['Subtotal']    = $itemObject->getRowTotal();
+							$itemRow['Subtotal']    = $rowTotal;
 							$rows[]                 = $itemRow;
 						}
+
+						$rows[]   = ["", "", "", "", $order->getGrandTotal(), ""];
+						$rows[]   = ["","","","","",""];
+						$rows[]   = ["","","","","",""];
 					}
 
 					try {
