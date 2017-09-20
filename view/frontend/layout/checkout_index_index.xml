@@ -221,7 +221,7 @@
                                                         </item>
                                                         <item name="street" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/components/group</item>
-                                                            <item name="label" xsi:type="string" />
+                                                            <item name="label" xsi:type="string" >Address</item>
                                                             <item name="required" xsi:type="boolean" >1</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">homeAddress.street</item>

@@ -111,7 +111,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					//get order datye
 					$customerArray[5] = $order->getCreatedAt() ?: "";
 
-					$customerArray[0] = $order->getId();
+					$customerArray[0] = "#".$order->getId();
 					$customerArray[1]        = $customerObject->getPrefix() ?: "";
 					$customerArray[2]     = $customerObject->getFirstname() ?: "";
 					$customerArray[3]      = $customerObject->getLastname() ?: "";
@@ -166,7 +166,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 
 							$itemRow['Description'] = $itemObject->getName();
 							$itemRow['Quantity']    = $itemObject->getQtyOrdered();
-							$itemRow['Price']       = $itemObject->getFinalPrice();
+							$itemRow['Price']       = $itemObject->getPrice() + $itemObject->getTaxAmount();
 							$itemRow['Shipping']    = 0;
 							$itemRow['Subtotal']    = $rowTotal;
 							$rows[]                 = $itemRow;
