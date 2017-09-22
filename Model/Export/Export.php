@@ -237,29 +237,9 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 						$rows[] = $this->getOrderItemKeys();
 						foreach ( $itemsObject as $itemObject ) {
 							$itemRow                = array_fill_keys( $this->getOrderItemKeys(), '' );
-							$shipping = 0;
 
-							if ($itemObject->getParentItem()) {
+							$shipping = isset($this->_breakdown[$itemObject->getProduct()->getSku()]) ? $this->_breakdown[$itemObject->getProduct()->getSku()]: 0 ;
 
-								$options = $itemObject->getBuyRequest()->getData('options');
-
-								foreach ($options as $key => $value) {
-									$optionData = $itemObject->getProduct()->getOptionById($key);
-									if($optionData['type'] == 'drop_down') {
-										foreach ($optionData->getValues() as $v) {
-											if ($v['option_type_id'] == $value) {
-
-												$shipping += $this->_breakdown[$v->getSku()];
-											}
-										}
-									}
-									elseif ($optionData['type'] == 'field') {
-										$shipping += $this->_breakdown[$optionData['sku']];
-									}
-
-								}
-
-							}
 							$itemRow['Description'] = $itemObject->getName();
 							$itemRow['Quantity']    = $itemObject->getQtyOrdered();
 							$itemRow['Price']       = $this->checkoutHelper->getPriceInclTax($itemObject);
