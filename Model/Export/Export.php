@@ -124,7 +124,6 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					//get home address;
 					$homeAddressId = $customerObject->getCustomAttribute( 'home_address' );
 
-					$this->logger->addInfo(print_r($homeAddressId,true));
 					if ( $homeAddressId->getValue()) {
 						try {
 							$homeAddress = $this->addressRepository->getById( $homeAddressId->getValue() );
@@ -167,7 +166,8 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					if($shippingAddress = $order->getShippingAddress())
 					{
 
-						$this->getShippingPrice($order->getItems(), $shippingAddress->getCountry());
+						$this->getShippingPrice($order->getAllItems(), $shippingAddress->getCountry());
+						$this->logger->addInfo(print_r($this->_breakdown));
 
 						//$shippingAddress = $this->addressRepository->getById( ( ( $address2 !== false ) ? $address2 : "" );->getId() );
 
@@ -227,7 +227,6 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					$customerArray[46] = $this->findQuestionAnswer( $customerObject->getId(), 'ReasonForStudy' );
 
 
-					$this->logger->addInfo(print_r($customerArray,true));
 					ksort($customerArray);
 					$rows[] = $customerArray;
 
@@ -249,6 +248,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 									if($optionData['type'] == 'drop_down') {
 										foreach ($optionData->getValues() as $v) {
 											if ($v['option_type_id'] == $value) {
+
 												$shipping += $this->_breakdown[$v->getSku()];
 											}
 										}
