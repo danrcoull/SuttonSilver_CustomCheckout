@@ -65,7 +65,7 @@ define([
 
             var country = registry.get(self.parentName + '.' + 'country_id');
 
-            if (typeof  country == 'undefined') {
+            if (typeof  country != 'undefined') {
 
 
                 var option = country.indexedOptions[value];
