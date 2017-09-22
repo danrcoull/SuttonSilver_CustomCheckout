@@ -26,6 +26,10 @@ abstract class ExportAbstract
     protected $searchCriteriaBuilder;
     protected $logger;
 	protected $addressRepository;
+	protected $checkoutHelper;
+
+	protected $matrixCollectionFactory;
+	protected $matrixRepoInterfaceFactory;
 
     public function __construct( \Magento\Framework\Model\Context $context,
                                 DriverPool $driverPool,
@@ -38,6 +42,9 @@ abstract class ExportAbstract
                                 SearchCriteriaBuilder $searchCriteriaBuilder,
 	                            \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
                                 LoggerInterface $logger,
+                                \Magento\Checkout\Helper\Data $checkoutHelper,
+	    \SuttonSilver\CustomCheckout\Model\ResourceModel\Matrix\CollectionFactory $matrixCollectionFactory,
+	    \SuttonSilver\CustomCheckout\Api\MatrixRepositoryInterfaceFactory $matrixRepoInterfaceFactory,
                                 array $data = []
     ){
         $this->driverPool = $driverPool;
@@ -50,6 +57,11 @@ abstract class ExportAbstract
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->logger = $logger;
 	    $this->addressRepository = $addressRepository;
+	    $this->checkoutHelper = $checkoutHelper;
+
+	    $this->matrixCollectionFactory = $matrixCollectionFactory;
+	    $this->matrixRepoInterfaceFactory = $matrixRepoInterfaceFactory;
+
     }
 
     public function createExportDir()

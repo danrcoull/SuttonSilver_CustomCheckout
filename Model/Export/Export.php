@@ -3,6 +3,10 @@ namespace SuttonSilver\CustomCheckout\Model\Export;
 
 class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 {
+
+	protected  $_breakdown;
+
+
     public function getOrders()
     {
         return $this->OrderCollectionFactory->create()
@@ -27,6 +31,76 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 	    return false;
     }
 
+
+
+	public function getShippingPrice($items, $destination)
+	{
+
+
+
+		$arraySkus = [];
+		$debugArray = [];
+		foreach ($items as $item ) {
+
+			if (!$item->getParentItem()) {
+
+				$product     = $item->getProduct();
+				$matrix      = $this->getMatrixCollection( $product->getSku(), $destination );
+				$arraySkus[] = [ 'sku' => $product->getSku(), 'item' => $item, 'matrix' => $matrix ];
+				$debugArray[] = $item->getProduct()->getSku();
+			}
+		}
+
+		foreach ($arraySkus as $item)
+		{
+			$associated = $item['matrix']->getAssociatedSkus();
+
+			unset($associated[$item['sku']]);
+
+			foreach ( $associated as $associate ) {
+				if ( isset( $arraySkus[ $associate ] ) && $item['sku'] != $associate ) {
+					$arraySkus[ $associate ]['custom_price'] = $item['matrix']->getIncrementPrice();
+				}
+			}
+		}
+
+		foreach ($arraySkus as $item)
+		{
+
+			if($item['matrix']->getId()) {
+
+				$singlePrice    = $item['matrix']->getSinglePrice();
+				$incrementPrice = $item['matrix']->getIncrementPrice();
+
+
+				if ( $item['item']->getQty() > 1 ) {
+					$price = $singlePrice + ( ( $item['item']->getQty() - 1 ) * $incrementPrice );
+				} else {
+					$price = $singlePrice;
+				}
+
+				if ($item['matrix']->getMaxPrice() !== null &&  $price >= $item['matrix']->getMaxPrice() ) {
+					$price = $item['matrix']->getMaxPrice();
+				}
+			}else{
+				$price = 0;
+			}
+
+
+			$this->_breakdown[$item['sku']] = $price;
+		}
+
+	}
+
+	public function getMatrixCollection($sku,$destination)
+	{
+		$sku = explode('-',$sku);
+		return $this->matrixCollectionFactory->create()
+		                                     ->addFieldToFilter('product_sku', $sku[0])
+		                                     ->addFieldToFilter('destination', $destination)
+		                                     ->getFirstItem();
+	}
+
     public function runExport()
     {
         $orders= $this->getOrders();
@@ -36,6 +110,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
         {
 
 
+			$this->_breakdown = [];
             //createcustomer
 	        if($order->getCustomerId()) {
 				//create  signiture row
@@ -91,6 +166,9 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 
 					if($shippingAddress = $order->getShippingAddress())
 					{
+
+						$this->getShippingPrice($order->getItems(), $shippingAddress->getCountry());
+
 						//$shippingAddress = $this->addressRepository->getById( ( ( $address2 !== false ) ? $address2 : "" );->getId() );
 
 						$address     = explode( ',', implode(',',$shippingAddress->getStreet()));
@@ -109,9 +187,11 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 						$customerArray[27]       = $shippingAddress->getData( 'dx_number' ) ?: "";
 					}
 					//get order datye
-					$customerArray[5] = $order->getCreatedAt() ?: "";
+					$createDate = new \DateTime($order->getCreatedAt());
+					$strip = $createDate->format('Y-m-d');
+					$customerArray[5] =  $strip ?: "";
 
-					$customerArray[0] = "#".$order->getId();
+					$customerArray[0] = $order->getId();
 					$customerArray[1]        = $customerObject->getPrefix() ?: "";
 					$customerArray[2]     = $customerObject->getFirstname() ?: "";
 					$customerArray[3]      = $customerObject->getLastname() ?: "";
@@ -158,17 +238,12 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 						$rows[] = $this->getOrderItemKeys();
 						foreach ( $itemsObject as $itemObject ) {
 							$itemRow                = array_fill_keys( $this->getOrderItemKeys(), '' );
-
-							$rowTotal =     $itemObject->getRowTotal() +
-											$itemObject->getTaxAmount() +
-							                $itemObject->getDiscountTaxCompensationAmount() -
-							                $itemObject->getDiscountAmount();
-
+							$shipping = $this->_breakdown[$itemObject->getSku()];
 							$itemRow['Description'] = $itemObject->getName();
 							$itemRow['Quantity']    = $itemObject->getQtyOrdered();
-							$itemRow['Price']       = $itemObject->getPrice() + $itemObject->getTaxAmount();
-							$itemRow['Shipping']    = 0;
-							$itemRow['Subtotal']    = $rowTotal;
+							$itemRow['Price']       = $this->checkoutHelper->getPriceInclTax($itemObject);
+							$itemRow['Shipping']    = $shipping;
+							$itemRow['Subtotal']    = $this->checkoutHelper->getSubtotalInclTax($itemObject) + $shipping;
 							$rows[]                 = $itemRow;
 						}
 
