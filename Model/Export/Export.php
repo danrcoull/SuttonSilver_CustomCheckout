@@ -167,7 +167,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					{
 
 						$this->getShippingPrice($order->getAllItems(), $shippingAddress->getCountry());
-						$this->logger->addInfo(print_r($this->_breakdown));
+						$this->logger->info(print_r($this->_breakdown,true));
 
 						//$shippingAddress = $this->addressRepository->getById( ( ( $address2 !== false ) ? $address2 : "" );->getId() );
 
@@ -318,7 +318,6 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
         $value = null;
         foreach ($current as $answerValue)
         {
-	        $this->logger->info(print_r($answerValue,true));
             $value = isset($answerValue['value']) ? $answerValue['value'] : null;
         }
 
