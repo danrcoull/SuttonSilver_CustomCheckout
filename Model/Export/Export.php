@@ -23,7 +23,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 
     public function stripHouseNumber($street)
     {
-	    if ( preg_match('/^([^\d]*[^\d\s]) *(\d.*)$/', $street, $match))
+	    if ( preg_match('/^[0-9a-zA-Z]{2,5}$/', $street, $match))
 	    {
 		    return $match;
 	    }
@@ -127,7 +127,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					if ( $homeAddressId->getValue()) {
 						try {
 							$homeAddress = $this->addressRepository->getById( $homeAddressId->getValue() );
-							$street      = $this->stripHouseNumber( implode( ',', $homeAddress->getStreet() ) );
+							$street      = $this->stripHouseNumber( rtrim(implode( ',', $homeAddress->getStreet() ),',') );
 							$number      = isset( $street[0] )  ? $street[0] : "";
 							$this->logger->info($street);
 							$address     = explode(',',isset($number[1])    ? $number[1] : $street);
