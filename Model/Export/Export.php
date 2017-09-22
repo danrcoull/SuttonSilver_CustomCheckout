@@ -249,9 +249,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 									if($optionData['type'] == 'drop_down') {
 										foreach ($optionData->getValues() as $v) {
 											if ($v['option_type_id'] == $value) {
-												echo $v->getSku();
-												echo "<br>";
-												break;
+												$shipping += $this->_breakdown[$v->getSku()];
 											}
 										}
 									}
