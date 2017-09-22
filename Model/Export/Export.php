@@ -23,12 +23,12 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 
     public function stripHouseNumber($street)
     {
-	    if ( preg_match('/([^\d]+)\s?(.+)/i', $street, $result) )
+	    if ( preg_match('/^([^\d]*[^\d\s]) *(\d.*)$/', $street, $match))
 	    {
-		    return $result;
+		    return $match;
 	    }
 
-	    return false;
+	    return $street;
     }
 
 
@@ -128,13 +128,13 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 						try {
 							$homeAddress = $this->addressRepository->getById( $homeAddressId->getValue() );
 							$street      = $this->stripHouseNumber( implode( ',', $homeAddress->getStreet() ) );
-							$number      = isset( $street[0] ) ? $street[0] : "";
-							$address     = isset( $street[1] ) ? explode( ',', $street[1] ) : explode( ',', $street[0] );
+							$number      = isset( $street[0] )  ? $street[0] : "";
+							$address     = explode(',',isset($number[1])    ? $number[1] : $number);
 							$address1    = isset( $address[0] ) ? $address[0] : "";
 							$address2    = isset( $address[1] ) ? $address[1] : "";
 							$address3    = isset( $address[2] ) ? $address[2] : "";
 
-							$customerArray[6]  = ( ( $number !== false ) ? $number : "" );
+							$customerArray[6]  = $number;
 							$customerArray[7]  = ( ( $address1 !== false ) ? $address1 : "" );
 							$customerArray[8]  = ( ( $address2 !== false ) ? $address2 : "" );
 							$customerArray[9]  = ( ( $address3 !== false ) ? $address3 : "" );
