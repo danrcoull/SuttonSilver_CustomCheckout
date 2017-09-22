@@ -23,7 +23,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 
     public function stripHouseNumber($street)
     {
-	    if ( preg_match('/^[0-9a-zA-Z]{2,5}$/', $street, $match))
+	    if ( preg_match('/^(\d{1,4}|P\.O\.)([a-zA-Z])?/', $street, $match))
 	    {
 		    return $match;
 	    }
