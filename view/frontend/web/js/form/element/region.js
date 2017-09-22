@@ -63,9 +63,15 @@ define([
 
             this._super(value, field);
 
-            var country = registry.get(self.parentName + '.country_id');
+            var country = registry.get(self.parentName + '.' + 'country_id');
 
+            if (typeof  country != 'undefined') {
+                setTimeout(function () {
+                    country = registry.get(self.parentName + '.' + 'country_id');
+                }, 300);
+            }
             var option = country.indexedOptions[value];
+
 
             if (option && option['is_region_visible'] === false) {
 
@@ -73,6 +79,8 @@ define([
                     self.toggleInput(false);
                 }
             }
+
+
         }
 
     });
