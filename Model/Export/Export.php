@@ -168,6 +168,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 						$destination = $shippingAddress->getCountry() == 'GB' ? 1 : 0;
 						$this->getShippingPrice($order->getAllItems(), $destination);
 						$this->logger->info(print_r($this->_breakdown,true));
+						$this->logger->info( $shippingAddress->getCountry());
 
 						//$shippingAddress = $this->addressRepository->getById( ( ( $address2 !== false ) ? $address2 : "" );->getId() );
 
