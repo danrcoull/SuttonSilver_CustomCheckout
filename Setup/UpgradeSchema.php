@@ -238,6 +238,8 @@ class UpgradeSchema implements UpgradeSchemaInterface
 		    $setup->getConnection()->createTable($deliveryMatrix);
 	    }
 
+
+
         $setup->endSetup();
     }
 

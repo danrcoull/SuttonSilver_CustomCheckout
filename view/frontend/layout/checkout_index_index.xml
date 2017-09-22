@@ -510,15 +510,16 @@
                                                                     <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                                     <item name="config" xsi:type="array">
                                                                         <!-- customScope is used to group elements within a single form (e.g. they can be validated separately) -->
-                                                                        <item name="customScope" xsi:type="string">shippingAddress</item>
+                                                                        <item name="customScope" xsi:type="string">shippingAddress.extension_attributes</item>
                                                                         <item name="template" xsi:type="string">ui/form/field</item>
                                                                         <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
                                                                     </item>
                                                                     <item name="provider" xsi:type="string">checkoutProvider</item>
-                                                                    <item name="dataScope" xsi:type="string">shippingAddress.dx_number</item>
+                                                                    <item name="dataScope" xsi:type="string">shippingAddress.extension_attributes.dx_number</item>
                                                                     <item name="label" xsi:type="string">DX Number</item>
                                                                     <item name="value" xsi:type="string">DX</item>
-                                                                    <item name="sortOrder" xsi:type="string">150</item>
+                                                                    <item name="sortOrder" xsi:type="string">300</item>
+                                                                    <item name="visible" xsi:type="string">true</item>
                                                                 </item>
 
                                                             </item>

@@ -196,7 +196,7 @@ define(
                     selectShippingAddress(newShippingAddress);
                     checkoutData.setSelectedShippingAddress(newShippingAddress.getKey());
                     checkoutData.setNewCustomerShippingAddress(addressData);
-                    this.getPopUp().closeModal();
+                    //this.getPopUp().closeModal();
                     this.isNewAddressAdded(true);
                 }
             },

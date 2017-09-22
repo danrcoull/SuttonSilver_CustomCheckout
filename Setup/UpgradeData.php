@@ -27,6 +27,9 @@ class UpgradeData implements UpgradeDataInterface
         ModuleDataSetupInterface $setup,
         ModuleContextInterface $context
     ) {
+
+	    $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+
         $setup->startSetup();
         if (version_compare($context->getVersion(), '1.0.4') < 0) {
             $orderTable = 'sales_order';
@@ -50,6 +53,29 @@ class UpgradeData implements UpgradeDataInterface
             $this->homeAddress($setup);
         }
 	    if (version_compare($context->getVersion(), '1.0.9') < 0) { }
+
+	    if (version_compare($context->getVersion(), '1.0.10') < 0) {
+		    $eavSetup->addAttribute(
+			    'customer_address',
+			    'dx_number',
+			    [
+				    'type'       => 'varchar',
+				    'label'      => 'DX Number',
+				    'input'      => 'text',
+				    'required'   => false,
+				    'default'    => 'DX',
+				    'sort_order' => 100,
+				    'system'     => false,
+				    'position'   => 300
+			    ]
+		    );
+		    $sampleAttribute = $eavSetup->getEavConfig()->getAttribute( 'customer_address', 'dx_number' );
+		    $sampleAttribute->setData(
+			    'used_in_forms',
+			    [ 'adminhtml_customer_address', 'customer_address_edit', 'customer_register_address' ]
+		    );
+		    $sampleAttribute->save();
+	    }
 
         $setup->endSetup();
     }

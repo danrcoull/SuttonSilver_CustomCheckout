@@ -116,26 +116,7 @@ class InstallData implements InstallDataInterface
             $sampleAttribute->save();
         }
 
-        $eavSetup->addAttribute(
-            'customer_address',
-            'dx_number',
-            [
-                'type' => 'varchar',
-                'label' => 'DX Number',
-                'input' => 'text',
-                'required' => false,
-                'default' => 'DX',
-                'sort_order' => 100,
-                'system' => false,
-                'position' => 100
-            ]
-        );
-        $sampleAttribute = $eavSetup->getEavConfig()->getAttribute('customer_address', 'dx_number');
-        $sampleAttribute->setData(
-            'used_in_forms',
-            ['adminhtml_customer_address', 'customer_address_edit', 'customer_register_address']
-        );
-        $sampleAttribute->save();
+
         
          $setup->endSetup();
 

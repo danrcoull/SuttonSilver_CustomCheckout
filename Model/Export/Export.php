@@ -184,7 +184,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 						$customerArray[24]   = $shippingAddress->getRegion()?: "";
 						$customerArray[25] = $shippingAddress->getPostcode() ?: "";
 						$customerArray[26] = $shippingAddress->getTelephone() ?: "";
-						$customerArray[27]       = $shippingAddress->getData( 'dx_number' ) ?: "";
+						$customerArray[27]       = $shippingAddress->getCustomAttribute( 'dx_number' ) ?: "";
 					}
 					//get order datye
 					$createDate = new \DateTime($order->getCreatedAt());
@@ -272,6 +272,9 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
     {
         return $order->getAllVisibleItems();
     }
+
+
+
 
     public function findQuestionAnswer($customerId, $questioname,$type='string')
     {
