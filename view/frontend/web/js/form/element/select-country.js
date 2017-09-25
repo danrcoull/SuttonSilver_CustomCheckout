@@ -19,6 +19,7 @@ define([
         initialize: function(){
             this._super();
             this.toggleAddress(this.value());
+            $('.street legend.label').hide();
         },
         onUpdate: function (value) {
             this.toggleAddress(value);
@@ -36,6 +37,7 @@ define([
             {
                 this.toggleVisibility(true,false)
             }else{
+                $('.street legend.label').false();
                 this.toggleVisibility(false,true)
             }
         },

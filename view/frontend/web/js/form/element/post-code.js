@@ -22,7 +22,8 @@ define([
         initialize:function() {
             this._super();
             //this.toggleLookup(this.value());
-
+            var country = registry.get(this.parentName + '.' + 'country_id');
+            country.toggleAddress(country.value());
         },
         /**
          * @param {String} value
