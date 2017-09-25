@@ -132,7 +132,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 							$homeAddress = $this->addressRepository->getById( $homeAddressId->getValue() );
 							$street      = $this->stripHouseNumber( implode( ',', $homeAddress->getStreet() ));
 							$number      = isset( $street['number'] )  ? $street['number'] : "";
-							$this->logger->info($street);
+							$this->logger->info(print_r($street,true));
 							$address     = explode(',', isset( $street['street'] )  ? $street['street'] : "",',');
 							$address1    = isset( $address[0] ) ? $address[0] : $street['street'];
 							$address2    = isset( $address[1] ) ? $address[1] : "";
