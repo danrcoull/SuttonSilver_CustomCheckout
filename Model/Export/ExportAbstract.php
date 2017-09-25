@@ -131,7 +131,12 @@ abstract class ExportAbstract
     {
     	try {
 		    $transport = $this->transportBuilder->setTemplateIdentifier( 'new_export' )
-		                                        ->setTemplateOptions( [ 'area' => 'adminhtml' ] )
+											    ->setTemplateOptions(
+												    [
+													    'area' => \Magento\Framework\App\Area::AREA_FRONTEND, /* here you can defile area and                                                      store of template for which you prepare it */
+													    'store' => $this->storeManager->getStore()->getId(),
+												    ]
+											    )
 		                                        ->setFrom( ['name'=>'CLS Server','email'=>'local@cilexlawschool.co.uk'] )
 		                                        ->addTo( ['d.coull@suttonsilver.co.uk','pete@suttonsilver.co.uk'], 'New Export' )
 		                                        ->attachFile( $path, $path )
