@@ -25,14 +25,13 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
     {
 
 	    $aMatch         = array();
-	    $pattern        = '#^([\w[:punct:] ]+) ([0-9]{1,5})([\w[:punct:]\-/]*)$#';
+	    $pattern        = '/(?:unit\s+)?(?:Unit\s?)?(?:[0-9]+\s?-\s?[0-9]+|[0-9]+[a-zA-Z]{0,4})/';
 	    $matchResult    = preg_match($pattern, $street, $aMatch);
+	    $number         = (isset($aMatch[0][0])) ? $aMatch[0][0] : '';
+	    $street         = str_replace($number, $street, "");
 
-	    $street         = (isset($aMatch[1])) ? $aMatch[1] : '';
-	    $number         = (isset($aMatch[2])) ? $aMatch[2] : '';
-	    $numberAddition = (isset($aMatch[3])) ? $aMatch[3] : '';
 
-	    return array('street' => $street, 'number' => $number, 'numberAddition' => $numberAddition);
+	    return array('street' => $street, 'number' => $number);
     }
 
 
