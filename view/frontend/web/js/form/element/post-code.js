@@ -22,8 +22,7 @@ define([
         initialize:function() {
             this._super();
             //this.toggleLookup(this.value());
-            var country = registry.get(this.parentName + '.' + 'country_id');
-            country.toggleAddress(country.value());
+
         },
         /**
          * @param {String} value
@@ -48,6 +47,8 @@ define([
             }
 
             this.required(!option['is_zipcode_optional']);
+
+            country.toggleAddress(value);
         },
         onUpdate: function (value) {
             var self = this;
