@@ -386,6 +386,10 @@ class LayoutProcessor
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
 				    ['postcode']['placeholder'] = "eg. MK42 7AB";
 
+				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+				    ['region_id']['label'] = "County";
+
 
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
