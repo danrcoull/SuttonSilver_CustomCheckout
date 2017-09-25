@@ -23,12 +23,16 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 
     public function stripHouseNumber($street)
     {
-	    if ( preg_match('/^(\d{1,4}|P\.O\.)([a-zA-Z])?/', $street, $match))
-	    {
-		    return $match;
-	    }
 
-	    return $street;
+	    $aMatch         = array();
+	    $pattern        = '#^([\w[:punct:] ]+) ([0-9]{1,5})([\w[:punct:]\-/]*)$#';
+	    $matchResult    = preg_match($pattern, $street, $aMatch);
+
+	    $street         = (isset($aMatch[1])) ? $aMatch[1] : '';
+	    $number         = (isset($aMatch[2])) ? $aMatch[2] : '';
+	    $numberAddition = (isset($aMatch[3])) ? $aMatch[3] : '';
+
+	    return array('street' => $street, 'number' => $number, 'numberAddition' => $numberAddition);
     }
 
 
@@ -127,10 +131,10 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 					if ( $homeAddressId->getValue()) {
 						try {
 							$homeAddress = $this->addressRepository->getById( $homeAddressId->getValue() );
-							$street      = $this->stripHouseNumber( rtrim(implode( ',', $homeAddress->getStreet() ),',') );
-							$number      = isset( $street[0] )  ? $street[0] : "";
+							$street      = $this->stripHouseNumber( trim(implode( ',', $homeAddress->getStreet() ),',') );
+							$number      = isset( $street['number'] )  ? $street['number'] : "";
 							$this->logger->info($street);
-							$address     = explode(',',isset($number[1])    ? $number[1] : $street);
+							$address     = explode(',', trim(isset( $street['street'] )  ? $street['street'] : "",','));
 							$address1    = isset( $address[0] ) ? $address[0] : "";
 							$address2    = isset( $address[1] ) ? $address[1] : "";
 							$address3    = isset( $address[2] ) ? $address[2] : "";
