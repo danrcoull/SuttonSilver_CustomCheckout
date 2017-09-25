@@ -30,6 +30,7 @@ abstract class ExportAbstract
 
 	protected $matrixCollectionFactory;
 	protected $matrixRepoInterfaceFactory;
+	protected $transportBuilder;
 
     public function __construct( \Magento\Framework\Model\Context $context,
                                 DriverPool $driverPool,
@@ -45,6 +46,7 @@ abstract class ExportAbstract
                                 \Magento\Checkout\Helper\Data $checkoutHelper,
 	    \SuttonSilver\CustomCheckout\Model\ResourceModel\Matrix\CollectionFactory $matrixCollectionFactory,
 	    \SuttonSilver\CustomCheckout\Api\MatrixRepositoryInterfaceFactory $matrixRepoInterfaceFactory,
+	    \SuttonSilver\CustomCheckout\Mail\Template\TransportBuilder $transportBuilder,
                                 array $data = []
     ){
         $this->driverPool = $driverPool;
@@ -61,6 +63,7 @@ abstract class ExportAbstract
 
 	    $this->matrixCollectionFactory = $matrixCollectionFactory;
 	    $this->matrixRepoInterfaceFactory = $matrixRepoInterfaceFactory;
+	    $this->transportBuilder = $transportBuilder;
 
     }
 
@@ -114,6 +117,7 @@ abstract class ExportAbstract
             $file = self::EXPORT_PATH . "/export-" . date('dd-mm-Y') . ".csv";
 	        $this->logger->info('Save Export');
             $this->csv->saveData($file, $data);
+            $this->sendExport($file);
         }catch(\Exception $e)
         {
 	        $this->logger->info('Error:');
@@ -121,6 +125,25 @@ abstract class ExportAbstract
         }
 
         return $this;
+    }
+
+    public function sendExport($path)
+    {
+    	try {
+		    $transport = $this->transportBuilder->setTemplateIdentifier( 'new_export' )
+		                                        ->setTemplateOptions( [ 'area' => 'adminhtml' ] )
+		                                        ->setFrom( 'CLS Server' )
+		                                        ->addTo( 'd.coull@suttonsilver.co.uk', 'New Export' )
+		                                        ->addTo( 'pete@suttonsilver.co.uk', 'New Export' )
+		                                        ->attachFile( $path, $path )
+		                                        ->getTransport();
+		    $transport->sendMessage();
+	    }catch(\Exception $e)
+	    {
+		    $this->logger->error('Error:');
+		    $this->logger->error($e->getMessage());
+	    }
+	    return $this;
     }
 
 }

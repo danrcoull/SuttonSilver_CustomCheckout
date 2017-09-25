@@ -55,4 +55,6 @@
 	</type>
 
 	<preference for="Magento\Customer\Model\Customer\DataProvider" type="SuttonSilver\CustomCheckout\Model\Customer\DataProvider" />
+	<preference for="\Magento\Framework\Mail\Template\TransportBuilder"
+				type="\SuttonSilver\CustomCheckout\Mail\Template\TransportBuilder" />
 </config>
