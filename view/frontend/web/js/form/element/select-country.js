@@ -37,7 +37,7 @@ define([
             {
                 this.toggleVisibility(true,false)
             }else{
-                $('.street legend.label').false();
+                $('.street legend.label').show();
                 this.toggleVisibility(false,true)
             }
         },
