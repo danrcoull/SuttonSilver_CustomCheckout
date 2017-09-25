@@ -135,6 +135,7 @@ abstract class ExportAbstract
 		                                        ->setFrom( ['name'=>'CLS Server','email'=>'local@cilexlawschool.co.uk'] )
 		                                        ->addTo( ['d.coull@suttonsilver.co.uk','pete@suttonsilver.co.uk'], 'New Export' )
 		                                        ->attachFile( $path, $path )
+		                                        ->setTemplateVars([])
 		                                        ->getTransport();
 		    $transport->sendMessage();
 	    }catch(\Exception $e)
