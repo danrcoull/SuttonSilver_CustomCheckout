@@ -133,8 +133,7 @@ abstract class ExportAbstract
 		    $transport = $this->transportBuilder->setTemplateIdentifier( 'new_export' )
 		                                        ->setTemplateOptions( [ 'area' => 'adminhtml' ] )
 		                                        ->setFrom( 'CLS Server' )
-		                                        ->addTo( 'd.coull@suttonsilver.co.uk', 'New Export' )
-		                                        ->addTo( 'pete@suttonsilver.co.uk', 'New Export' )
+		                                        ->addTo( ['d.coull@suttonsilver.co.uk','pete@suttonsilver.co.uk'], 'New Export' )
 		                                        ->attachFile( $path, $path )
 		                                        ->getTransport();
 		    $transport->sendMessage();
