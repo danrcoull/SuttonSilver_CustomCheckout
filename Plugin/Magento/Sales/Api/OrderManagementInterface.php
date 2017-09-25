@@ -32,7 +32,7 @@ class OrderManagementInterface implements ObserverInterface {
 	{
 		//$this->customerSession->logout();
 		$orderids = $observer->getEvent()->getOrderIds();
-		$post = $this->_request->getPost();
+		$post = $this->_request->getParams();
 		$this->_logger->info(print_r($post,true));
 
 		foreach($orderids as $orderid){
