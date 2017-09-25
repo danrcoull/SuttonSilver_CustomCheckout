@@ -17,7 +17,7 @@ class OrderManagementInterface implements ObserverInterface {
 		\Magento\Checkout\Model\Session $checkoutSession,
 		\Magento\Framework\App\RequestInterface $request,
 		\Psr\Log\LoggerInterface $logger,
-		\Magento\Sales\Api\Data\OrderInterface $order,
+		\Magento\Sales\Model\Order $order,
 		\Magento\Customer\Model\AddressFactory $address_factory
 	) {
 
@@ -37,8 +37,8 @@ class OrderManagementInterface implements ObserverInterface {
 
 		foreach($orderids as $orderid){
 			$order = $this->_order->load($orderid);
-			$billingAddress = $order->getBillingAddress()->getCustomAttribute('dx_number', $post->getData('dx_number'));
-			$this->address_factory->create()->updateData($billingAddress)->save();
+			$billingAddress = $order->getBillingAddress()->getId();
+			$this->address_factory->create()->load($billingAddress)->setData('dx_number', $post['dx_number'])->save();
 		}
 	}
 
