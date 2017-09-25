@@ -48,7 +48,7 @@ define([
 
             this.required(!option['is_zipcode_optional']);
 
-            country.toggleAddress(value);
+            country.toggleVisibility(false);
         },
         onUpdate: function (value) {
             var self = this;
