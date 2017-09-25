@@ -27,7 +27,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 	    $aMatch         = array();
 	    $pattern        = '/(?:unit\s+)?(?:Unit\s?)?(?:[0-9]+\s?-\s?[0-9]+|[0-9]+[a-zA-Z]{0,4})/';
 	    $matchResult    = preg_match($pattern, $street, $aMatch);
-	    $number         = (isset($aMatch[0][0])) ? $aMatch[0][0] : '';
+	    $number         = (isset($aMatch[0])) ? $aMatch[0] : '';
 	    $street         = str_replace($number, $street, "");
 
 
