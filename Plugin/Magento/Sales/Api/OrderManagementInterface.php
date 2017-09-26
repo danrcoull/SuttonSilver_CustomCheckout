@@ -26,6 +26,7 @@ class OrderManagementInterface implements ObserverInterface {
 		$this->_order = $order;
 		$this->_logger = $logger;
 		$this->address_factory = $address_factory;
+		$this->_request = $request;
 	}
 
 	public function execute(\Magento\Framework\Event\Observer $observer)
