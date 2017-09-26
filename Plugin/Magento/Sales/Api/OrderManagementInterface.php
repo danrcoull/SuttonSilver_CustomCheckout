@@ -29,18 +29,15 @@ class OrderManagementInterface implements ObserverInterface {
 		$this->_request = $request;
 	}
 
-	public function execute(\Magento\Framework\Event\Observer $observer)
-	{
+	public function execute(\Magento\Framework\Event\Observer $observer) {
 		//$this->customerSession->logout();
-		$orderids = $observer->getEvent()->getOrderIds();
-		$post = $this->_request->getParams();
-		$this->_logger->info(print_r($post,true));
 
-		foreach($orderids as $orderid){
-			$order = $this->_order->load($orderid);
-			$billingAddress = $order->getBillingAddress()->getId();
-			$this->address_factory->create()->load($billingAddress)->setData('dx_number', $post['dx_number'])->save();
-		}
+		$post = $this->_request->getPost();
+		$this->_logger->info( print_r( $post, true ) );
+		$order          = $this->checkoutSession->getLastRealOrder();
+		$billingAddress = $order->getBillingAddress()->getId();
+		$this->address_factory->create()->load( $billingAddress )->setData( 'dx_number', $post['dx_number'] )->save();
+
 	}
 
 }
