@@ -311,7 +311,8 @@ class Create extends Action
 		        ->setCity( isset( $data['city'] ) ? $data['city'] : '' )
 		        ->setTelephone( isset( $data['daytimeNumber'] ) ? $data['daytimeNumber'] : '' )
 		        ->setStreet( isset( $data['street[0]'] ) ? [$data['street[0]']] : [] )
-		        ->setRegion($region);
+		        ->setRegion($region)
+		        ->setCustomAttribute('dx_number', "");
 
 	        $address = $this->addressRepositoryInterface->save( $address );
 

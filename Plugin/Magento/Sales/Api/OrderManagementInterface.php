@@ -18,7 +18,7 @@ class OrderManagementInterface implements ObserverInterface {
 		\Magento\Framework\App\RequestInterface $request,
 		\Psr\Log\LoggerInterface $logger,
 		\Magento\Sales\Model\Order $order,
-		\Magento\Customer\Model\AddressFactory $address_factory
+		\Magento\Sales\Api\Data\OrderAddressInterface $address_factory
 	) {
 
 		$this->customerSession = $customerSession;
@@ -36,8 +36,14 @@ class OrderManagementInterface implements ObserverInterface {
 		$this->_logger->info( print_r( $post, true ) );
 		$order          = $this->checkoutSession->getLastRealOrder();
 		$billingAddress = $order->getBillingAddress()->getId();
-		$this->address_factory->create()->load( $billingAddress )->setData( 'dx_number', $post['dx_number'] )->save();
+		if(isset($post['dx_number'] )) {
+			$productExtension = $order->getBillingAddress()->getExtensionAttributes();
+			$productExtension->setDxNumber($post['dx_number']);
+			$address = $order->getBillingAddress()->setExtensionAttributes($productExtension);
 
+			$order->setBillingAddress($address)->save();
+
+		}
 	}
 
 }
