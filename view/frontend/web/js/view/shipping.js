@@ -23,7 +23,7 @@ define(
         'Magento_Checkout/js/action/set-shipping-information',
         'Magento_Checkout/js/model/step-navigator',
         'Magento_Ui/js/modal/modal',
-        'Magento_Checkout/js/model/checkout-data-resolver',
+        'SuttonSilver_CustomCheckout/js/model/checkout-data-resolver',
         'Magento_Checkout/js/checkout-data',
         'SuttonSilver_CustomCheckout/js/checkout-data',
         'uiRegistry',
@@ -98,12 +98,6 @@ define(
                 });
 
                 this.isNewAddressAdded(hasNewAddress);
-
-                this.isFormPopUpVisible.subscribe(function (value) {
-                    if (value) {
-                        self.getPopUp().openModal();
-                    }
-                });
 
                 quote.shippingMethod.subscribe(function () {
                     self.errorValidationMessage(false);

@@ -15,7 +15,7 @@ define(
         'Magento_Checkout/js/model/payment-service',
         'Magento_Checkout/js/model/payment/method-converter',
         'Magento_Checkout/js/action/get-payment-information',
-        'Magento_Checkout/js/model/checkout-data-resolver',
+        'SuttonSilver_CustomCheckout/js/model/checkout-data-resolver',
         'mage/translate'
     ],
     function (

@@ -16,7 +16,7 @@ define(
         'Magento_Checkout/js/action/create-shipping-address',
         'Magento_Checkout/js/action/select-billing-address',
         'Magento_Checkout/js/checkout-data',
-        'Magento_Checkout/js/model/checkout-data-resolver',
+        'SuttonSilver_CustomCheckout/js/model/checkout-data-resolver',
         'Magento_Customer/js/customer-data',
         'Magento_Checkout/js/action/set-billing-address',
         'Magento_Ui/js/model/messageList',
@@ -95,14 +95,15 @@ define(
                     if (quote.isVirtual()) {
                         this.isAddressSameAsShipping(false);
                     } else {
+                        if(this.homeAddressKey === 0) {
+                            this.isAddressSameAsShipping(true);
+                        }else {
+                            this.isAddressSameAsShipping(
+                                newAddress != null &&
+                                newAddress.getCacheKey() == this.homeAddressKey
+                            );
+                        }
 
-                        console.log(newAddress);
-                        console.log(newAddress.getCacheKey());
-                        console.log(this.homeAddressKey);
-                        this.isAddressSameAsShipping(
-                            newAddress != null &&
-                            newAddress.getCacheKey() == this.homeAddressKey
-                        );
                     }
 
                     this.isAddressDetailsVisible(true);
