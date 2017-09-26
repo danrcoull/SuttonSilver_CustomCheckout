@@ -19,7 +19,7 @@ define([
         initialize: function(){
             this._super();
             this.toggleAddress(this.value());
-            $('.street legend.label').hide();
+
         },
         onUpdate: function (value) {
             this.toggleAddress(value);
@@ -35,6 +35,7 @@ define([
 
             if(value === 'GB' && !enterManual)
             {
+                $('.street legend.label').hide();
                 this.toggleVisibility(true,false)
             }else{
                 $('.street legend.label').show();
