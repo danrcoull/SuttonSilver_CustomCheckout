@@ -35,13 +35,13 @@ class OrderManagementInterface implements ObserverInterface {
 		$post = $this->_request->getPost();
 		$this->_logger->info( print_r( $post, true ) );
 		$order          = $this->checkoutSession->getLastRealOrder();
-		$billingAddress = $order->getBillingAddress()->getId();
+		$billingAddress = $order->getShippigAddressId();g
 		if(isset($post['dx_number'] )) {
-			$productExtension = $order->getBillingAddress()->getExtensionAttributes();
+			$productExtension = $order->getShippingAddress()->getExtensionAttributes();
 			$productExtension->setDxNumber($post['dx_number']);
-			$address = $order->getBillingAddress()->setExtensionAttributes($productExtension);
+			$address = $order->getShippingAddress()->setExtensionAttributes($productExtension);
 
-			$order->setBillingAddress($address)->save();
+			$order->setShippinAddress($address)->save();
 
 		}
 	}
