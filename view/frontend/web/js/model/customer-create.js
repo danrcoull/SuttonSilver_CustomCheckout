@@ -63,7 +63,7 @@ define(
                             window.customerData = window.checkoutConfig.customerData;
                             window.isCustomerLoggedIn = true;
 
-                            uiRegistry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.set_shipping').setHidden();
+                            //uiRegistry.get('checkout.steps.shipping-step.shippingAddress.shipping-address-fieldset.set_shipping').setHidden();
 
                             stepNavigator.next();
                         }else {
