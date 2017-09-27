@@ -45,9 +45,18 @@ define([
         setHidden : function() {
             var personalDetails = checkoutData.getPersonalDetailsData();
             if(typeof personalDetails !== 'undefined' && personalDetails !== null) {
-                uiRegistry.get(this.parentName + '.firstname').value(personalDetails.firstname);
-                uiRegistry.get(this.parentName + '.lastname').value(personalDetails.lastname);
-                uiRegistry.get(this.parentName + '.telephone').value(personalDetails.daytimeNumber);
+                var firstname = uiRegistry.get(this.parentName + '.firstname'),
+                    lastname =   uiRegistry.get(this.parentName + '.lastname'),
+                    telephone = uiRegistry.get(this.parentName + '.telephone');
+                if(typeof firstname !== 'undefined') {
+                    firstname.value(personalDetails.firstname);
+                }
+                 if(typeof lastname !== 'undefined') {
+                    lastname.value(personalDetails.lastname);
+                 }
+                  if(typeof telephone !== 'undefined') {
+                    telephone.value(personalDetails.daytimeNumber);
+                  }
             }
         },
         onUpdate: function (value) {
