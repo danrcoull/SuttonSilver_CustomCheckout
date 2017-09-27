@@ -232,6 +232,7 @@ define(
                     shippingAddress.canUseForBilling() &&
                     (shippingAddress.isDefaultShipping() || !quote.isVirtual())
                 ) {
+                    var addressData = this.source.get('homeAddress');
                     var personalDetails = this.source.get('personalDetails');
 
                     addressData.firstname = personalDetails.firstname;
