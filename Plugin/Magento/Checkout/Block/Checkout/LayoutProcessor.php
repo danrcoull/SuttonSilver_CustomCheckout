@@ -437,6 +437,17 @@ class LayoutProcessor
 			    ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
 			    ['children']['company']);
 		    }
+		    
+		    if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+                ['children']['country_id'])) {
+
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+                ['children']['country_id']['component'] = "SuttonSilver_CustomCheckout/js/form/element/select-country";
+
+              
+            }
 
 	    }
 
