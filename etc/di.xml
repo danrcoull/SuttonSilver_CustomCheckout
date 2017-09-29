@@ -57,4 +57,20 @@
 	<preference for="Magento\Customer\Model\Customer\DataProvider" type="SuttonSilver\CustomCheckout\Model\Customer\DataProvider" />
 	<preference for="\Magento\Framework\Mail\Template\TransportBuilder"
 				type="\SuttonSilver\CustomCheckout\Mail\Template\TransportBuilder" />
+
+	<type name="Magento\Catalog\Pricing\Price\RegularPrice">
+		<arguments>
+			<argument name="priceCurrency" xsi:type="object">SuttonSilver\CustomCheckout\Model\PriceCurrency</argument>
+		</arguments>
+	</type>
+	<type name="Magento\Tax\Model\Calculation">
+		<arguments>
+			<argument name="priceCurrency" xsi:type="object">SuttonSilver\CustomCheckout\Model\PriceCurrency</argument>
+		</arguments>
+	</type>
+	<type name="Magento\Quote\Model\Quote\Item">
+		<arguments>
+			<argument name="priceCurrency" xsi:type="object">SuttonSilver\CustomCheckout\Model\PriceCurrency</argument>
+		</arguments>
+	</type>
 </config>
