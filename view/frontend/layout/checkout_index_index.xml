@@ -146,7 +146,7 @@
                                                     <item name="children" xsi:type="array">
                                                         <item name="notice_html_content" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/components/html</item>
-                                                            <item name="content" xsi:type="string">For the best service we need a few details about you:</item>
+                                                            <!--<item name="content" xsi:type="string">For the best service we need a few details about you:</item>-->
                                                             <item name="sortOrder" xsi:type="string">0</item>
                                                         </item>
                                                         <item name="firstname" xsi:type="array">
@@ -161,7 +161,7 @@
                                                             <item name="dataScope" xsi:type="string">personalDetails.firstname</item>
                                                             <item name="label" xsi:type="string">Forename(s)</item>
                                                             <item name="sortOrder" xsi:type="string">1</item>
-                                                            <item name="placeholder" xsi:type="string">First Name</item>
+                                                            <!--<item name="placeholder" xsi:type="string">First Name</item>-->
                                                             <item name="validation" xsi:type="array">
                                                                 <item name="required-entry" xsi:type="string">true</item>
                                                             </item>
@@ -203,10 +203,10 @@
                                                                 <item name="template" xsi:type="string">ui/form/field</item>
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
                                                             </item>
-                                                            <item name="placeholder" xsi:type="string">Membership Number</item>
+                                                            <item name="placeholder" xsi:type="string">Membership number</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">personalDetails.cilex_membership_number</item>
-                                                            <item name="label" xsi:type="string">CILEx Membership Number - (If Applicable)</item>
+                                                            <item name="label" xsi:type="string">CILEx membership number - (if applicable)</item>
                                                             <item name="sortOrder" xsi:type="string">4</item>
 
                                                         </item>
@@ -261,7 +261,7 @@
                                                             <item name="placeholder" xsi:type="string">Surname</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">personalDetails.previous_surname</item>
-                                                            <item name="label" xsi:type="string">Previous Surname</item>
+                                                            <item name="label" xsi:type="string">Previous surname</item>
                                                             <item name="sortOrder" xsi:type="string">7</item>
                                                         </item>
 
@@ -281,7 +281,7 @@
                                                             <item name="placeholder" xsi:type="string">eg. MK42 7AB</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">personalDetails.previous_postcode</item>
-                                                            <item name="label" xsi:type="string">Previous Postcode</item>
+                                                            <item name="label" xsi:type="string">Previous postcode</item>
                                                             <item name="sortOrder" xsi:type="string">8</item>
                                                             <item name="validation" xsi:type="array">
                                                                 <item name="validate-zip-international" xsi:type="string">true</item>
@@ -346,11 +346,11 @@
                                                                 <item name="template" xsi:type="string">ui/form/field</item>
                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
                                                             </item>
-                                                            <item name="placeholder" xsi:type="string">Enter City</item>
+                                                            <item name="placeholder" xsi:type="string">Enter city</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">homeAddress.city</item>
-                                                            <item name="label" xsi:type="string">City - Optional</item>
-                                                            <item name="sortOrder" xsi:type="string">80</item>
+                                                            <item name="label" xsi:type="string">City</item>
+                                                            <item name="sortOrder" xsi:type="string">5</item>
                                                         </item>
 
                                                         <item name="region_id" xsi:type="array">
@@ -418,7 +418,7 @@
                                                             <item name="placeholder" xsi:type="string">--Please Select Address--</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">homeAddress.address_choose</item>
-                                                            <item name="label" xsi:type="string">Choose Address</item>
+                                                            <item name="label" xsi:type="string">Choose address</item>
                                                             <item name="sortOrder" xsi:type="string">130</item>
                                                             <item name="visible" xsi:type="string">false</item>
                                                         </item>
@@ -452,7 +452,7 @@
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">personalDetails.confirm_username</item>
                                                             <item name="placeholder" xsi:type="string">eg. customer@email.com</item>
-                                                            <item name="label" xsi:type="string">Confirm Email Address</item>
+                                                            <item name="label" xsi:type="string">Confirm email address</item>
                                                             <item name="sortOrder" xsi:type="string">2</item>
                                                             <item name="validation" xsi:type="array">
                                                                 <item name="validate-email" xsi:type="string">true</item>
@@ -471,7 +471,7 @@
                                                             <item name="additionalClasses" xsi:type="string">col-xs-6 no-padding-left</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">personalDetails.daytimeNumber</item>
-                                                            <item name="label" xsi:type="string">Daytime Landline Phone Number</item>
+                                                            <item name="label" xsi:type="string">Daytime landline phone number</item>
                                                             <item name="sortOrder" xsi:type="string">3</item>
                                                             <item name="validation" xsi:type="array">
                                                                 <item name="phoneUK" xsi:type="string">true</item>
@@ -489,7 +489,7 @@
                                                             <item name="additionalClasses" xsi:type="string">col-xs-6 no-padding-right</item>
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">personalDetails.mobileNumber</item>
-                                                            <item name="label" xsi:type="string">Mobile Number</item>
+                                                            <item name="label" xsi:type="string">Mobile number</item>
                                                             <item name="sortOrder" xsi:type="string">4</item>
                                                             <item name="validation" xsi:type="array">
                                                                 <item name="validate-digits" xsi:type="string">true</item>
@@ -539,9 +539,9 @@
                                                                 </item>
                                                                 <item name="city" xsi:type="array">
                                                                     <item name="additionalClasses" xsi:type="string">col-xs-6 no-padding-left</item>
-                                                                    <item name="label" xsi:type="string">City - Optional</item>
+                                                                    <item name="label" xsi:type="string">City</item>
                                                                     <item name="sortOrder" xsi:type="string">80</item>
-                                                                    <item name="placeholder" xsi:type="string">Enter City</item>
+                                                                    <item name="placeholder" xsi:type="string">Enter city</item>
                                                                 </item>
                                                                 <item name="postcode" xsi:type="array">
                                                                     <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/post-code</item>
@@ -590,7 +590,7 @@
                                                                     <item name="placeholder" xsi:type="string">--Please Select Address--</item>
                                                                     <item name="provider" xsi:type="string">checkoutProvider</item>
                                                                     <item name="dataScope" xsi:type="string">shippingAddress.address_choose</item>
-                                                                    <item name="label" xsi:type="string">Choose Address</item>
+                                                                    <item name="label" xsi:type="string">Choose address</item>
                                                                     <item name="sortOrder" xsi:type="string">130</item>
                                                                     <item name="visible" xsi:type="boolean">false</item>
                                                                 </item>
