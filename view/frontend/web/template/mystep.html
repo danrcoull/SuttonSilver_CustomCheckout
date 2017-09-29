@@ -1,11 +1,11 @@
 <!--The 'step_code' value from the .js file should be used-->
 <li id="personal-details" data-bind="fadeVisible: isVisible, blockLoader: isLoading ">
     <div id="checkout-step-title" class="step-content" data-role="content">
-        <h1  data-bind="i18n: 'Personal Details'"></h1>
+        <h1  data-bind="i18n: 'Personal details'"></h1>
         <!-- ko foreach: getRegion('custom-checkout-form-before') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
-        <form id="custom-checkout-form" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}" novalidate="novalidate">
+        <form id="custom-checkout-form" data-bind="attr: {'data-hasrequired': $t('* Required fields')}" novalidate="novalidate">
             <input data-bind='attr: {value: getFormKey()}' type="hidden" name="form_key"/>
             <fieldset class="fieldset" id="personal">
                 <!-- ko foreach: getRegion('custom-checkout-form-fields') -->
@@ -13,14 +13,14 @@
                 <!--/ko-->
             </fieldset>
             <fieldset class="fieldset" id="home-address">
-                <legend data-bind="i18n: 'Home Address'"></legend>
+                <legend data-bind="i18n: 'Home address'"></legend>
                 <!-- ko foreach: getRegion('home-address') -->
                 <!-- ko template: getTemplate() --><!-- /ko -->
                 <!--/ko-->
             </fieldset>
 
             <fieldset class="fieldset" id="contact-details">
-                <legend data-bind="i18n: 'Contact Details'"></legend>
+                <legend data-bind="i18n: 'Contact details'"></legend>
                 <!-- ko foreach: getRegion('contact-details') -->
                 <!-- ko template: getTemplate() --><!-- /ko -->
                 <!--/ko-->
@@ -28,7 +28,7 @@
 
             <fieldset class="fieldset" id="additional">
                 <!-- ko foreach: getRegion('additional') -->
-                <legend data-bind="i18n: 'Additional Details'"></legend>
+                <legend data-bind="i18n: 'Additional details'"></legend>
                 <!-- ko template: getTemplate() --><!-- /ko -->
                 <!--/ko-->
             </fieldset>
@@ -37,11 +37,11 @@
                 <div class="primary">
                     <button data-role="opc-continue" data-bind="click: validate" type="submit" class="button action continue primary">
                         <!-- ko ifnot: (quoteIsVirtual) -->
-                            <span><!-- ko i18n: 'Proceed to Delivery'--><i class="fa fa-arrow-right"></i><!-- /ko --></span>
+                            <span><!-- ko i18n: 'Proceed to delivery'--><!-- /ko --></span>
                         <!--/ko-->
 
                         <!-- ko if: (quoteIsVirtual) -->
-                            <span><!-- ko i18n: 'Proceed to Payment'--><i class="fa fa-arrow-right"></i><!-- /ko --></span>
+                            <span><!-- ko i18n: 'Proceed to payment'--><!-- /ko --></span>
                         <!--/ko-->
                     </button>
                 </div>

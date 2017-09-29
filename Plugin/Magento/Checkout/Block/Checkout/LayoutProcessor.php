@@ -102,16 +102,22 @@ class LayoutProcessor
             ['payment']['children']['additional-payment-validators']['children']['email-validator']);
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['shipping-address-fieldset']['children']['postcode']['label'] = "Postcode";
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['postcode']['label'] = __("Postcode");
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
         ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['label'] = "";
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['children'][0]['label'] = "First Line of Address";
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['children'][0]['label'] = __("Your work address");
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = "County";
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['region_id']['label'] = __("County");
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['company']['label'] = __("Employer");
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+        ['shippingAddress']['children']['shipping-address-fieldset']['children']['company']['placeholder'] = __("Name of your employing organisation");
 
 	    $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
 	    ['shippingAddress']['children']['shipping-address-fieldset']['children']['region']['valueUpdate'] = "input";
@@ -137,7 +143,7 @@ class LayoutProcessor
 	        'initialValue' =>'default_shipping',
             'dataScope' => 'shippingAddress.set_shipping',
             'selected' => 'default_shipping',
-            'label' => 'Deliver To',
+            'label' => __('Deliver to:'),
             'provider' => 'checkoutProvider',
             'visible' => true,
             'validation' => ['required-entry' => true],
@@ -367,7 +373,7 @@ class LayoutProcessor
 				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']['street']['config']['template'] = 'SuttonSilver_CustomCheckout/ui/group/group';
 
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
-				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']['street']['children'][0]['label'] = "First Line of Address";
+				    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']['street']['children'][0]['label'] = "First line of address";
 
 				    //postcode
 				    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
@@ -448,6 +454,34 @@ class LayoutProcessor
 
               
             }
+
+		    if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+			    ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+			    ['children']['postcode'])) {
+
+			    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+			    ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+			    ['children']['postcode']['component'] = "SuttonSilver_CustomCheckout/js/form/element/post-code";
+
+			    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+			    ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+			    ['children']['postcode']['placeholder'] = "eg. MK42 7AB";
+
+			    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+			    ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+			    ['children']['postcode']['validation'] = ['required'=>true,'validate-zip-international'=>true];
+
+		    }
+
+		    if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+			    ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+			    ['children']['region_id'])) {
+
+			    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+			    ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+			    ['children']['region_id']['component'] = "SuttonSilver_CustomCheckout/js/form/element/region";
+		    }
+
 
 	    }
 

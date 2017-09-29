@@ -76,7 +76,7 @@ class Carrier extends  \Magento\Shipping\Model\Carrier\AbstractCarrier
         $method->setCarrierTitle($this->getConfigData('title'));
 
 	    $method->setMethod($this->getCarrierCode());
-        $method->setMethodTitle($this->getConfigData('name'));
+        $method->setMethodTitle();
         /* Use method name */
 
         $method->setCost($price);
