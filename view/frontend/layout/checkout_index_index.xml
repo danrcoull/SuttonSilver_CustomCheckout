@@ -196,7 +196,7 @@
                                                              <item name="sortOrder" xsi:type="string">3</item>
                                                             <item name="options" xsi:type="array">
                                                                 <item name="dateFormat" xsi:type="string">dd-MM-yyyy</item>
-                                                                <item name="showsTime" xsi:type="boolean">true</item>
+                                                                <item name="showsTime" xsi:type="boolean">false</item>
                                                             </item>
                                                             <item name="validation" xsi:type="array">
                                                                 <item name="required-entry" xsi:type="boolean">true</item>
