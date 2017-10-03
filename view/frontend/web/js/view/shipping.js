@@ -121,7 +121,7 @@ define(
             },
 
             isVisible: function() {
-                return !quote.isVirtual() && stepNavigator.isProcessed('personal-details');
+                return (!quote.isVirtual() && stepNavigator.isProcessed('personal-details')) ||  customer.isLoggedIn;
             },
 
             /**

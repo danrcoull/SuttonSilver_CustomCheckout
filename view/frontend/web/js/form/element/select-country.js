@@ -35,7 +35,7 @@ define([
 
             if(value === 'GB' && !enterManual)
             {
-                $('.street legend.label').hide();
+
                 this.toggleVisibility(true,false)
             }else{
                 $('.street legend.label').show();
@@ -87,6 +87,8 @@ define([
                         }
                     }
                 }
+
+                $('.street legend.label').hide();
             });
 
         }
