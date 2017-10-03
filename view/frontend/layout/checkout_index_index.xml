@@ -183,18 +183,25 @@
                                                                 <item name="required-entry" xsi:type="string">true</item>
                                                             </item>
                                                         </item>
-                                                        <!-- <item name="dob" xsi:type="array">
-                                                             <item name="component" xsi:type="string">SuttonSilver_CustomCheckout/js/form/element/dob</item>
+                                                        <item name="dob" xsi:type="array">
+                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/date</item>
                                                              <item name="config" xsi:type="array">
                                                                  <item name="customScope" xsi:type="string">personalDetails</item>
                                                                  <item name="template" xsi:type="string">ui/form/field</item>
-                                                                 <item name="elementTmpl" xsi:type="string">SuttonSilver_CustomCheckout/ui/form/element/dob</item>
+                                                                 <item name="elementTmpl" xsi:type="string">ui/form/element/date</item>
                                                              </item>
                                                              <item name="provider" xsi:type="string">checkoutProvider</item>
                                                              <item name="dataScope" xsi:type="string">personalDetails.dob</item>
                                                              <item name="label" xsi:type="string">DOB</item>
                                                              <item name="sortOrder" xsi:type="string">3</item>
-                                                         </item>-->
+                                                            <item name="options" xsi:type="array">
+                                                                <item name="dateFormat" xsi:type="string">dd-MM-yyyy</item
+                                                                <item name="showsTime" xsi:type="boolean">true</item>
+                                                            </item>
+                                                            <item name="validation" xsi:type="array">
+                                                                <item name="required-entry" xsi:type="boolean">true</item>
+                                                            </item>
+                                                         </item>
                                                         <item name="cilex_membership_number" xsi:type="array">
                                                             <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
                                                             <item name="config" xsi:type="array">
