@@ -147,7 +147,7 @@ class LayoutProcessor
             'provider' => 'checkoutProvider',
             'visible' => true,
             'validation' => ['required-entry' => true],
-            'sortOrder' => 2,
+            'sortOrder' => 3,
         ];
 
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
@@ -159,7 +159,7 @@ class LayoutProcessor
             'dataScope' => 'shippingAddress.select_address',
             'content' => '',
             'provider' => 'checkoutProvider',
-            'sortOrder' => 3,
+            'sortOrder' => 2,
             'additionalClasses' => 'warning shiping-address-warning',
         ];
 
