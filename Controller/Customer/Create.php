@@ -279,6 +279,7 @@ class Create extends Action
         $customer->setPrefix(isset($data['title']) ? $data['title'] : "");
         $customer->setFirstname(isset($data['firstname']) ? $data['firstname'] : "");
         $customer->setLastname(isset($data['lastname']) ? $data['lastname'] : "");
+        $customer->setDob(isset($data['dob']) ? $data['dob'] : "")
 
 	    $storeName = $this->storeManager->getStore($customer->getStoreId())->getName();
 	    $customer->setCreatedIn($storeName);
