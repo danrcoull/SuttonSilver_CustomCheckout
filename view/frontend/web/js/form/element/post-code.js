@@ -14,7 +14,7 @@ define([
 
     return Abstract.extend({
         defaults: {
-            timeout:'',
+            timeout:0,
             imports: {
                 update: '${ $.parentName }.country_id:value'
             }
@@ -54,13 +54,10 @@ define([
             var self = this;
             var postcode = value;
 
-            if (this.timeout) {
-                clearTimeout(  this.timeout);
-            }
-
-            this.timeout = setTimeout(function (value) {
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(function () {
                 self.toggleLookup(postcode);
-            }, 500);
+            }, 1000);
 
         },
         toggleLookup:function(value) {
@@ -85,7 +82,7 @@ define([
             choose_address.visible(false);
 
 
-            if (country.value() === 'GB' && value !== '' && show) {
+            if (country.value() === 'GB' && (value !== '' && value !== 'undefined') && show) {
 
                 validated = self.postcodeValidation();
 
@@ -105,14 +102,8 @@ define([
                         },
                         error: function () {
                             choose_address.setAddresses([]);
-                        },
-                        beforeSend: setHeader
+                        }
                     });
-
-                    function setHeader(xhr) {
-                        xhr.setRequestHeader('Referer', 'https://cls.suttonsilverdev.co.uk/');
-                        xhr.setRequestHeader("X-Requested-With", 'https://cls.suttonsilverdev.co.uk/');
-                    }
 
                 } else {
                     choose_address.setAddresses([]);
@@ -124,6 +115,7 @@ define([
 
         },
         postcodeValidation: function () {
+
             var countryId = $('select[name="country_id"]').val(),
                 validationResult,
                 warnMessage;

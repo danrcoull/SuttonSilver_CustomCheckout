@@ -32,7 +32,7 @@ define([
 
             if(value === 'undefined')
             {
-                self.notAvailable(true);
+                this.notAvailable(true);
                 return false;
             }
 
