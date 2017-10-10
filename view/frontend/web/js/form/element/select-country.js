@@ -75,11 +75,11 @@ define([
 
                     if (inputName !== 'country_id' && inputName !== 'postcode' && inputName !== 'dx_number' && inputName !== 'company') {
                         if (hide) {
-                            $('.street legend.label').hide();
+                            $('.street .label').hide();
                             feature.visible(false);
 
                         } else {
-                            $('.street legend.label').show();
+                            $('.street .label').show();
                             if ($.inArray(feature.inputName, fieldsNotIn) === -1) {
                                 feature.visible(true);
                             }
