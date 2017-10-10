@@ -46,7 +46,7 @@ class CartTotalRepositoryPlugin
         }
 
 
-        $result['totalsData']['discount_amount'] = number_format($discount, 4);
+        $result['totalsData']['discount_amount'] = number_format(ceil($discount * 1.2), 2);
         return $result;
     }
 }
