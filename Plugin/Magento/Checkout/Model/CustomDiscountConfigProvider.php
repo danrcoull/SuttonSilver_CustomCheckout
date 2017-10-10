@@ -49,7 +49,7 @@ class CustomDiscountConfigProvider extends \Magento\Framework\Model\AbstractMode
             $array[$key]['discount'] = abs($itemCost > $childCost ? ($itemCost-$childCost) : 0);
         }
 
-        $result['totalsData']['discount_amount'] = number_format(ceil($discount * 1.2), 2);
+        $result['totalsData']['discount_amount'] = number_format(abs($discount), 2);
         $result['totalsData']['subtotal'] = number_format(abs($result['totalsData']['subtotal']) + $discount, 4);
         $result['totalsData']['base_subtotal'] = number_format(abs($result['totalsData']['subtotal']) + $discount, 4);
         $result['totalsData']['items'] = $array;
