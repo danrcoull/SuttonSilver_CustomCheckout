@@ -81,8 +81,6 @@ define([
                         }
                     });**/
 
-                    console.log(region.uid);
-
                     $('#'+region.uid).val(addresses[value].county);
                     region.value(addresses[value].county);
 

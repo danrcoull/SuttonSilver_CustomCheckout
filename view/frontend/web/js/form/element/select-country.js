@@ -14,7 +14,7 @@ define([
     return Abstract.extend({
 
         defaults: {
-            timeout:'',
+            timeout:''
         },
         initialize: function(){
             this._super();
@@ -35,12 +35,12 @@ define([
 
             if(value === 'GB' && !enterManual)
             {
-                this.toggleVisibility(true,false)
+                this.toggleVisibility(true)
             }else{
-                this.toggleVisibility(false,true)
+                this.toggleVisibility(false)
             }
         },
-        toggleVisibility: function (hide,disable) {
+        toggleVisibility: function (hide) {
             var self = this;
 
             var parent = self.parentName;
