@@ -35,10 +35,8 @@ define([
 
             if(value === 'GB' && !enterManual)
             {
-
                 this.toggleVisibility(true,false)
             }else{
-                $('.street legend.label').show();
                 this.toggleVisibility(false,true)
             }
         },
@@ -77,18 +75,22 @@ define([
 
                     if (inputName !== 'country_id' && inputName !== 'postcode' && inputName !== 'dx_number' && inputName !== 'company') {
                         if (hide) {
+                            $('.street legend.label').hide();
                             feature.visible(false);
 
                         } else {
+                            $('.street legend.label').show();
                             if ($.inArray(feature.inputName, fieldsNotIn) === -1) {
                                 feature.visible(true);
                             }
-
                         }
+
+                        feature.value('');
+
                     }
                 }
 
-                $('.street legend.label').hide();
+
             });
 
         }

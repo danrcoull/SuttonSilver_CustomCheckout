@@ -67,13 +67,6 @@ define([
                 quote.guestEmail = self.email();
                 checkoutData.setValidatedEmailValue(self.email());
             }
-            this.emailCheckTimeout = setTimeout(function () {
-                if (self.validateEmail()) {
-                    self.checkEmailAvailability();
-                } else {
-                    self.isPasswordVisible(false);
-                }
-            }, self.checkDelay);
 
             checkoutData.setInputFieldEmailValue(self.email());
         },

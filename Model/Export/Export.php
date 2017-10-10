@@ -186,7 +186,11 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 						$customerArray[22] = ( ( $address3 !== false ) ? $address3 : "" );
 
 						$customerArray[23]     = $shippingAddress->getCity() ?: "";
-						$customerArray[24]   = $shippingAddress->getRegion()?: "";
+						if($shippingAddress->getCountry() === 'GB') {
+                            $customerArray[24] = $shippingAddress->getRegion() ?: "";
+                        }else{
+                            $customerArray[24] = $shippingAddress->getCountry() ?: "";
+                        }
 						$customerArray[25] = $shippingAddress->getPostcode() ?: "";
 						$customerArray[26] = $shippingAddress->getTelephone() ?: "";
 						$customerArray[27]       = $shippingAddress->getCustomAttribute( 'dx_number' ) ?: "";
@@ -249,11 +253,11 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 							$itemRow['Quantity']    = $itemObject->getQtyOrdered();
 							$itemRow['Price']       = $this->checkoutHelper->getPriceInclTax($itemObject);
 							$itemRow['Shipping']    = $shipping;
-							$itemRow['Subtotal']    = $this->checkoutHelper->getSubtotalInclTax($itemObject) + $shipping;
+							$itemRow['Subtotal']    = ceil($this->checkoutHelper->getSubtotalInclTax($itemObject) + $shipping);
 							$rows[]                 = $itemRow;
 						}
 
-						$rows[]   = ["", "", "", "", $order->getGrandTotal(), ""];
+						$rows[]   = ["", "", "", "", ceil($order->getGrandTotal()), ""];
 						$rows[]   = ["","","","","",""];
 						$rows[]   = ["","","","","",""];
 					}
