@@ -30,6 +30,13 @@ define([
         },
         setAddress: function(value) {
 
+            if(value === 'undefined')
+            {
+                self.notAvailable(true);
+                return false;
+            }
+
+
             var self = this;
 
             var addresses = self.addresses,
@@ -40,7 +47,6 @@ define([
 
 
             var addressData = checkoutData.getHomeAddressData();
-            console.log(value);
             if ($.inArray('postcode', addressData)) {
                 if(typeof postcode !== 'undefined') {
                     if (addressData.postcode === postcode.value()) {
@@ -48,6 +54,8 @@ define([
                     }
                 }
             }
+
+
 
             if (value != '-1') {
 
