@@ -31,6 +31,7 @@ abstract class ExportAbstract
 	protected $matrixCollectionFactory;
 	protected $matrixRepoInterfaceFactory;
 	protected $transportBuilder;
+	protected $countryFactory;
 
     public function __construct( \Magento\Framework\Model\Context $context,
                                 DriverPool $driverPool,
@@ -47,6 +48,7 @@ abstract class ExportAbstract
 	    \SuttonSilver\CustomCheckout\Model\ResourceModel\Matrix\CollectionFactory $matrixCollectionFactory,
 	    \SuttonSilver\CustomCheckout\Api\MatrixRepositoryInterfaceFactory $matrixRepoInterfaceFactory,
 	    \SuttonSilver\CustomCheckout\Mail\Template\TransportBuilder $transportBuilder,
+                                 \Magento\Directory\Model\CountryFactory $countryFactory,
                                 array $data = []
     ){
         $this->driverPool = $driverPool;
@@ -64,6 +66,8 @@ abstract class ExportAbstract
 	    $this->matrixCollectionFactory = $matrixCollectionFactory;
 	    $this->matrixRepoInterfaceFactory = $matrixRepoInterfaceFactory;
 	    $this->transportBuilder = $transportBuilder;
+
+        $this->countryFactory = $countryFactory;
 
     }
 

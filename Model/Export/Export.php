@@ -177,19 +177,20 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 						//$shippingAddress = $this->addressRepository->getById( ( ( $address2 !== false ) ? $address2 : "" );->getId() );
 
 						$address     = explode( ',', implode(',',$shippingAddress->getStreet()));
-						$address1    = isset( $address[0] ) ? $address[0] : "";
-						$address2    = isset( $address[1] ) ? $address[1] : "";
-						$address3    = isset( $address[2] ) ? $address[2] : "";
+						$address1    = isset( $address[0] ) ? $address[0] : false;
+						$address2    = isset( $address[1] ) ? $address[1] : false;
+						$address3    = isset( $address[2] ) ? $address[2] : false;
 
 						$customerArray[20] = ( ( $address1 !== false ) ? $address1 : "" );
 						$customerArray[21] = ( ( $address2 !== false ) ? $address2 : "" );
 						$customerArray[22] = ( ( $address3 !== false ) ? $address3 : "" );
 
 						$customerArray[23]     = $shippingAddress->getCity() ?: "";
-						if($shippingAddress->getCountry() === 'GB') {
-                            $customerArray[24] = $shippingAddress->getRegion() ?: "";
+
+						if($shippingAddress->getCountry() == 'GB') {
+                            $customerArray[24] = $shippingAddress->getRegion()->getRegion()  ?: "";
                         }else{
-                            $customerArray[24] = $shippingAddress->getCountry() ?: "";
+                            $customerArray[24] = $shippingAddress->getCountryModel()->getName() ?: "";
                         }
 						$customerArray[25] = $shippingAddress->getPostcode() ?: "";
 						$customerArray[26] = $shippingAddress->getTelephone() ?: "";
@@ -251,7 +252,7 @@ class Export extends \SuttonSilver\CustomCheckout\Model\Export\ExportAbstract
 
 							$itemRow['Description'] = $itemObject->getName();
 							$itemRow['Quantity']    = $itemObject->getQtyOrdered();
-							$itemRow['Price']       = $this->checkoutHelper->getPriceInclTax($itemObject);
+							$itemRow['Price']       = ceil($this->checkoutHelper->getPriceInclTax($itemObject));
 							$itemRow['Shipping']    = $shipping;
 							$itemRow['Subtotal']    = ceil($this->checkoutHelper->getSubtotalInclTax($itemObject) + $shipping);
 							$rows[]                 = $itemRow;
