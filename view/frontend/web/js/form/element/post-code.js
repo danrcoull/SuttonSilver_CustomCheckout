@@ -81,35 +81,36 @@ define([
 
             choose_address.visible(false);
 
+            if(typeof country !=='undefined') {
+                if (country.value() === 'GB' && (value !== '' && value !== 'undefined') && show) {
 
-            if (country.value() === 'GB' && (value !== '' && value !== 'undefined') && show) {
+                    validated = self.postcodeValidation();
 
-                validated = self.postcodeValidation();
+                    if (validated) {
 
-                if (validated) {
+                        $.ajax({
+                            url: '/customcheckout/customer/postcode',
+                            type: 'POST',
+                            data: {
+                                'postcode': value,
+                                'isAjax': true
+                            },
+                            dataType: 'json',
+                            success: function (response2) {
+                                choose_address.setAddresses($.parseJSON(response2));
+                                choose_address.visible(true);
+                            },
+                            error: function () {
+                                choose_address.setAddresses([]);
+                            }
+                        });
 
-                    $.ajax({
-                        url: '/customcheckout/customer/postcode',
-                        type: 'POST',
-                        data: {
-                            'postcode': value,
-                            'isAjax' : true
-                        },
-                        dataType: 'json',
-                        success: function (response2) {
-                            choose_address.setAddresses($.parseJSON(response2));
-                            choose_address.visible(true);
-                        },
-                        error: function () {
-                            choose_address.setAddresses([]);
-                        }
-                    });
-
+                    } else {
+                        choose_address.setAddresses([]);
+                    }
                 } else {
-                    choose_address.setAddresses([]);
+                    validated = self.postcodeValidation();
                 }
-            } else {
-                validated = self.postcodeValidation();
             }
 
 

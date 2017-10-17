@@ -47,10 +47,12 @@ define([
 
 
             var addressData = checkoutData.getHomeAddressData();
-            if ($.inArray('postcode', addressData)) {
-                if(typeof postcode !== 'undefined') {
-                    if (addressData.postcode === postcode.value()) {
-                        value = addressData.address_choose;
+            if(typeof addressData !== 'undefined') {
+                if ($.inArray('postcode', addressData)) {
+                    if (typeof postcode !== 'undefined') {
+                        if (addressData.postcode === postcode.value()) {
+                            value = addressData.address_choose;
+                        }
                     }
                 }
             }
