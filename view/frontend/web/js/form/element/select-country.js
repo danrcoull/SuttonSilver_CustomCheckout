@@ -18,14 +18,14 @@ define([
         },
         initialize: function(){
             this._super();
-            this.toggleAddress(this.value());
+            this.toggleAddress('GB');
 
         },
         onUpdate: function (value) {
             this.toggleAddress(value);
         },
         toggleAddress:function (value) {
-            var feature = registry.get(parent + '.address_choose');
+            var feature = registry.get(this.parentName + '.address_choose');
             var enterManual = false;
 
             if(typeof feature !== 'undefined')
