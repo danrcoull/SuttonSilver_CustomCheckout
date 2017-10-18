@@ -27,7 +27,7 @@ define([
         var checkoutData = {
             'homeAddressData': null,
             'personalDetailsData' : null,
-            'additionalDetailsData' : null,
+            'additionalDetailsData' : null
         };
         saveData(checkoutData);
     }
@@ -36,7 +36,6 @@ define([
         setHomeAddressData: function (data) {
             var obj = getData();
             obj.homeAddressData = data;
-            console.log(obj);
             saveData(obj);
         },
         getHomeAddressData: function () {

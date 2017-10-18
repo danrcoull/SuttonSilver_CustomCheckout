@@ -197,22 +197,7 @@ define(
              * Resolve billing address. Used local storage
              */
             resolveBillingAddress: function () {
-                var selectedBillingAddress = checkoutData.getSelectedBillingAddress(),
-                    newCustomerBillingAddressData = checkoutData.getNewCustomerBillingAddress();
-
-                if (selectedBillingAddress) {
-                    if (selectedBillingAddress == 'new-customer-address' && newCustomerBillingAddressData) {
-                        selectBillingAddress(createBillingAddress(newCustomerBillingAddressData));
-                    } else {
-                        addressList.some(function (address) {
-                            if (selectedBillingAddress == address.getKey()) {
-                                selectBillingAddress(address);
-                            }
-                        });
-                    }
-                } else {
-                    this.applyBillingAddress();
-                }
+                this.applyBillingAddress();
             },
 
             /**

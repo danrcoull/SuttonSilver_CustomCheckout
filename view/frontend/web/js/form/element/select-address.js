@@ -30,7 +30,7 @@ define([
         },
         setAddress: function(value) {
 
-            if(value === 'undefined')
+            if(typeof value === 'undefined')
             {
                 this.notAvailable(true);
                 return false;
@@ -62,7 +62,6 @@ define([
             if (value != '-1') {
 
                 if (typeof addresses[value] !== 'undefined') {
-                    console.log(addresses[value]);
 
                     //if street doesnt exist use the company instead.
                     var street = "";
@@ -95,6 +94,7 @@ define([
 
                 self.notAvailable(false);
 
+
             } else {
                 self.notAvailable(true);
             }
@@ -104,9 +104,7 @@ define([
             var self = this;
             var parent = self.parentName;
 
-            console.log(parent);
             var elements = [
-                'company',
                 'street.0',
                 'city',
                 'region_id',
@@ -114,8 +112,9 @@ define([
                 'country_id',
                 'postcode',
                 'address_choose',
+                'dx_number',
                 'region_id_input',
-                'dx_number'
+                'company'
             ];
 
             ko.utils.arrayForEach(elements, function (inputName) {
@@ -127,33 +126,39 @@ define([
 
 
                     if (inputName !== 'country_id' && inputName !== 'postcode' && inputName !== 'dx_number' && inputName !== 'company') {
-                        if (visible) {
-                            var fieldsNotIn = [
-                                'region',
-                                'region_id',
-                                'county',
-                                'address_choose'
-                            ];
+                        var fieldsNotIn = [
+                            'address_choose'
+                        ];
+
+                        console.log("Hide is: " + visible);
+                        console.log("Hide for: " + inputName);
+                        if (!visible) {
+
+                            feature.visible(false);
+                            self.visible(true);
+
                         } else {
-                            var fieldsNotIn = [
-                                'dx_number',
-                                'company',
-                                'address_choose'
-                            ];
 
-                        }
-
-                        if ($.inArray(inputName, fieldsNotIn) === -1) {
-                            feature.visible(visible);
+                            console.log($.inArray(inputName, fieldsNotIn));
+                            if ($.inArray(inputName, fieldsNotIn) === -1) {
+                                feature.visible(true);
+                            }
                         }
 
                     }
                 }
             });
+
+            if(visible)
+            {
+                $('.street .label').show();
+            }else{
+                $('.street .label').hide();
+
+            }
         },
         setAddresses: function(addresses)
         {
-            console.log(addresses);
             this.addresses = addresses;
             var result = [];
             if(this.addresses.length !== 0) {

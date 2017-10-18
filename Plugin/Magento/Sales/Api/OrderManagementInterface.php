@@ -30,7 +30,6 @@ class OrderManagementInterface implements ObserverInterface {
 	}
 
 	public function execute(\Magento\Framework\Event\Observer $observer) {
-		//$this->customerSession->logout();
 
 		$post = $this->_request->getPost();
 		$this->_logger->info( print_r( $post, true ) );
@@ -41,7 +40,7 @@ class OrderManagementInterface implements ObserverInterface {
 			$productExtension->setDxNumber($post['dx_number']);
 			$address = $order->getShippingAddress()->setExtensionAttributes($productExtension);
 
-			$order->setShippinAddress($address)->save();
+			$order->setShippingAddress($address)->save();
 
 		}
 	}
