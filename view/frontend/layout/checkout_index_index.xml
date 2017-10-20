@@ -366,7 +366,7 @@
                                                             <item name="provider" xsi:type="string">checkoutProvider</item>
                                                             <item name="dataScope" xsi:type="string">homeAddress.city</item>
                                                             <item name="label" xsi:type="string">City</item>
-                                                            <item name="sortOrder" xsi:type="string">5</item>
+                                                            <item name="sortOrder" xsi:type="string">80</item>
                                                         </item>
 
                                                         <item name="region_id" xsi:type="array">

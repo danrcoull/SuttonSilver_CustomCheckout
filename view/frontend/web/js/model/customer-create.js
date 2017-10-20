@@ -29,7 +29,6 @@ define(
                     type: 'POST',
                 }).done(
                     function (response) {
-                        console.log('response success');
                         window.isCustomerLoggedIn = false;
                     }
                 );
@@ -44,7 +43,6 @@ define(
 
                 var config = {};
 
-                console.log(step);
                 step.isLoading(true);
 
                 $.ajax({

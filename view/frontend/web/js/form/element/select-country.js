@@ -18,26 +18,24 @@ define([
         },
         initialize: function(){
             this._super();
-            this.toggleAddress('GB');
+            this.toggleAddress('GB', true);
 
         },
         onUpdate: function (value) {
             this.toggleAddress(value);
         },
         toggleAddress:function (value) {
-            var feature = registry.get(this.parentName + '.address_choose');
-            var enterManual = false;
+            console.log("Country Changed to: "+value);
+            var address_choose = registry.get(this.parentName + '.address_choose');
 
-            if(typeof feature !== 'undefined')
-            {
-                enterManual = (feature.value() != '-1');
-            }
+            if(typeof address_choose !== 'undefined') {
+                if (value === 'GB') {
 
-            if(value === 'GB' && !enterManual)
-            {
-                this.toggleVisibility(true)
-            }else{
-                this.toggleVisibility(false)
+                    address_choose.notAvailable(false);
+                } else {
+                    address_choose.notAvailable(true);
+
+                }
             }
         },
         toggleVisibility: function (hide) {
@@ -58,10 +56,13 @@ define([
                 'company'
             ];
 
+            //loop over all elements
             ko.utils.arrayForEach(elements, function (inputName) {
 
+                //get the feature
                 var feature = registry.get(parent + '.' + inputName);
 
+                //check if the feature exists
                 if (typeof feature !== 'undefined') {
 
 
@@ -74,13 +75,17 @@ define([
                     ];
 
                     if (inputName !== 'country_id' && inputName !== 'postcode' && inputName !== 'dx_number' && inputName !== 'company') {
+
+                        console.log("Hide is: "+hide);
+                        console.log("Hide for: "+inputName);
                         if (hide) {
-                            $('.street .label').hide();
+
                             feature.visible(false);
 
                         } else {
-                            $('.street .label').show();
-                            if ($.inArray(feature.inputName, fieldsNotIn) === -1) {
+
+                            console.log($.inArray(inputName, fieldsNotIn));
+                            if ($.inArray(inputName, fieldsNotIn) === -1) {
                                 feature.visible(true);
                             }
                         }
@@ -92,6 +97,14 @@ define([
 
 
             });
+
+            //hide the abigous label
+            if(hide)
+            {
+                $('.street .label').hide();
+            }else{
+                $('.street .label').show();
+            }
 
         }
     });
