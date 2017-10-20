@@ -190,6 +190,9 @@
                                                                  <item name="customScope" xsi:type="string">personalDetails</item>
                                                                  <item name="template" xsi:type="string">ui/form/field</item>
                                                                  <item name="elementTmpl" xsi:type="string">ui/form/element/date</item>
+                                                                 <item name="tooltip" xsi:type="array">
+                                                                     <item name="description" xsi:type="string">We ask for this so that we can identify you in our system and keep your student record up to date if you enrol with us on more than one occasion.</item>
+                                                                 </item>
                                                              </item>
                                                              <item name="provider" xsi:type="string">checkoutProvider</item>
                                                              <item name="dataScope" xsi:type="string">personalDetails.dob</item>
@@ -198,6 +201,11 @@
                                                             <item name="options" xsi:type="array">
                                                                 <item name="dateFormat" xsi:type="string">dd-MM-yyyy</item>
                                                                 <item name="showsTime" xsi:type="boolean">false</item>
+                                                                <item name="changeYear" xsi:type="string">true</item>
+                                                                <item name="changeMonth" xsi:type="boolean">true</item>
+                                                                <item name="maxDate" xsi:type="string">fEDate</item>
+                                                                <item name="yearRange" xsi:type="string">-100:+0</item>
+                                                                <item name="defaultDate" xsi:type="string">-16y</item>
                                                             </item>
                                                             <item name="validation" xsi:type="array">
                                                                 <item name="required-entry" xsi:type="boolean">true</item>
